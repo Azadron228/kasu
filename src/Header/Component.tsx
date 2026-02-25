@@ -1,10 +1,10 @@
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import React from 'react'
 import Link from 'next/link'
-import type { Settings } from '@/payload-types'
+import type { Setting } from '@/payload-types'
 
 export async function Header() {
-  const settingsData: Settings = await getCachedGlobal('settings', 1)()
+  const settings = (await getCachedGlobal('settings', 1)()) as Setting
 
   return (
     <>
@@ -23,7 +23,7 @@ export async function Header() {
             KASU
           </div>
           <div className="logo-text">
-            <div className="abbr">{settingsData?.siteName || 'КАСУ'}</div>
+            <div className="abbr">{settings?.siteName || 'КАСУ'}</div>
             <div className="full">Казахстанская Ассоциация Сеньорских Университетов</div>
             <div className="u3a">U3A KAZAKHSTAN</div>
           </div>

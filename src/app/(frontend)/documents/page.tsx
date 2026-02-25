@@ -1,7 +1,6 @@
 import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import Link from 'next/link'
 
 export default async function DocumentsPage() {
   const payload = await getPayload({ config: configPromise })

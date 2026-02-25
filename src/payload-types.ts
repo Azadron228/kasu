@@ -78,6 +78,7 @@ export interface Config {
     documents: Document;
     leadership: Leadership;
     partners: Partner;
+    Pizda: Pizda;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -106,6 +107,7 @@ export interface Config {
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
     leadership: LeadershipSelect<false> | LeadershipSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
+    Pizda: PizdaSelect<false> | PizdaSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -858,6 +860,17 @@ export interface Partner {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Pizda".
+ */
+export interface Pizda {
+  id: number;
+  title: string;
+  description: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1089,6 +1102,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'partners';
         value: number | Partner;
+      } | null)
+    | ({
+        relationTo: 'Pizda';
+        value: number | Pizda;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1491,6 +1508,16 @@ export interface PartnersSelect<T extends boolean = true> {
   type?: T;
   logo?: T;
   website?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Pizda_select".
+ */
+export interface PizdaSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -12,6 +12,7 @@ import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Members } from './collections/Members'
+import { TextProjects } from './collections/TextProject'
 import { Directions } from './collections/Directions'
 import { Projects } from './collections/Projects'
 import { Documents } from './collections/Documents'
@@ -79,7 +80,20 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Members, Directions, Projects, Documents, Leadership, Partners],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    Members,
+    Directions,
+    Projects,
+    Documents,
+    Leadership,
+    Partners,
+    TextProjects,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Settings, Homepage],
   plugins,

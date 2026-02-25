@@ -2,10 +2,10 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
 
-import type { Settings } from '@/payload-types'
+import type { Setting } from '@/payload-types'
 
 export async function Footer() {
-  const settings: Settings = await getCachedGlobal('settings', 1)()
+  const settings = (await getCachedGlobal('settings', 1)()) as Setting
 
   return (
     <footer>

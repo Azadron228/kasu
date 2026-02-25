@@ -1,8 +1,9 @@
 import React from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { Setting } from '@/payload-types'
 
 export default async function ContactsPage() {
-  const settings = await getCachedGlobal('settings', 1)()
+  const settings = (await getCachedGlobal('settings', 1)()) as Setting
 
   return (
     <main className="container py-16">
