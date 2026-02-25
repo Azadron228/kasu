@@ -17,7 +17,6 @@ import { Projects } from './collections/Projects'
 import { Documents } from './collections/Documents'
 import { Leadership } from './collections/Leadership'
 import { Partners } from './collections/Partners'
-import { FormSubmissions } from './collections/FormSubmissions'
 import { Settings } from './globals/Settings'
 import { Homepage } from './globals/Homepage'
 import { plugins } from './plugins'
@@ -80,7 +79,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Members, Directions, Projects, Documents, Leadership, Partners, FormSubmissions],
+  collections: [Pages, Posts, Media, Categories, Users, Members, Directions, Projects, Documents, Leadership, Partners],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Settings, Homepage],
   plugins,

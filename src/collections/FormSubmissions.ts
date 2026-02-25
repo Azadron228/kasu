@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../access/authenticated'
 
 export const FormSubmissions: CollectionConfig = {
-  slug: 'form-submissions',
+  slug: 'kasu-form-submissions',
   access: { create: () => true, delete: authenticated, read: authenticated, update: authenticated },
   admin: { useAsTitle: 'name' },
   fields: [
