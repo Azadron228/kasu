@@ -11,6 +11,15 @@ import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { Members } from './collections/Members'
+import { Directions } from './collections/Directions'
+import { Projects } from './collections/Projects'
+import { Documents } from './collections/Documents'
+import { Leadership } from './collections/Leadership'
+import { Partners } from './collections/Partners'
+import { FormSubmissions } from './collections/FormSubmissions'
+import { Settings } from './globals/Settings'
+import { Homepage } from './globals/Homepage'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -19,6 +28,15 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  localization: {
+    locales: [
+      { label: 'Русский', code: 'ru' },
+      { label: 'Қазақша', code: 'kk' },
+      { label: 'English', code: 'en' },
+    ],
+    defaultLocale: 'ru',
+    fallback: true,
+  },
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
@@ -62,9 +80,9 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, Members, Directions, Projects, Documents, Leadership, Partners, FormSubmissions],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, Settings, Homepage],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

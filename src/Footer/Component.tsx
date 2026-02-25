@@ -2,32 +2,49 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
 
-import type { Footer } from '@/payload-types'
-
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
-import { CMSLink } from '@/components/Link'
-import { Logo } from '@/components/Logo/Logo'
+import type { Settings } from '@/payload-types'
 
 export async function Footer() {
-  const footerData: Footer = await getCachedGlobal('footer', 1)()
-
-  const navItems = footerData?.navItems || []
+  const settings: Settings = await getCachedGlobal('settings', 1)()
 
   return (
-    <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Link className="flex items-center" href="/">
-          <Logo />
-        </Link>
-
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-          <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return <CMSLink className="text-white" key={i} {...link} />
-            })}
-          </nav>
+    <footer>
+      <div className="footer-top">
+        <div className="f-col f-brand">
+          <div className="f-logo" style={{ backgroundColor: '#1E3560', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>K</div>
+          <div className="f-brand-text">
+            <h3>КАСУ U3A</h3>
+            <p>{typeof settings?.siteDescription === 'string' ? settings.siteDescription : 'Казахстанская Ассоциация Сеньорских Университетов (U3A)'}</p>
+          </div>
         </div>
+        
+        <div className="f-col">
+          <h4>Организация</h4>
+          <Link href="/about">О нас</Link>
+          <Link href="/about#leadership">Руководство</Link>
+          <Link href="/members">Участники</Link>
+          <Link href="/documents">Документы</Link>
+        </div>
+
+        <div className="f-col">
+          <h4>Деятельность</h4>
+          <Link href="/activities">Направления</Link>
+          <Link href="/activities#projects">Проекты</Link>
+          <Link href="/news">Новости и события</Link>
+          <Link href="/about#partners">Партнеры</Link>
+        </div>
+
+        <div className="f-col">
+          <h4>Помощь</h4>
+          <Link href="/contacts#faq">Частые вопросы</Link>
+          <Link href="/join">Вступить в ассоциацию</Link>
+          <Link href="/contacts">Контакты</Link>
+        </div>
+      </div>
+      
+      <div className="footer-bottom">
+        <div>&copy; {new Date().getFullYear()} КАСУ U3A. Все права защищены. {settings?.footerCopyright}</div>
+        <div>Казахстан</div>
       </div>
     </footer>
   )

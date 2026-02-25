@@ -69,7 +69,13 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'title',
       type: 'text',
+      localized: true,
       required: true,
+    },
+    {
+      name: 'excerpt',
+      type: 'textarea',
+      localized: true,
     },
     {
       type: 'tabs',
@@ -97,6 +103,7 @@ export const Posts: CollectionConfig<'posts'> = {
                 },
               }),
               label: false,
+              localized: true,
               required: true,
             },
           ],
