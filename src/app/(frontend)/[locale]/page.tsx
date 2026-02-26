@@ -5,11 +5,20 @@ import configPromise from '@payload-config'
 import Link from 'next/link'
 import RichText from '@/components/RichText'
 import type { Homepage, Setting } from '@/payload-types'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { TypedLocale } from 'payload'
 
-export default async function HomePage() {
+type Args = {
+  params: Promise<{ locale: TypedLocale }>
+}
+
+export default async function HomePage({ params }: Args) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   const payload = await getPayload({ config: configPromise })
+  const t = await getTranslations('home')
 
-  // Fetch data with proper type casting
   const homepage = (await getCachedGlobal('homepage', 1)()) as Homepage
   const settings = (await getCachedGlobal('settings', 1)()) as Setting
 
@@ -17,16 +26,20 @@ export default async function HomePage() {
     collection: 'directions',
     limit: 6,
     sort: 'order',
+    locale,
   })
 
   const { docs: news } = await payload.find({
     collection: 'posts',
     limit: 3,
     sort: '-publishedAt',
+    locale,
   })
+
   const { docs: members } = await payload.find({
     collection: 'members',
     limit: 8,
+    locale,
   })
 
   return (
@@ -75,7 +88,7 @@ export default async function HomePage() {
 
       {/* ── DIRECTIONS ── */}
       <section className="dir-bg">
-        <h2 className="s-title">Ключевые направления</h2>
+        <h2 className="s-title">{t('directions')}</h2>
         <div className="dir-grid">
           {directions.map((dir, i) => (
             <div className="dir-card" key={i}>
@@ -92,18 +105,18 @@ export default async function HomePage() {
         <div className="about-inner">
           <div className="about-vis">
             <div className="info-block">
-              <h4>Основана</h4>
+              <h4>{t('aboutFounded')}</h4>
               <p>
                 {homepage?.aboutFounded ? new Date(homepage.aboutFounded).getFullYear() : '2023'}
               </p>
             </div>
             <div className="info-block">
-              <h4>Регистрационный номер</h4>
+              <h4>{t('aboutRegNum')}</h4>
               <p>{homepage?.aboutRegistrationNumber}</p>
             </div>
           </div>
           <div className="about-text">
-            <div className="s-label">{homepage?.aboutLabel || 'О нас'}</div>
+            <div className="s-label">{homepage?.aboutLabel}</div>
             <h2 className="s-title">{homepage?.aboutTitle}</h2>
             {homepage?.aboutBody && (
               <RichText data={homepage.aboutBody} enableProse={false} enableGutter={false} />
@@ -123,15 +136,15 @@ export default async function HomePage() {
       <section className="news-bg">
         <div className="news-top">
           <div>
-            <div className="s-label">Новости</div>
-            <h2 className="s-title">Последние события</h2>
+            <div className="s-label">{t('news')}</div>
+            <h2 className="s-title">{t('newsLatest')}</h2>
           </div>
           <Link
             href="/news"
             className="btn-ghost"
             style={{ color: 'var(--navy)', borderColor: 'var(--navy)' }}
           >
-            Все новости
+            {t('newsAll')}
           </Link>
         </div>
         <div className="news-grid">
@@ -143,12 +156,11 @@ export default async function HomePage() {
               style={{ textDecoration: 'none' }}
             >
               <div className="n-img">
-                {/* Normally we show post.heroImage here */}
-                <span className="n-tag">Новость</span>
+                <span className="n-tag">{t('newsTag')}</span>
               </div>
               <div className="n-body">
                 <div className="n-date">
-                  {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}
+                  {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString(locale) : ''}
                 </div>
                 <h3>{post.title}</h3>
                 <p>{post.excerpt || ''}</p>
@@ -160,23 +172,23 @@ export default async function HomePage() {
 
       {/* ── MEMBERS ── */}
       <section>
-        <h2 className="s-title">Наши участники</h2>
+        <h2 className="s-title">{t('members')}</h2>
         <div className="mem-grid">
           {members.map((member, i) => (
             <div className="mem-card" key={i}>
               <div className="mem-logo">U</div>
               <h4>{member.name}</h4>
               <span>{member.city}</span>
-              {member.website && <a href={member.website}>Сайт</a>}
+              {member.website && <a href={member.website}>{t('membersSite')}</a>}
             </div>
           ))}
           <div
             className="mem-card"
             style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
           >
-            <h4>Присоединяйтесь к нам</h4>
+            <h4>{t('membersJoin')}</h4>
             <Link href="/join" className="btn-prim" style={{ margin: '14px auto 0' }}>
-              Вступить
+              {t('membersJoinBtn')}
             </Link>
           </div>
         </div>
@@ -184,11 +196,11 @@ export default async function HomePage() {
 
       {/* ── JOIN ── */}
       <section className="join">
-        <h2>{homepage?.joinTitle || 'Вступить в ассоциацию'}</h2>
+        <h2>{homepage?.joinTitle}</h2>
         <p>{homepage?.joinDescription}</p>
         <div className="join-btns">
           <Link href="/join" className="btn-prim">
-            Подать заявку
+            {t('joinBtn')}
           </Link>
         </div>
       </section>
@@ -197,32 +209,32 @@ export default async function HomePage() {
       <section>
         <div className="contacts-inner">
           <div>
-            <h2 className="s-title">Контакты</h2>
+            <h2 className="s-title">{t('contacts')}</h2>
             <div className="contact-info">
               <div className="c-row">
                 <div className="c-icon">📍</div>
                 <div>
-                  <div className="c-label">Адрес</div>
+                  <div className="c-label">{t('contactsAddress')}</div>
                   <div className="c-val">{settings?.contactAddress}</div>
                 </div>
               </div>
               <div className="c-row">
                 <div className="c-icon">📞</div>
                 <div>
-                  <div className="c-label">Телефон</div>
+                  <div className="c-label">{t('contactsPhone')}</div>
                   <div className="c-val">{settings?.contactPhone}</div>
                 </div>
               </div>
             </div>
           </div>
           <div className="contact-form">
-            <h3>Написать нам</h3>
+            <h3>{t('contactsWrite')}</h3>
             <form>
-              <input type="text" placeholder="Ваше имя" required />
-              <input type="email" placeholder="Email" required />
-              <textarea placeholder="Сообщение" rows={4} required></textarea>
+              <input type="text" placeholder={t('contactsName')} required />
+              <input type="email" placeholder={t('contactsEmail')} required />
+              <textarea placeholder={t('contactsMessage')} rows={4} required></textarea>
               <button type="submit" className="btn-prim">
-                Отправить
+                {t('contactsSend')}
               </button>
             </form>
           </div>

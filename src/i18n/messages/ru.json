@@ -15,5 +15,27 @@
     "documents": "Документы",
     "contacts": "Контакты",
     "join": "Вступить"
+  },
+  "home": {
+    "directions": "Ключевые направления",
+    "news": "Новости",
+    "newsLatest": "Последние события",
+    "newsAll": "Все новости",
+    "newsTag": "Новость",
+    "members": "Наши участники",
+    "membersSite": "Сайт",
+    "membersJoin": "Присоединяйтесь к нам",
+    "membersJoinBtn": "Вступить",
+    "joinBtn": "Подать заявку",
+    "contacts": "Контакты",
+    "contactsAddress": "Адрес",
+    "contactsPhone": "Телефон",
+    "contactsWrite": "Написать нам",
+    "contactsName": "Ваше имя",
+    "contactsEmail": "Email",
+    "contactsMessage": "Сообщение",
+    "contactsSend": "Отправить",
+    "aboutFounded": "Основана",
+    "aboutRegNum": "Регистрационный номер"
   }
 }
