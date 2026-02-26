@@ -1,39 +1,39 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: dev
-    ports:
-      - '3000:3000'
-    volumes:
-      - node_modules:/app/node_modules
-    env_file:
-      - .env
-    depends_on:
-      postgres:
-        condition: service_healthy
-    develop:
-      watch:
-        # Rebuild the image when dependency files change
-        - path: ./package.json
-          action: rebuild
-        - path: ./yarn.lock
-          action: rebuild
-        - path: ./package-lock.json
-          action: rebuild
-        - path: ./pnpm-lock.yaml
-          action: rebuild
-        # Sync source changes instantly (Next.js HMR handles the rest)
-        - path: ./src
-          target: /app/src
-          action: sync
-        - path: ./public
-          target: /app/public
-          action: sync
-        - path: ./next.config.js
-          target: /app/next.config.js
-          action: sync+restart
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #     target: dev
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - node_modules:/app/node_modules
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   develop:
+  #     watch:
+  #       # Rebuild the image when dependency files change
+  #       - path: ./package.json
+  #         action: rebuild
+  #       - path: ./yarn.lock
+  #         action: rebuild
+  #       - path: ./package-lock.json
+  #         action: rebuild
+  #       - path: ./pnpm-lock.yaml
+  #         action: rebuild
+  #       # Sync source changes instantly (Next.js HMR handles the rest)
+  #       - path: ./src
+  #         target: /app/src
+  #         action: sync
+  #       - path: ./public
+  #         target: /app/public
+  #         action: sync
+  #       - path: ./next.config.js
+  #         target: /app/next.config.js
+  #         action: sync+restart
 
   postgres:
     image: postgres:16-alpine

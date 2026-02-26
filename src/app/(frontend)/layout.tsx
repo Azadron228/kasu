@@ -1,6 +1,4 @@
 import type { Metadata } from 'next'
-
-import { cn } from '@/utilities/ui'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
@@ -10,15 +8,38 @@ import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
+import { TypedLocale } from 'payload'
+import { getLocale, getTranslations, getMessages } from 'next-intl'
+import { routing } from '@/i18n/routing'
+import { notFound } from 'next/navigation'
+import localization from '@/i18n/localization'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+type Args = {
+  children: React.ReactNode
+  params: Promise<{ locale: TypedLocale }>
+}
+
+export default async function RootLayout({ children, params }: Args) {
+  const { locale } = await params
+
+  // Validate locale
+  if (!routing.locales.includes(locale as any)) {
+    notFound()
+  }
+
+  setRequestLocale(locale)
+
+  const currentLocale = localization.locales.find((loc) => loc.code === locale)
+  const direction = currentLocale?.rtl ? 'rtl' : 'ltr'
+
   const { isEnabled } = await draftMode()
+  const messages = await getMessages()
 
   return (
-    <html lang="ru" suppressHydrationWarning>
+    <html lang={locale} dir={direction} suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
@@ -30,15 +51,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
-
-          <Header />
-          {children}
-          <Footer />
+          <NextIntlClientProvider messages={messages}>
+            <AdminBar adminBarProps={{ preview: isEnabled }} />
+            <Header locale={locale} />
+            {children}
+            <Footer locale={locale} />
+          </NextIntlClientProvider>
         </Providers>
       </body>
     </html>
@@ -52,4 +70,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     creator: '@payloadcms',
   },
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
 }

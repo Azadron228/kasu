@@ -122,7 +122,7 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('ru' | 'kk' | 'en') | ('ru' | 'kk' | 'en')[];
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('ru' | 'en' | 'kk') | ('ru' | 'en' | 'kk')[];
   globals: {
     header: Header;
     footer: Footer;
@@ -135,7 +135,7 @@ export interface Config {
     settings: SettingsSelect<false> | SettingsSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
   };
-  locale: 'ru' | 'kk' | 'en';
+  locale: 'ru' | 'en' | 'kk';
   user: User;
   jobs: {
     tasks: {
