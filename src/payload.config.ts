@@ -12,7 +12,7 @@ import { Users } from './collections/Users'
 import { Footer } from './globals/Footer/config'
 import { Header } from './globals/Header/config'
 import { Members } from './collections/Members'
-import { TextProjects } from './collections/TextProject'
+// import { TextProjects } from './collections/TextProject'
 import { Directions } from './collections/Directions'
 import { Projects } from './collections/Projects'
 import { Documents } from './collections/Documents'
@@ -81,11 +81,11 @@ export default buildConfig({
     Users,
     Members,
     Directions,
-    Projects,
-    Documents,
-    Leadership,
+    // Projects,
+    // Documents,
+    // Leadership,
     Partners,
-    TextProjects,
+    // TextProjects,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Settings, Homepage],

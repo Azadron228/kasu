@@ -11,23 +11,37 @@ export const Homepage: GlobalConfig = {
     { name: 'presidentQuote', type: 'textarea', localized: true },
     { name: 'presidentName', type: 'text', localized: true },
     { name: 'presidentRole', type: 'text', localized: true },
-    { name: 'stats', type: 'array', fields: [
-      { name: 'number', type: 'text' },
-      { name: 'label', type: 'text', localized: true }
-    ] },
-    { name: 'aboutLabel', type: 'text', localized: true },
-    { name: 'aboutTitle', type: 'text', localized: true },
+    {
+      name: 'stats',
+      type: 'array',
+      fields: [
+        { name: 'number', type: 'text' },
+        { name: 'label', type: 'text', localized: true },
+      ],
+    },
     { name: 'aboutBody', type: 'richText', localized: true },
-    { name: 'aboutFounded', type: 'date' },
-    { name: 'aboutRegistrationNumber', type: 'text' },
-    { name: 'aboutBullets', type: 'array', localized: true, fields: [
-      { name: 'point', type: 'text', localized: true }
-    ] },
+    {
+      name: 'aboutInfoBlocks',
+      type: 'array',
+      fields: [
+        { name: 'heading', type: 'text', localized: true },
+        { name: 'body', type: 'text', localized: true },
+      ],
+    },
+    {
+      name: 'aboutBullets',
+      type: 'array',
+      localized: true,
+      fields: [{ name: 'point', type: 'text', localized: true }],
+    },
     { name: 'joinTitle', type: 'text', localized: true },
     { name: 'joinSubtitle', type: 'text', localized: true },
     { name: 'joinDescription', type: 'textarea', localized: true },
-    { name: 'joinBenefits', type: 'array', localized: true, fields: [
-      { name: 'benefit', type: 'text', localized: true }
-    ] },
+    {
+      name: 'joinBenefits',
+      type: 'array',
+      localized: true,
+      fields: [{ name: 'benefit', type: 'text', localized: true }],
+    },
   ],
 }

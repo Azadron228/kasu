@@ -104,27 +104,25 @@ export default async function HomePage({ params }: Args) {
       <section>
         <div className="about-inner">
           <div className="about-vis">
-            <div className="info-block">
-              <h4>{t('aboutFounded')}</h4>
-              <p>
-                {homepage?.aboutFounded ? new Date(homepage.aboutFounded).getFullYear() : '2023'}
-              </p>
-            </div>
-            <div className="info-block">
-              <h4>{t('aboutRegNum')}</h4>
-              <p>{homepage?.aboutRegistrationNumber}</p>
-            </div>
+            <img className="about-vis-logo" src="/logo.png" alt="КАСУ U3A" />
+            <h3>Миссия и цели КАСУ</h3>
+            {homepage?.aboutInfoBlocks?.map((block, i) => (
+              <div className="info-block" key={block.id ?? i}>
+                <h4>{block.heading}</h4>
+                <p>{block.body}</p>
+              </div>
+            ))}
           </div>
           <div className="about-text">
-            <div className="s-label">{homepage?.aboutLabel}</div>
-            <h2 className="s-title">{homepage?.aboutTitle}</h2>
+            <div className="s-label">Об Ассоциации</div>
+            <h2 className="s-title">Kazakhstan Association of Universities of the Third Age</h2>
             {homepage?.aboutBody && (
               <RichText data={homepage.aboutBody} enableProse={false} enableGutter={false} />
             )}
             {homepage?.aboutBullets && (
               <ul className="about-list">
                 {homepage.aboutBullets.map((b, i) => (
-                  <li key={i}>{b.point}</li>
+                  <li key={b.id ?? i}>{b.point}</li>
                 ))}
               </ul>
             )}
