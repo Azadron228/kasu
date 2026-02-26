@@ -2,24 +2,8 @@ import RichText from '@/components/RichText'
 import React from 'react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { TypedLocale } from 'payload'
-
-async function fetchPosts(locale: string) {
-  const res = await fetch(`http://localhost:3000/api/posts?depth=1&limit=10&locale=${locale}`)
-  if (!res.ok) throw new Error(`Failed to fetch posts`)
-  const data = await res.json()
-  return data.docs as Post[]
-}
-
-type Post = {
-  id: number
-  title: string
-  excerpt: string
-  slug: string
-  heroImage: { url: string } | null
-  content: any
-  populatedAuthors: { id: number; name: string }[]
-  publishedAt: string
-}
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
 type Args = {
   params: Promise<{ locale: TypedLocale }>
@@ -29,7 +13,17 @@ export default async function AboutPage({ params }: Args) {
   const { locale } = await params
   setRequestLocale(locale)
 
-  const [posts, t] = await Promise.all([fetchPosts(locale), getTranslations('about')])
+  const payload = await getPayload({ config })
+
+  const [{ docs: posts }, t] = await Promise.all([
+    payload.find({
+      collection: 'posts',
+      depth: 1,
+      limit: 10,
+      locale,
+    }),
+    getTranslations('about'),
+  ])
 
   return (
     <main className="container py-16">
@@ -49,7 +43,7 @@ export default async function AboutPage({ params }: Args) {
                 className="mem-card border border-silver-lt p-6 rounded-xl hover:translate-y-[-4px] transition-all bg-white shadow-[0_8px_40px_rgba(30,53,96,0.08)]"
               >
                 <div className="w-24 h-24 bg-sky-pale rounded-full mx-auto mb-4 flex items-center justify-center text-4xl overflow-hidden">
-                  {doc.heroImage?.url ? (
+                  {doc.heroImage && typeof doc.heroImage === 'object' && 'url' in doc.heroImage ? (
                     <img
                       src={doc.heroImage.url}
                       alt={doc.title}
@@ -66,7 +60,9 @@ export default async function AboutPage({ params }: Args) {
                   {doc.title}
                 </h3>
                 <div className="text-sky text-sm font-semibold mb-3">
-                  {doc.populatedAuthors.map((a) => a.name).join(', ')}
+                  {doc.populatedAuthors
+                    ?.map((a) => (typeof a === 'object' ? a.name : ''))
+                    .join(', ')}
                 </div>
                 <p className="text-muted text-sm line-clamp-4">{doc.excerpt}</p>
                 {doc.content && (

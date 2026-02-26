@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import React from 'react'
-
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/globals/Footer/Component'
 import { Header } from '@/globals/Header/Component'
@@ -9,11 +8,11 @@ import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 import { TypedLocale } from 'payload'
-import { getLocale, getTranslations, getMessages } from 'next-intl'
+import { getMessages, setRequestLocale } from 'next-intl/server'
+import { NextIntlClientProvider } from 'next-intl'
 import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
 import localization from '@/i18n/localization'
-
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
@@ -25,7 +24,6 @@ type Args = {
 export default async function RootLayout({ children, params }: Args) {
   const { locale } = await params
 
-  // Validate locale
   if (!routing.locales.includes(locale as any)) {
     notFound()
   }
