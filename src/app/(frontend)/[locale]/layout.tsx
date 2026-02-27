@@ -31,7 +31,7 @@ export default async function RootLayout({ children, params }: Args) {
   setRequestLocale(locale)
 
   const currentLocale = localization.locales.find((loc) => loc.code === locale)
-  const direction = currentLocale?.rtl ? 'rtl' : 'ltr'
+  const direction = (currentLocale as any)?.rtl ? 'rtl' : 'ltr'
 
   const { isEnabled } = await draftMode()
   const messages = await getMessages()
@@ -53,7 +53,7 @@ export default async function RootLayout({ children, params }: Args) {
             <AdminBar adminBarProps={{ preview: isEnabled }} />
             <Header locale={locale} />
             {children}
-            <Footer locale={locale} />
+            <Footer />
           </NextIntlClientProvider>
         </Providers>
       </body>

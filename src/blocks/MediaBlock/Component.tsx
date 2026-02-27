@@ -49,7 +49,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
           src={staticImage}
         />
       )}
-      {caption && (
+      {caption && typeof caption === 'object' && (
         <div
           className={cn(
             'mt-6',
