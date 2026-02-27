@@ -13,7 +13,6 @@ import { Footer } from './globals/Footer/config'
 import { Header } from './globals/Header/config'
 import { Members } from './collections/Members'
 import { Regions } from './collections/Regions'
-import { TextProjects } from './collections/TextProject'
 import { Directions } from './collections/Directions'
 import { Projects } from './collections/Projects'
 import { Documents } from './collections/Documents'
@@ -83,11 +82,8 @@ export default buildConfig({
     Members,
     Regions,
     Directions,
-    Projects,
     Documents,
-    Leadership,
     Partners,
-    TextProjects,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Settings, Homepage],

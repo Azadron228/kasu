@@ -48,7 +48,7 @@ export default async function HomePage({ params }: Args) {
       <section className="hero">
         <div className="hero-content">
           <div className="hero-tag">
-            <span className="dot"></span> {homepage?.heroSubheading || 'Официальный сайт'}
+            <span className="dot"></span> {homepage?.heroSubheading}
           </div>
           <h2>{homepage?.heroHeadline || 'КАСУ U3A'}</h2>
           <div className="hero-btns">
@@ -63,7 +63,7 @@ export default async function HomePage({ params }: Args) {
         <div className="hero-right">
           <div className="hero-card">
             <div className="greeting-head">
-              <div className="g-icon">❝</div>
+              <div className="g-icon">🎓</div>
               <div>
                 <div className="g-name">{homepage?.presidentName}</div>
                 <div className="g-role">{homepage?.presidentRole}</div>
@@ -90,13 +90,21 @@ export default async function HomePage({ params }: Args) {
       <section className="dir-bg">
         <h2 className="s-title">{t('directions')}</h2>
         <div className="dir-grid">
-          {directions.map((dir, i) => (
-            <div className="dir-card" key={i}>
-              <div className="dir-icon">{dir.icon}</div>
-              <h3>{dir.title}</h3>
-              <p>{dir.description}</p>
-            </div>
-          ))}
+          {directions.map((dir, i) =>
+            i === 0 ? (
+              <Link href="/about" className="dir-card" key={i}>
+                <div className="dir-icon">{dir.icon}</div>
+                <h3>{dir.title}</h3>
+                <p>{dir.description}</p>
+              </Link>
+            ) : (
+              <div className="dir-card" key={i}>
+                <div className="dir-icon">{dir.icon}</div>
+                <h3>{dir.title}</h3>
+                <p>{dir.description}</p>
+              </div>
+            ),
+          )}
         </div>
       </section>
 
@@ -104,27 +112,25 @@ export default async function HomePage({ params }: Args) {
       <section>
         <div className="about-inner">
           <div className="about-vis">
-            <div className="info-block">
-              <h4>{t('aboutFounded')}</h4>
-              <p>
-                {homepage?.aboutFounded ? new Date(homepage.aboutFounded).getFullYear() : '2023'}
-              </p>
-            </div>
-            <div className="info-block">
-              <h4>{t('aboutRegNum')}</h4>
-              <p>{homepage?.aboutRegistrationNumber}</p>
-            </div>
+            <img className="about-vis-logo" src="/logo.png" alt="КАСУ U3A" />
+            <h3>Миссия и цели КАСУ</h3>
+            {homepage?.aboutInfoBlocks?.map((block, i) => (
+              <div className="info-block" key={block.id ?? i}>
+                <h4>{block.heading}</h4>
+                <p>{block.body}</p>
+              </div>
+            ))}
           </div>
           <div className="about-text">
-            <div className="s-label">{homepage?.aboutLabel}</div>
-            <h2 className="s-title">{homepage?.aboutTitle}</h2>
+            <div className="s-label">Об Ассоциации</div>
+            <h2 className="s-title">Kazakhstan Association of Universities of the Third Age</h2>
             {homepage?.aboutBody && (
               <RichText data={homepage.aboutBody} enableProse={false} enableGutter={false} />
             )}
             {homepage?.aboutBullets && (
               <ul className="about-list">
                 {homepage.aboutBullets.map((b, i) => (
-                  <li key={i}>{b.point}</li>
+                  <li key={b.id ?? i}>{b.point}</li>
                 ))}
               </ul>
             )}

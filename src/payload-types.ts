@@ -75,11 +75,7 @@ export interface Config {
     members: Member;
     regions: Region;
     directions: Direction;
-    projects: Project;
-    documents: Document;
-    leadership: Leadership;
     partners: Partner;
-    Pizda: Pizda;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -105,11 +101,7 @@ export interface Config {
     members: MembersSelect<false> | MembersSelect<true>;
     regions: RegionsSelect<false> | RegionsSelect<true>;
     directions: DirectionsSelect<false> | DirectionsSelect<true>;
-    projects: ProjectsSelect<false> | ProjectsSelect<true>;
-    documents: DocumentsSelect<false> | DocumentsSelect<true>;
-    leadership: LeadershipSelect<false> | LeadershipSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
-    Pizda: PizdaSelect<false> | PizdaSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -801,49 +793,6 @@ export interface Direction {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects".
- */
-export interface Project {
-  id: number;
-  title: string;
-  description?: string | null;
-  status: 'active' | 'completed' | 'planned';
-  startDate?: string | null;
-  endDate?: string | null;
-  image?: (number | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "documents".
- */
-export interface Document {
-  id: number;
-  title: string;
-  category: 'charter' | 'regulations' | 'annual_reports' | 'agreements';
-  file: number | Media;
-  year: number;
-  description?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "leadership".
- */
-export interface Leadership {
-  id: number;
-  name: string;
-  role: string;
-  bio?: string | null;
-  photo?: (number | null) | Media;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
 export interface Partner {
@@ -852,17 +801,6 @@ export interface Partner {
   type: 'government' | 'ngo' | 'corporate' | 'academic' | 'other';
   logo?: (number | null) | Media;
   website?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Pizda".
- */
-export interface Pizda {
-  id: number;
-  title: string;
-  description: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -1089,24 +1027,8 @@ export interface PayloadLockedDocument {
         value: number | Direction;
       } | null)
     | ({
-        relationTo: 'projects';
-        value: number | Project;
-      } | null)
-    | ({
-        relationTo: 'documents';
-        value: number | Document;
-      } | null)
-    | ({
-        relationTo: 'leadership';
-        value: number | Leadership;
-      } | null)
-    | ({
         relationTo: 'partners';
         value: number | Partner;
-      } | null)
-    | ({
-        relationTo: 'Pizda';
-        value: number | Pizda;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1473,46 +1395,6 @@ export interface DirectionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects_select".
- */
-export interface ProjectsSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  status?: T;
-  startDate?: T;
-  endDate?: T;
-  image?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "documents_select".
- */
-export interface DocumentsSelect<T extends boolean = true> {
-  title?: T;
-  category?: T;
-  file?: T;
-  year?: T;
-  description?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "leadership_select".
- */
-export interface LeadershipSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
-  bio?: T;
-  photo?: T;
-  order?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners_select".
  */
 export interface PartnersSelect<T extends boolean = true> {
@@ -1520,16 +1402,6 @@ export interface PartnersSelect<T extends boolean = true> {
   type?: T;
   logo?: T;
   website?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Pizda_select".
- */
-export interface PizdaSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1908,8 +1780,6 @@ export interface Homepage {
         id?: string | null;
       }[]
     | null;
-  aboutLabel?: string | null;
-  aboutTitle?: string | null;
   aboutBody?: {
     root: {
       type: string;
@@ -1925,8 +1795,13 @@ export interface Homepage {
     };
     [k: string]: unknown;
   } | null;
-  aboutFounded?: string | null;
-  aboutRegistrationNumber?: string | null;
+  aboutInfoBlocks?:
+    | {
+        heading?: string | null;
+        body?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   aboutBullets?:
     | {
         point?: string | null;
@@ -2032,11 +1907,14 @@ export interface HomepageSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
-  aboutLabel?: T;
-  aboutTitle?: T;
   aboutBody?: T;
-  aboutFounded?: T;
-  aboutRegistrationNumber?: T;
+  aboutInfoBlocks?:
+    | T
+    | {
+        heading?: T;
+        body?: T;
+        id?: T;
+      };
   aboutBullets?:
     | T
     | {
