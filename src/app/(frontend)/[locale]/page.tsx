@@ -48,7 +48,7 @@ export default async function HomePage({ params }: Args) {
       <section className="hero">
         <div className="hero-content">
           <div className="hero-tag">
-            <span className="dot"></span> {homepage?.heroSubheading || 'Официальный сайт'}
+            <span className="dot"></span> {homepage?.heroSubheading}
           </div>
           <h2>{homepage?.heroHeadline || 'КАСУ U3A'}</h2>
           <div className="hero-btns">
@@ -63,7 +63,7 @@ export default async function HomePage({ params }: Args) {
         <div className="hero-right">
           <div className="hero-card">
             <div className="greeting-head">
-              <div className="g-icon">❝</div>
+              <div className="g-icon">🎓</div>
               <div>
                 <div className="g-name">{homepage?.presidentName}</div>
                 <div className="g-role">{homepage?.presidentRole}</div>
@@ -90,13 +90,21 @@ export default async function HomePage({ params }: Args) {
       <section className="dir-bg">
         <h2 className="s-title">{t('directions')}</h2>
         <div className="dir-grid">
-          {directions.map((dir, i) => (
-            <div className="dir-card" key={i}>
-              <div className="dir-icon">{dir.icon}</div>
-              <h3>{dir.title}</h3>
-              <p>{dir.description}</p>
-            </div>
-          ))}
+          {directions.map((dir, i) =>
+            i === 0 ? (
+              <Link href="/about" className="dir-card" key={i}>
+                <div className="dir-icon">{dir.icon}</div>
+                <h3>{dir.title}</h3>
+                <p>{dir.description}</p>
+              </Link>
+            ) : (
+              <div className="dir-card" key={i}>
+                <div className="dir-icon">{dir.icon}</div>
+                <h3>{dir.title}</h3>
+                <p>{dir.description}</p>
+              </div>
+            ),
+          )}
         </div>
       </section>
 
