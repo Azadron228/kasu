@@ -2,41 +2,112 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import { MemberCard, MemberJoinCard } from './MemberCard'
+import { FilterToolbar, FilterGroup } from '@/components/FilterToolbar'
 
-export const dynamic = 'force-static'
-export const revalidate = 600
+type Args = {
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined
+  }>
+}
 
-export default async function MembersPage() {
+export default async function MembersPage({ searchParams }: Args) {
   const payload = await getPayload({ config: configPromise })
+  const params = await searchParams
 
-  // Получаем членов
+  const statusParam = typeof params.status === 'string' ? params.status : undefined
+  const regionParam = typeof params.region === 'string' ? params.region : undefined
+  const searchParam = typeof params.search === 'string' ? params.search : undefined
+
+  // Build the Payload where query
+  const where: Record<string, any> = { and: [] }
+
+  if (statusParam) {
+    where.and.push({ status: { equals: statusParam } })
+  }
+
+  if (regionParam) {
+    where.and.push({ region: { equals: regionParam } })
+  }
+
+  if (searchParam) {
+    where.and.push({
+      or: [
+        { fullName: { like: searchParam } },
+        { shortName: { like: searchParam } },
+      ],
+    })
+  }
+
+  // If no filters were applied, we should safely remove the empty "and"
+  const finalWhere = where.and.length > 0 ? where : undefined
+
+  // Fetch regions for the filter options
+  const { docs: regions } = await payload.find({
+    collection: 'regions',
+    limit: 100,
+  })
+
+  // Prepare filter groups for FilterToolbar
+  const filters: FilterGroup[] = [
+    {
+      label: 'Фильтр:',
+      paramName: 'status',
+      options: [
+        { label: 'Всё', value: '' },
+        { label: 'Учредитель', value: 'founder', className: 'founder' },
+        { label: 'Новые члены', value: 'member' },
+      ],
+    },
+    {
+      label: 'Регион:',
+      paramName: 'region',
+      options: [
+        { label: 'Все', value: '' },
+        ...regions.map((region) => ({
+          label: typeof region.name === 'string' ? region.name : 'Unknown',
+          value: region.id.toString(),
+        })),
+      ],
+    },
+  ]
+
+  // Fetch members
   const { docs: members } = await payload.find({
     collection: 'members',
     limit: 100,
     depth: 1,
+    where: finalWhere,
   })
 
   return (
-    <section className="px-6 md:px-12 xl:px-[72px] py-11 pb-20">
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
-        {members.map((member, i) => (
-          <MemberCard
-            key={member.id}
-            id={member.id}
-            index={i}
-            shortName={member.shortName}
-            fullName={member.fullName}
-            city={member.city}
-            region={typeof member.region === 'object' ? member.region : { name: '' }}
-            status={member.status}
-            logo={member.logo}
-            website={member.website}
-            description={member.description}
-          />
-        ))}
+    <section>
+      <FilterToolbar
+        filters={filters}
+        searchPlaceholder="Найти участника..."
+        searchParamName="search"
+      />
+      
+      <div className="px-6 md:px-12 xl:px-[72px] py-11 pb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
+          {members.map((member, i) => (
+            <MemberCard
+              key={member.id}
+              id={member.id}
+              index={i}
+              shortName={member.shortName}
+              fullName={member.fullName}
+              city={member.city}
+              region={typeof member.region === 'object' && member.region !== null ? member.region : { name: '' }}
+              status={member.status}
+              logo={member.logo}
+              website={member.website ?? ''}
+              description={member.description}
+            />
+          ))}
 
-        {/* Join CTA always last */}
-        <MemberJoinCard />
+          {/* Join CTA always last */}
+          <MemberJoinCard />
+        </div>
       </div>
     </section>
   )

@@ -6,11 +6,7 @@ export const Homepage: GlobalConfig = {
   fields: [
     { name: 'heroHeadline', type: 'text', localized: true },
     { name: 'heroSubheading', type: 'text', localized: true },
-    { name: 'heroPrimaryCtaLabel', type: 'text', localized: true },
-    { name: 'heroSecondaryCtaLabel', type: 'text', localized: true },
     { name: 'presidentQuote', type: 'textarea', localized: true },
-    { name: 'presidentName', type: 'text', localized: true },
-    { name: 'presidentRole', type: 'text', localized: true },
     {
       name: 'stats',
       type: 'array',

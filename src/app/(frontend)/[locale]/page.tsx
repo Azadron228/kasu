@@ -53,10 +53,10 @@ export default async function HomePage({ params }: Args) {
           <h2>{homepage?.heroHeadline || 'КАСУ U3A'}</h2>
           <div className="hero-btns">
             <Link href="/about" className="btn-prim">
-              {homepage?.heroPrimaryCtaLabel || 'Подробнее'}
+              Подробнее
             </Link>
             <Link href="/join" className="btn-ghost">
-              {homepage?.heroSecondaryCtaLabel || 'Вступить'}
+              Вступить
             </Link>
           </div>
         </div>
@@ -65,8 +65,8 @@ export default async function HomePage({ params }: Args) {
             <div className="greeting-head">
               <div className="g-icon">🎓</div>
               <div>
-                <div className="g-name">{homepage?.presidentName}</div>
-                <div className="g-role">{homepage?.presidentRole}</div>
+                <div className="g-name">Приветственное слово</div>
+                <div className="g-role">Президент КАСУ</div>
               </div>
             </div>
             <blockquote>{homepage?.presidentQuote}</blockquote>

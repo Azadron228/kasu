@@ -1737,11 +1737,7 @@ export interface Homepage {
   id: number;
   heroHeadline?: string | null;
   heroSubheading?: string | null;
-  heroPrimaryCtaLabel?: string | null;
-  heroSecondaryCtaLabel?: string | null;
   presidentQuote?: string | null;
-  presidentName?: string | null;
-  presidentRole?: string | null;
   stats?:
     | {
         number?: string | null;
@@ -1864,11 +1860,7 @@ export interface SettingsSelect<T extends boolean = true> {
 export interface HomepageSelect<T extends boolean = true> {
   heroHeadline?: T;
   heroSubheading?: T;
-  heroPrimaryCtaLabel?: T;
-  heroSecondaryCtaLabel?: T;
   presidentQuote?: T;
-  presidentName?: T;
-  presidentRole?: T;
   stats?:
     | T
     | {
