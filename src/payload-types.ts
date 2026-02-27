@@ -75,6 +75,7 @@ export interface Config {
     members: Member;
     regions: Region;
     directions: Direction;
+    documents: Document;
     partners: Partner;
     redirects: Redirect;
     forms: Form;
@@ -101,6 +102,7 @@ export interface Config {
     members: MembersSelect<false> | MembersSelect<true>;
     regions: RegionsSelect<false> | RegionsSelect<true>;
     directions: DirectionsSelect<false> | DirectionsSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -793,6 +795,20 @@ export interface Direction {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: number;
+  title: string;
+  category: 'charter' | 'regulations' | 'annual_reports' | 'agreements';
+  file: number | Media;
+  year: number;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
 export interface Partner {
@@ -1025,6 +1041,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'directions';
         value: number | Direction;
+      } | null)
+    | ({
+        relationTo: 'documents';
+        value: number | Document;
       } | null)
     | ({
         relationTo: 'partners';
@@ -1390,6 +1410,19 @@ export interface DirectionsSelect<T extends boolean = true> {
   description?: T;
   icon?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  file?: T;
+  year?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
