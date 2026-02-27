@@ -75,8 +75,6 @@ export interface Config {
     members: Member;
     regions: Region;
     directions: Direction;
-    documents: Document;
-    partners: Partner;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -102,8 +100,6 @@ export interface Config {
     members: MembersSelect<false> | MembersSelect<true>;
     regions: RegionsSelect<false> | RegionsSelect<true>;
     directions: DirectionsSelect<false> | DirectionsSelect<true>;
-    documents: DocumentsSelect<false> | DocumentsSelect<true>;
-    partners: PartnersSelect<false> | PartnersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -795,33 +791,6 @@ export interface Direction {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "documents".
- */
-export interface Document {
-  id: number;
-  title: string;
-  category: 'charter' | 'regulations' | 'annual_reports' | 'agreements';
-  file: number | Media;
-  year: number;
-  description?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "partners".
- */
-export interface Partner {
-  id: number;
-  name: string;
-  type: 'government' | 'ngo' | 'corporate' | 'academic' | 'other';
-  logo?: (number | null) | Media;
-  website?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1041,14 +1010,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'directions';
         value: number | Direction;
-      } | null)
-    | ({
-        relationTo: 'documents';
-        value: number | Document;
-      } | null)
-    | ({
-        relationTo: 'partners';
-        value: number | Partner;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1410,31 +1371,6 @@ export interface DirectionsSelect<T extends boolean = true> {
   description?: T;
   icon?: T;
   order?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "documents_select".
- */
-export interface DocumentsSelect<T extends boolean = true> {
-  title?: T;
-  category?: T;
-  file?: T;
-  year?: T;
-  description?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "partners_select".
- */
-export interface PartnersSelect<T extends boolean = true> {
-  name?: T;
-  type?: T;
-  logo?: T;
-  website?: T;
   updatedAt?: T;
   createdAt?: T;
 }
