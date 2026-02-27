@@ -32,12 +32,20 @@ export const Homepage: GlobalConfig = {
     },
     { name: 'joinTitle', type: 'text', localized: true },
     { name: 'joinSubtitle', type: 'text', localized: true },
-    { name: 'joinDescription', type: 'textarea', localized: true },
+    { name: 'contactEmail', type: 'email' },
+    { name: 'contactPhone', type: 'text' },
+    { name: 'contactAddress', type: 'textarea', localized: true },
     {
-      name: 'joinBenefits',
+      name: 'socialLinks',
       type: 'array',
-      localized: true,
-      fields: [{ name: 'benefit', type: 'text', localized: true }],
+      fields: [
+        {
+          name: 'platform',
+          type: 'select',
+          options: ['Instagram', 'Facebook', 'YouTube', 'LinkedIn', 'Twitter'],
+        },
+        { name: 'url', type: 'text' },
+      ],
     },
   ],
 }

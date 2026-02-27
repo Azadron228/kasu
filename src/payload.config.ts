@@ -13,7 +13,6 @@ import { Footer } from './globals/Footer/config'
 import { Header } from './globals/Header/config'
 import { Members, Regions } from './collections/Members'
 import { Directions } from './collections/Directions'
-import { Settings } from './globals/Settings'
 import { Homepage } from './globals/Homepage'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -70,7 +69,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users, Members, Regions, Directions],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Settings, Homepage],
+  globals: [Header, Footer, Homepage],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

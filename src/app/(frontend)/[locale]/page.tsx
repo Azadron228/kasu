@@ -20,7 +20,6 @@ export default async function HomePage({ params }: Args) {
   const t = await getTranslations('home')
 
   const homepage = (await getCachedGlobal('homepage', 1)()) as Homepage
-  const settings = (await getCachedGlobal('settings', 1)()) as Setting
 
   const { docs: directions } = await payload.find({
     collection: 'directions',
@@ -50,7 +49,8 @@ export default async function HomePage({ params }: Args) {
           <div className="hero-tag">
             <span className="dot"></span> {homepage?.heroSubheading}
           </div>
-          <h2>{homepage?.heroHeadline || 'КАСУ U3A'}</h2>
+          <h2>{homepage?.heroHeadline}</h2>
+          <h3>{homepage?.heroSubheading}</h3>
           <div className="hero-btns">
             <Link href="/about" className="btn-prim">
               Подробнее
@@ -221,14 +221,14 @@ export default async function HomePage({ params }: Args) {
                 <div className="c-icon">📍</div>
                 <div>
                   <div className="c-label">{t('contactsAddress')}</div>
-                  <div className="c-val">{settings?.contactAddress}</div>
+                  <div className="c-val">{homepage?.contactAddress}</div>
                 </div>
               </div>
               <div className="c-row">
                 <div className="c-icon">📞</div>
                 <div>
                   <div className="c-label">{t('contactsPhone')}</div>
-                  <div className="c-val">{settings?.contactPhone}</div>
+                  <div className="c-val">{homepage?.contactPhone}</div>
                 </div>
               </div>
             </div>

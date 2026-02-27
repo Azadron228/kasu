@@ -118,13 +118,11 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
-    settings: Setting;
     homepage: Homepage;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
-    settings: SettingsSelect<false> | SettingsSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
   };
   locale: 'ru' | 'en' | 'kk';
@@ -1709,25 +1707,6 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "settings".
- */
-export interface Setting {
-  id: number;
-  contactEmail?: string | null;
-  contactPhone?: string | null;
-  contactAddress?: string | null;
-  socialLinks?:
-    | {
-        platform?: ('Instagram' | 'Facebook' | 'YouTube' | 'LinkedIn' | 'Twitter') | null;
-        url?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage".
  */
 export interface Homepage {
@@ -1772,10 +1751,13 @@ export interface Homepage {
     | null;
   joinTitle?: string | null;
   joinSubtitle?: string | null;
-  joinDescription?: string | null;
-  joinBenefits?:
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  contactAddress?: string | null;
+  socialLinks?:
     | {
-        benefit?: string | null;
+        platform?: ('Instagram' | 'Facebook' | 'YouTube' | 'LinkedIn' | 'Twitter') | null;
+        url?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1830,25 +1812,6 @@ export interface FooterSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "settings_select".
- */
-export interface SettingsSelect<T extends boolean = true> {
-  contactEmail?: T;
-  contactPhone?: T;
-  contactAddress?: T;
-  socialLinks?:
-    | T
-    | {
-        platform?: T;
-        url?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage_select".
  */
 export interface HomepageSelect<T extends boolean = true> {
@@ -1878,11 +1841,14 @@ export interface HomepageSelect<T extends boolean = true> {
       };
   joinTitle?: T;
   joinSubtitle?: T;
-  joinDescription?: T;
-  joinBenefits?:
+  contactEmail?: T;
+  contactPhone?: T;
+  contactAddress?: T;
+  socialLinks?:
     | T
     | {
-        benefit?: T;
+        platform?: T;
+        url?: T;
         id?: T;
       };
   updatedAt?: T;

@@ -6,7 +6,6 @@ import { LangSwitcher } from './LangSwitcher'
 import { getTranslations } from 'next-intl/server'
 
 export async function Header({ locale }: { locale: string }) {
-  const settings = (await getCachedGlobal('settings', 1)()) as Setting
   const t = await getTranslations('nav')
 
   return (
@@ -31,7 +30,7 @@ export async function Header({ locale }: { locale: string }) {
             KASU
           </div>
           <div className="logo-text">
-            <div className="abbr">{settings?.siteName || 'КАСУ'}</div>
+            <div className="abbr">КАСУ</div>
             <div className="full">{t('siteFullName')}</div>
             <div className="u3a">U3A KAZAKHSTAN</div>
           </div>

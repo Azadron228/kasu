@@ -5,8 +5,6 @@ import React from 'react'
 import type { Setting } from '@/payload-types'
 
 export async function Footer({ locale }: { locale: string }) {
-  const settings = (await getCachedGlobal('settings', 1)()) as Setting
-
   return (
     <footer>
       <div className="footer-top">
@@ -25,11 +23,7 @@ export async function Footer({ locale }: { locale: string }) {
           </div>
           <div className="f-brand-text">
             <h3>КАСУ U3A</h3>
-            <p>
-              {typeof settings?.siteDescription === 'string'
-                ? settings.siteDescription
-                : 'Казахстанская Ассоциация Сеньорских Университетов (U3A)'}
-            </p>
+            <p>Казахстанская Ассоциация Сеньорских Университетов (U3A)</p>
           </div>
         </div>
 
@@ -58,10 +52,7 @@ export async function Footer({ locale }: { locale: string }) {
       </div>
 
       <div className="footer-bottom">
-        <div>
-          &copy; {new Date().getFullYear()} КАСУ U3A. Все права защищены.{' '}
-          {settings?.footerCopyright}
-        </div>
+        <div>&copy; {new Date().getFullYear()} КАСУ U3A. Все права защищены.</div>
         <div>Казахстан</div>
       </div>
     </footer>
