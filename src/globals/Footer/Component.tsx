@@ -4,20 +4,35 @@ import React from 'react'
 
 import type { Setting } from '@/payload-types'
 
-export async function Footer() {
+export async function Footer({ locale }: { locale: string }) {
   const settings = (await getCachedGlobal('settings', 1)()) as Setting
 
   return (
     <footer>
       <div className="footer-top">
         <div className="f-col f-brand">
-          <div className="f-logo" style={{ backgroundColor: '#1E3560', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>K</div>
+          <div
+            className="f-logo"
+            style={{
+              backgroundColor: '#1E3560',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+            }}
+          >
+            K
+          </div>
           <div className="f-brand-text">
             <h3>КАСУ U3A</h3>
-            <p>{typeof settings?.siteDescription === 'string' ? settings.siteDescription : 'Казахстанская Ассоциация Сеньорских Университетов (U3A)'}</p>
+            <p>
+              {typeof settings?.siteDescription === 'string'
+                ? settings.siteDescription
+                : 'Казахстанская Ассоциация Сеньорских Университетов (U3A)'}
+            </p>
           </div>
         </div>
-        
+
         <div className="f-col">
           <h4>Организация</h4>
           <Link href="/about">О нас</Link>
@@ -41,9 +56,12 @@ export async function Footer() {
           <Link href="/contacts">Контакты</Link>
         </div>
       </div>
-      
+
       <div className="footer-bottom">
-        <div>&copy; {new Date().getFullYear()} КАСУ U3A. Все права защищены. {settings?.footerCopyright}</div>
+        <div>
+          &copy; {new Date().getFullYear()} КАСУ U3A. Все права защищены.{' '}
+          {settings?.footerCopyright}
+        </div>
         <div>Казахстан</div>
       </div>
     </footer>

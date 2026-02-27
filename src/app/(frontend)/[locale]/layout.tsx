@@ -49,7 +49,7 @@ export default async function RootLayout({ children, params }: Args) {
             <AdminBar adminBarProps={{ preview: isEnabled }} />
             <Header locale={locale} />
             {children}
-            <Footer />
+            <Footer locale={locale} />
           </NextIntlClientProvider>
         </Providers>
       </body>
