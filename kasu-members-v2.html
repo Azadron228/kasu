@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>КАСУ — Члены Ассоциации | 14 Серебряных университетов Казахстана</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="header-inner">
+    <div class="header-text">
+      <div class="tag">Қауымдастық · Kazakhstan U3A</div>
+      <h1>Члены Ассоциации</h1>
+      <p>14 университетов Казахстана, реализующих программы Серебряного университета<br>в рамках концепции University of the Third Age (U3A)</p>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-cell"><span class="stat-n">14</span><span class="stat-l">Университетов</span></div>
+  <div class="stat-cell"><span class="stat-n">11</span><span class="stat-l">Учредителей</span></div>
+  <div class="stat-cell"><span class="stat-n">3</span><span class="stat-l">Новых членов</span></div>
+  <div class="stat-cell"><span class="stat-n">12</span><span class="stat-l">Регионов РК</span></div>
+  <div class="stat-cell"><span class="stat-n">U3A</span><span class="stat-l">Стандарт</span></div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="filter-row">
+    <span class="filter-label">Фильтр:</span>
+    <button class="f-btn active" onclick="applyFilter('all',this)">Все (14)</button>
+    <button class="f-btn founder" onclick="applyFilter('Учредитель',this)">★ Учредители (11)</button>
+    <button class="f-btn" onclick="applyFilter('Член',this)">Новые члены (3)</button>
+    <button class="f-btn" onclick="applyFilter('Астана',this)">Астана</button>
+    <button class="f-btn" onclick="applyFilter('Алматы',this)">Алматы</button>
+    <button class="f-btn" onclick="applyFilter('Усть-Каменогорск',this)">ВКО</button>
+    <button class="f-btn" onclick="applyFilter('Караганда',this)">Карагандинская</button>
+  </div>
+  <div class="search-box">
+    <span style="font-size:14px;color:var(--silver);">🔍</span>
+    <input type="text" placeholder="Поиск по названию..." oninput="searchCards(this.value)">
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- LEGEND -->
+  <div class="legend-row">
+    <span style="font-size:12px;color:var(--muted);font-weight:700;">Обозначения:</span>
+    <div class="legend-item">
+      <span class="legend-badge" style="background:var(--gold);color:var(--navy-deep);">Учредитель</span>
+      11 университетов-учредителей КАСУ
+    </div>
+    <div class="legend-item">
+      <span class="legend-badge" style="background:var(--steel);color:#fff;">Член</span>
+      3 университета — новые члены Ассоциации
+    </div>
+  </div>
+
+  <div id="membersGrid"></div>
+
+
+</div><!-- /content -->
+
+<script>
+
+let currentFilter = 'all';
+let currentSearch = '';
+
+function buildCard(u) {
+  const isFounder = u.badge === 'Учредитель';
+  return `<div class="m-card" data-badge="${u.badge}" data-city="${u.city}" data-name="${u.short.toLowerCase()}">
+    <div class="card-accent" style="background:${u.color};"></div>
+    ${isFounder
+      ? '<div class="badge-founder">★ Учредитель</div>'
+      : '<div class="badge-member">Член</div>'}
+    <div class="card-main">
+      <img class="card-emblem" src="${u.svg}" alt="${u.abbr}">
+      <div class="card-meta">
+        <span class="card-num" style="background:${u.color}22;color:${u.color};">#${String(u.id).padStart(2,'0')} · КАСУ</span>
+        <h3>${u.short}</h3>
+        <div class="card-city">${u.city}</div>
+      </div>
+    </div>
+    <div class="card-desc">${u.full}</div>
+    <div class="silver-pill">
+      <div class="silver-icon">🎓</div>
+      <div>
+        <span class="silver-label">Серебряный университет</span>
+        <span class="silver-val">Программа U3A · активный участник КАСУ</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <a href="${u.url}" target="_blank" class="btn-web">🌐 Сайт</a>
+      <a href="${u.url}" target="_blank" class="btn-su">🎓 Серебр. ун-т</a>
+    </div>
+  </div>`;
+}
+
+function renderGrid() {
+  const grid = document.getElementById('membersGrid');
+  let filtered = UNI_DATA.filter(u => {
+    const matchFilter =
+      currentFilter === 'all' ||
+      (currentFilter === 'Учредитель' && u.badge === 'Учредитель') ||
+      (currentFilter === 'Член' && u.badge === 'Член') ||
+      u.city.includes(currentFilter);
+    const matchSearch = !currentSearch || u.short.toLowerCase().includes(currentSearch);
+    return matchFilter && matchSearch;
+  });
+
+  grid.innerHTML = filtered.map(buildCard).join('') + `
+    <div class="join-card">
+      <div class="plus">＋</div>
+      <h3>Вступите в Ассоциацию</h3>
+      <p>Если ваш университет реализует программу серебряного обучения — присоединяйтесь к КАСУ</p>
+      <a href="#" class="join-btn">Подать заявку →</a>
+    </div>`;
+}
+
+function applyFilter(val, btn) {
+  currentFilter = val;
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+function searchCards(val) {
+  currentSearch = val.toLowerCase().trim();
+  renderGrid();
+}
+
+renderGrid();
+</script>
+</body>
+</html>

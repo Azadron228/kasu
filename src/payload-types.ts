@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     users: User;
     members: Member;
+    regions: Region;
     directions: Direction;
     projects: Project;
     documents: Document;
@@ -102,6 +103,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     members: MembersSelect<false> | MembersSelect<true>;
+    regions: RegionsSelect<false> | RegionsSelect<true>;
     directions: DirectionsSelect<false> | DirectionsSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
@@ -757,32 +759,27 @@ export interface Form {
  */
 export interface Member {
   id: number;
-  name: string;
+  shortName: string;
+  fullName: string;
   city: string;
-  region:
-    | 'abai'
-    | 'akmola'
-    | 'aktobe'
-    | 'almaty'
-    | 'atyrau'
-    | 'east_kazakhstan'
-    | 'jambyl'
-    | 'jetisu'
-    | 'karaganda'
-    | 'kostanay'
-    | 'kyzylorda'
-    | 'mangystau'
-    | 'north_kazakhstan'
-    | 'pavlodar'
-    | 'turkistan'
-    | 'west_kazakhstan'
-    | 'ulytau'
-    | 'almaty_city'
-    | 'astana_city'
-    | 'shymkent_city';
+  region: number | Region;
+  status: 'founder' | 'member';
   logo: number | Media;
   website?: string | null;
   description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "regions".
+ */
+export interface Region {
+  id: number;
+  /**
+   * e.g., Akmola Region, Almaty City
+   */
+  name: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -1082,6 +1079,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'members';
         value: number | Member;
+      } | null)
+    | ({
+        relationTo: 'regions';
+        value: number | Region;
       } | null)
     | ({
         relationTo: 'directions';
@@ -1438,12 +1439,23 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "members_select".
  */
 export interface MembersSelect<T extends boolean = true> {
-  name?: T;
+  shortName?: T;
+  fullName?: T;
   city?: T;
   region?: T;
+  status?: T;
   logo?: T;
   website?: T;
   description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "regions_select".
+ */
+export interface RegionsSelect<T extends boolean = true> {
+  name?: T;
   updatedAt?: T;
   createdAt?: T;
 }
