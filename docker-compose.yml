@@ -34,11 +34,10 @@ services:
   #       - path: ./next.config.js
   #         target: /app/next.config.js
   #         action: sync+restart
-
   postgres:
     image: postgres:16-alpine
     ports:
-      - '5432:5432'
+      - '6001:5432'
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
