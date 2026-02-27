@@ -13,16 +13,11 @@ export default async function EduProgramsPage({ searchParams }: Args) {
   const payload = await getPayload({ config: configPromise })
   const params = await searchParams
 
-  const statusParam = typeof params.status === 'string' ? params.status : undefined
   const regionParam = typeof params.region === 'string' ? params.region : undefined
   const searchParam = typeof params.search === 'string' ? params.search : undefined
 
   // Build the Payload where query
   const where: Record<string, any> = { and: [] }
-
-  if (statusParam) {
-    where.and.push({ status: { equals: statusParam } })
-  }
 
   if (regionParam) {
     where.and.push({ region: { equals: regionParam } })
@@ -45,15 +40,6 @@ export default async function EduProgramsPage({ searchParams }: Args) {
 
   // Prepare filter groups for FilterToolbar
   const filters: FilterGroup[] = [
-    {
-      label: 'Фильтр:',
-      paramName: 'status',
-      options: [
-        { label: 'Всё', value: '' },
-        { label: 'Учредитель', value: 'founder', className: 'founder' },
-        { label: 'Новые члены', value: 'member' },
-      ],
-    },
     {
       label: 'Регион:',
       paramName: 'region',

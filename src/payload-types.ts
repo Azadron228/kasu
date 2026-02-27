@@ -1713,8 +1713,6 @@ export interface Footer {
  */
 export interface Setting {
   id: number;
-  siteName?: string | null;
-  siteDescription?: string | null;
   contactEmail?: string | null;
   contactPhone?: string | null;
   contactAddress?: string | null;
@@ -1725,7 +1723,6 @@ export interface Setting {
         id?: string | null;
       }[]
     | null;
-  footerCopyright?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1836,8 +1833,6 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "settings_select".
  */
 export interface SettingsSelect<T extends boolean = true> {
-  siteName?: T;
-  siteDescription?: T;
   contactEmail?: T;
   contactPhone?: T;
   contactAddress?: T;
@@ -1848,7 +1843,6 @@ export interface SettingsSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
-  footerCopyright?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
