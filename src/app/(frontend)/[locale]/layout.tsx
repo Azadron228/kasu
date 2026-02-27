@@ -12,7 +12,6 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { NextIntlClientProvider } from 'next-intl'
 import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
-import localization from '@/i18n/localization'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
@@ -30,14 +29,11 @@ export default async function RootLayout({ children, params }: Args) {
 
   setRequestLocale(locale)
 
-  const currentLocale = localization.locales.find((loc) => loc.code === locale)
-  const direction = (currentLocale as any)?.rtl ? 'rtl' : 'ltr'
-
   const { isEnabled } = await draftMode()
   const messages = await getMessages()
 
   return (
-    <html lang={locale} dir={direction} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
