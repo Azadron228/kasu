@@ -77,8 +77,8 @@ export function MemberCard({
         {/* Logo */}
         <div className="relative flex-shrink-0 w-20 h-20 rounded-full overflow-hidden shadow-[0_4px_18px_rgba(30,53,96,.2)]">
           <Image
-            src={logo.url}
-            alt={logo.alt ?? shortName}
+            src={logo?.url || '/placeholder-logo.png'}
+            alt={logo?.alt ?? shortName}
             fill
             sizes="80px"
             className="object-cover"

@@ -1,4 +1,5 @@
 import { getDirections } from '@/api/find/find-directions'
+import { PATHS } from '@/config/paths'
 import { Link } from '@/i18n/routing'
 import { getTranslations } from 'next-intl/server'
 
@@ -13,7 +14,7 @@ export default async function DirectionsBlock({ locale }: { locale: TypedLocale 
       <div className="dir-grid">
         {directions.map((dir, i) =>
           i === 0 ? (
-            <Link href="/about" className="dir-card" key={i}>
+            <Link href={PATHS.EDU_PROGRAMS} className="dir-card" key={i}>
               <div className="dir-icon">{dir.icon}</div>
               <h3>{dir.title}</h3>
               <p>{dir.description}</p>

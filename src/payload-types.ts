@@ -752,7 +752,7 @@ export interface Member {
   city: string;
   region: number | Region;
   status: 'founder' | 'member';
-  logo: number | Media;
+  logo?: (number | null) | Media;
   website?: string | null;
   description?: string | null;
   updatedAt: string;

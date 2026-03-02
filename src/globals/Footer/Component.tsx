@@ -1,26 +1,13 @@
-import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
-
-import type { Setting } from '@/payload-types'
+import { Logo } from '@/components/Logo/Logo'
 
 export async function Footer({ locale }: { locale: string }) {
   return (
     <footer>
       <div className="footer-top">
         <div className="f-col f-brand">
-          <div
-            className="f-logo"
-            style={{
-              backgroundColor: '#1E3560',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#fff',
-            }}
-          >
-            K
-          </div>
+          <Logo color="#fff" />
           <div className="f-brand-text">
             <h3>КАСУ U3A</h3>
             <p>Казахстанская Ассоциация Сеньорских Университетов (U3A)</p>

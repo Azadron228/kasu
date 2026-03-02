@@ -10,7 +10,7 @@ export async function JoinBlock({ homepage }: { homepage: Homepage }) {
       <h2>{homepage?.joinTitle}</h2>
       <p>{homepage?.joinDescription}</p>
       <div className="join-btns">
-        <Link href={PATHS.join} className="btn-prim">
+        <Link href={PATHS.JOIN} className="btn-prim">
           {t('joinBtn')}
         </Link>
       </div>

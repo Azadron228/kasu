@@ -64,7 +64,7 @@ export const Members: CollectionConfig = {
       defaultValue: 'member',
       required: true,
     },
-    { name: 'logo', type: 'upload', relationTo: 'media', required: true },
+    { name: 'logo', type: 'upload', relationTo: 'media', required: false },
     { name: 'website', type: 'text' },
     { name: 'description', type: 'textarea', localized: true },
   ],

@@ -1,6 +1,7 @@
 export const PATHS = {
-  home: '/',
-  join: '/join',
-  news: '/news',
+  HOME: '/',
+  JOIN: '/join',
+  NEWS: '/news',
   newsItem: (slug: string) => `/news/${slug}`,
+  EDU_PROGRAMS: '/edu-programs',
 } as const
