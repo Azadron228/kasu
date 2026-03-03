@@ -18,6 +18,8 @@ import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import localization from './i18n/localization'
+import { ProgramsPage } from './globals/Programpage'
+import { Programs } from './collections/Programs'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -67,9 +69,9 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Members, Regions, Directions],
+  collections: [Pages, Posts, Media, Categories, Users, Members, Regions, Directions, Programs],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Homepage],
+  globals: [Header, Footer, Homepage, ProgramsPage],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

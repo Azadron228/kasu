@@ -75,6 +75,7 @@ export interface Config {
     members: Member;
     regions: Region;
     directions: Direction;
+    programs: Program;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -100,6 +101,7 @@ export interface Config {
     members: MembersSelect<false> | MembersSelect<true>;
     regions: RegionsSelect<false> | RegionsSelect<true>;
     directions: DirectionsSelect<false> | DirectionsSelect<true>;
+    programs: ProgramsSelect<false> | ProgramsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -119,11 +121,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     homepage: Homepage;
+    'programs-page': ProgramsPage;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
+    'programs-page': ProgramsPageSelect<false> | ProgramsPageSelect<true>;
   };
   locale: 'ru' | 'en' | 'kk';
   user: User;
@@ -789,6 +793,39 @@ export interface Direction {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs".
+ */
+export interface Program {
+  id: number;
+  name: string;
+  direction:
+    | 'finance'
+    | 'it'
+    | 'humanities'
+    | 'health'
+    | 'psychology'
+    | 'languages'
+    | 'art'
+    | 'nature'
+    | 'games'
+    | 'pedagogy';
+  format: 'online' | 'offline' | 'blended';
+  /**
+   * e.g. 2 месяца, 6 недель, Постоянно
+   */
+  duration: string;
+  /**
+   * e.g. Вт, Чт 10:00
+   */
+  schedule: string;
+  free?: boolean | null;
+  description?: string | null;
+  member: number | Member;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1008,6 +1045,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'directions';
         value: number | Direction;
+      } | null)
+    | ({
+        relationTo: 'programs';
+        value: number | Program;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1369,6 +1410,22 @@ export interface DirectionsSelect<T extends boolean = true> {
   description?: T;
   icon?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs_select".
+ */
+export interface ProgramsSelect<T extends boolean = true> {
+  name?: T;
+  direction?: T;
+  format?: T;
+  duration?: T;
+  schedule?: T;
+  free?: T;
+  description?: T;
+  member?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1766,6 +1823,24 @@ export interface Homepage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs-page".
+ */
+export interface ProgramsPage {
+  id: number;
+  tag?: string | null;
+  title: string;
+  subtitle?: string | null;
+  stats?: {
+    universitiesCount?: number | null;
+    programsCount?: number | null;
+    directionsCount?: number | null;
+    freeNote?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1850,6 +1925,26 @@ export interface HomepageSelect<T extends boolean = true> {
         platform?: T;
         url?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs-page_select".
+ */
+export interface ProgramsPageSelect<T extends boolean = true> {
+  tag?: T;
+  title?: T;
+  subtitle?: T;
+  stats?:
+    | T
+    | {
+        universitiesCount?: T;
+        programsCount?: T;
+        directionsCount?: T;
+        freeNote?: T;
       };
   updatedAt?: T;
   createdAt?: T;

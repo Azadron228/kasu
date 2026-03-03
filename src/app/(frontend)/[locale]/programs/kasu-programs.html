@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>КАСУ — Образовательные программы Серебряных университетов</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #1E3560;
+    --navy-mid:   #2A4A7F;
+    --navy-deep:  #162848;
+    --steel:      #4A6FA5;
+    --sky:        #B8D0E8;
+    --sky-pale:   #EAF2FA;
+    --silver:     #A8B8CC;
+    --silver-lt:  #E4EBF3;
+    --gold:       #B8A060;
+    --gold-lt:    #D4BC80;
+    --gold-pale:  #F5F0E2;
+    --white:      #FAFBFD;
+    --text:       #1A2438;
+    --muted:      #56647A;
+    --radius:     14px;
+    --shadow:     0 8px 40px rgba(30,53,96,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Nunito',sans-serif;background:#F0F4FA;color:var(--text);overflow-x:hidden;}
+
+  /* ── PAGE HEADER ── */
+  .page-header{
+    background:linear-gradient(150deg,var(--navy-deep) 0%,var(--navy) 55%,var(--navy-mid) 100%);
+    padding:48px 72px 56px;position:relative;overflow:hidden;
+  }
+  .page-header::before{content:'';position:absolute;top:-80px;right:-80px;width:480px;height:480px;
+    background:radial-gradient(circle,rgba(184,208,232,.1) 0%,transparent 70%);border-radius:50%;}
+  .page-header::after{content:'';position:absolute;bottom:-60px;left:30%;width:300px;height:300px;
+    background:radial-gradient(circle,rgba(184,160,96,.07) 0%,transparent 70%);border-radius:50%;}
+  .header-inner{display:flex;align-items:center;gap:28px;position:relative;z-index:2;}
+  .header-logo{width:80px;height:80px;border-radius:50%;flex-shrink:0;
+    box-shadow:0 0 0 3px rgba(184,208,232,.25),0 8px 36px rgba(0,0,0,.3);
+    background:var(--navy-mid);display:flex;align-items:center;justify-content:center;font-size:34px;}
+  .header-text .tag{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;
+    color:var(--sky);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .header-text .tag::before{content:'';width:24px;height:1px;background:var(--sky);opacity:.5;}
+  .header-text h1{font-family:'Playfair Display',serif;font-size:34px;font-weight:800;
+    color:#fff;line-height:1.15;margin-bottom:8px;}
+  .header-text p{color:rgba(255,255,255,.62);font-size:14px;line-height:1.65;max-width:600px;}
+
+  /* ── STATS BAR ── */
+  .stats-bar{
+    background:var(--navy);padding:0 72px;
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .stat-cell{
+    text-align:center;padding:18px 12px;
+    border-right:1px solid rgba(255,255,255,.07);
+  }
+  .stat-cell:last-child{border-right:none;}
+  .stat-n{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;
+    color:var(--sky);line-height:1;display:block;}
+  .stat-l{font-size:9.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+    color:rgba(255,255,255,.4);margin-top:4px;display:block;}
+
+  /* ── MAIN LAYOUT ── */
+  .main-layout{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:0;
+    min-height:calc(100vh - 200px);
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar{
+    background:var(--white);
+    border-right:1px solid var(--silver-lt);
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+  }
+  .sidebar-header{
+    padding:20px 24px 16px;
+    border-bottom:1px solid var(--silver-lt);
+    background:var(--white);
+    position:sticky;
+    top:0;
+    z-index:10;
+  }
+  .sidebar-title{
+    font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+    color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;
+  }
+  .sidebar-title::before{content:'';width:16px;height:1px;background:var(--silver);}
+  .sidebar-search{
+    display:flex;align-items:center;gap:8px;
+    background:var(--sky-pale);border:1.5px solid var(--silver-lt);
+    border-radius:10px;padding:8px 12px;
+  }
+  .sidebar-search input{
+    border:none;background:transparent;font-family:'Nunito',sans-serif;
+    font-size:13px;color:var(--text);width:100%;outline:none;
+  }
+  .sidebar-search input::placeholder{color:var(--silver);}
+  .search-icon{color:var(--silver);font-size:14px;flex-shrink:0;}
+
+  .uni-list{padding:8px 0 24px;}
+  .uni-item{
+    padding:12px 24px;
+    cursor:pointer;
+    transition:all .2s;
+    border-left:3px solid transparent;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    position:relative;
+  }
+  .uni-item:hover{background:var(--sky-pale);border-left-color:var(--sky);}
+  .uni-item.active{
+    background:linear-gradient(90deg,var(--sky-pale) 0%,transparent 100%);
+    border-left-color:var(--navy);
+  }
+  .uni-emblem{
+    width:38px;height:38px;border-radius:50%;flex-shrink:0;
+    box-shadow:0 2px 8px rgba(30,53,96,.15);
+  }
+  .uni-info{flex:1;min-width:0;}
+  .uni-name{font-size:13px;font-weight:700;color:var(--text);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;}
+  .uni-city{font-size:11px;color:var(--muted);margin-top:2px;}
+  .uni-count{
+    font-size:10px;font-weight:800;
+    background:var(--navy);color:#fff;
+    border-radius:12px;padding:2px 7px;
+    flex-shrink:0;
+    opacity:0;transition:opacity .2s;
+  }
+  .uni-item.active .uni-count{opacity:1;}
+  .uni-item:hover .uni-count{opacity:.6;}
+
+  /* ── CONTENT AREA ── */
+  .content-area{
+    padding:32px 40px;
+  }
+
+  /* ── UNIVERSITY PANEL (shown when selected) ── */
+  .uni-panel{
+    display:none;
+    animation:fadeIn .3s ease;
+  }
+  .uni-panel.visible{display:block;}
+
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .uni-header-card{
+    background:var(--white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:28px 32px;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:24px;
+    position:relative;
+    overflow:hidden;
+  }
+  .uni-header-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;
+    background:linear-gradient(90deg,var(--uni-color,var(--navy)) 0%,var(--gold) 100%);
+  }
+  .uni-header-emblem{
+    width:72px;height:72px;border-radius:50%;flex-shrink:0;
+    box-shadow:0 4px 16px rgba(30,53,96,.18);
+  }
+  .uni-header-info{flex:1;}
+  .uni-header-tag{
+    font-size:9.5px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--muted);margin-bottom:6px;
+  }
+  .uni-header-name{
+    font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+    color:var(--text);line-height:1.2;margin-bottom:4px;
+  }
+  .uni-header-full{font-size:12.5px;color:var(--muted);line-height:1.5;}
+  .uni-header-meta{
+    display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:5px;
+    padding:4px 10px;border-radius:20px;
+    background:var(--sky-pale);border:1px solid var(--silver-lt);
+    font-size:11px;font-weight:700;color:var(--navy);
+  }
+  .uni-header-actions{display:flex;flex-direction:column;gap:8px;flex-shrink:0;}
+  .btn-web-sm{
+    padding:8px 16px;border-radius:8px;font-family:'Nunito',sans-serif;
+    font-size:12px;font-weight:700;text-decoration:none;
+    background:var(--navy);color:#fff;
+    transition:background .2s;text-align:center;
+  }
+  .btn-web-sm:hover{background:var(--navy-mid);}
+  .btn-gold-sm{
+    padding:8px 16px;border-radius:8px;font-family:'Nunito',sans-serif;
+    font-size:12px;font-weight:700;text-decoration:none;
+    background:var(--gold-pale);color:var(--navy);border:1.5px solid var(--gold-lt);
+    transition:all .2s;text-align:center;
+  }
+  .btn-gold-sm:hover{background:var(--gold-lt);}
+
+  /* ── TOOLBAR ── */
+  .programs-toolbar{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:20px;flex-wrap:wrap;gap:12px;
+  }
+  .toolbar-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .toolbar-label{font-size:10.5px;font-weight:800;color:var(--muted);
+    letter-spacing:1.5px;text-transform:uppercase;margin-right:4px;}
+  .f-btn{
+    padding:5px 13px;border-radius:18px;border:1.5px solid var(--silver-lt);
+    background:transparent;font-family:'Nunito',sans-serif;font-size:11px;
+    font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;
+  }
+  .f-btn:hover,.f-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .programs-count{
+    font-size:12px;font-weight:700;color:var(--muted);
+  }
+  .programs-count span{color:var(--navy);font-weight:800;}
+
+  /* ── ACCORDION PROGRAMS ── */
+  .programs-list{display:flex;flex-direction:column;gap:10px;}
+
+  .prog-card{
+    background:var(--white);
+    border-radius:var(--radius);
+    box-shadow:0 2px 12px rgba(30,53,96,.07);
+    border:1.5px solid var(--silver-lt);
+    overflow:hidden;
+    transition:box-shadow .25s,border-color .25s;
+  }
+  .prog-card:hover{
+    box-shadow:0 6px 28px rgba(30,53,96,.13);
+    border-color:var(--sky);
+  }
+  .prog-card.open{
+    border-color:var(--navy);
+    box-shadow:0 8px 36px rgba(30,53,96,.15);
+  }
+
+  .prog-header{
+    display:flex;align-items:center;gap:16px;
+    padding:16px 20px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .prog-icon{
+    width:42px;height:42px;border-radius:10px;
+    background:var(--sky-pale);
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;flex-shrink:0;
+    transition:background .2s;
+  }
+  .prog-card.open .prog-icon{background:var(--navy);font-size:18px;}
+
+  .prog-main{flex:1;min-width:0;}
+  .prog-direction{
+    font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;
+    color:var(--steel);margin-bottom:4px;
+  }
+  .prog-name{
+    font-family:'Playfair Display',serif;
+    font-size:16px;font-weight:600;color:var(--text);
+    line-height:1.3;
+  }
+  .prog-card.open .prog-name{color:var(--navy);}
+
+  .prog-badges{display:flex;gap:7px;margin-top:6px;flex-wrap:wrap;}
+  .badge-format{
+    font-size:10px;font-weight:700;
+    padding:3px 9px;border-radius:12px;
+    border:1px solid;
+  }
+  .badge-format.online{background:#EFF8F1;color:#1A6B36;border-color:#B3DFC0;}
+  .badge-format.offline{background:#EAF2FA;color:#1E4A8C;border-color:#B8D0E8;}
+  .badge-format.mixed{background:#FDF6E8;color:#7A5A10;border-color:#E8D49A;}
+
+  .prog-chevron{
+    color:var(--silver);font-size:18px;flex-shrink:0;
+    transition:transform .25s;
+  }
+  .prog-card.open .prog-chevron{transform:rotate(180deg);color:var(--navy);}
+
+  /* ── ACCORDION BODY ── */
+  .prog-body{
+    max-height:0;overflow:hidden;
+    transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .25s;
+    padding:0 20px;
+    border-top:0px solid var(--silver-lt);
+  }
+  .prog-card.open .prog-body{
+    max-height:600px;
+    padding:20px 20px 24px;
+    border-top:1px solid var(--silver-lt);
+  }
+
+  .prog-body-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px 28px;
+    margin-bottom:16px;
+  }
+  .prog-detail{display:flex;flex-direction:column;gap:4px;}
+  .detail-label{font-size:10px;font-weight:800;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--muted);}
+  .detail-val{font-size:14px;font-weight:600;color:var(--text);}
+
+  .prog-desc{
+    font-size:13.5px;line-height:1.7;color:var(--muted);
+    background:var(--sky-pale);border-radius:10px;
+    padding:14px 16px;margin-bottom:16px;
+    border-left:3px solid var(--sky);
+  }
+
+  .prog-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .prog-enroll-btn{
+    padding:10px 22px;border-radius:8px;
+    background:var(--navy);color:#fff;
+    font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+    border:none;cursor:pointer;transition:background .2s;
+    text-decoration:none;display:inline-block;
+  }
+  .prog-enroll-btn:hover{background:var(--navy-mid);}
+
+  .prog-free-badge{
+    display:flex;align-items:center;gap:6px;
+    font-size:12px;font-weight:700;color:#1A6B36;
+    background:#EFF8F1;border:1px solid #B3DFC0;
+    padding:6px 12px;border-radius:20px;
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 40px;text-align:center;
+  }
+  .empty-icon{font-size:56px;margin-bottom:20px;opacity:.4;}
+  .empty-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+    color:var(--navy);margin-bottom:10px;}
+  .empty-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:380px;}
+
+  /* ── WELCOME SCREEN ── */
+  .welcome-screen{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 40px;text-align:center;
+  }
+  .welcome-illustration{
+    width:120px;height:120px;border-radius:50%;
+    background:linear-gradient(135deg,var(--sky-pale) 0%,var(--gold-pale) 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-size:52px;margin-bottom:28px;
+    box-shadow:0 8px 36px rgba(30,53,96,.1);
+  }
+  .welcome-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;
+    color:var(--navy);margin-bottom:12px;}
+  .welcome-sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:420px;}
+  .welcome-arrow{
+    margin-top:32px;display:flex;align-items:center;gap:12px;
+    color:var(--steel);font-size:13px;font-weight:700;
+  }
+  .welcome-arrow::before{
+    content:'';display:block;width:40px;height:1px;background:var(--silver);
+  }
+
+  /* ── SCROLLBAR ── */
+  .sidebar::-webkit-scrollbar{width:4px;}
+  .sidebar::-webkit-scrollbar-track{background:transparent;}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--silver-lt);border-radius:4px;}
+
+  @media(max-width:900px){
+    .main-layout{grid-template-columns:1fr;}
+    .sidebar{height:auto;position:relative;border-right:none;border-bottom:1px solid var(--silver-lt);}
+    .page-header{padding:32px 24px 40px;}
+    .stats-bar{padding:0 24px;}
+    .content-area{padding:24px 16px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="header-inner">
+    <div class="header-logo">🎓</div>
+    <div class="header-text">
+      <div class="tag">Серебряные университеты · КАСУ</div>
+      <h1>Образовательные программы</h1>
+      <p>Программы обучения на протяжении всей жизни в университетах-членах Казахстанской Ассоциации Серебряных Университетов (U3A Kazakhstan)</p>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-cell">
+    <span class="stat-n">14</span>
+    <span class="stat-l">Университетов</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-n" id="totalProgs">68</span>
+    <span class="stat-l">Программ</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-n">12</span>
+    <span class="stat-l">Направлений</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-n">Беспл.</span>
+    <span class="stat-l">Большинство курсов</span>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">Выберите университет</div>
+      <div class="sidebar-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Поиск университета..." id="sidebarSearch" oninput="filterSidebar(this.value)">
+      </div>
+    </div>
+    <div class="uni-list" id="uniList"></div>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div class="content-area" id="contentArea">
+
+    <!-- Welcome screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+      <div class="welcome-illustration">📚</div>
+      <div class="welcome-title">Выберите университет</div>
+      <div class="welcome-sub">Выберите университет из списка слева, чтобы увидеть его образовательные программы для старшего поколения</div>
+      <div class="welcome-arrow">← Список университетов</div>
+    </div>
+
+    <!-- University panel (hidden by default) -->
+    <div class="uni-panel" id="uniPanel">
+      <div class="uni-header-card" id="uniHeaderCard">
+        <img class="uni-header-emblem" id="uniHeaderEmblem" src="" alt="">
+        <div class="uni-header-info">
+          <div class="uni-header-tag">Серебряный университет · КАСУ</div>
+          <div class="uni-header-name" id="uniHeaderName"></div>
+          <div class="uni-header-full" id="uniHeaderFull"></div>
+          <div class="uni-header-meta" id="uniHeaderMeta"></div>
+        </div>
+        <div class="uni-header-actions">
+          <a href="#" id="uniWebBtn" class="btn-web-sm" target="_blank">🌐 Сайт</a>
+          <a href="#" class="btn-gold-sm">🎓 Серебр. ун-т</a>
+        </div>
+      </div>
+
+      <!-- Programs toolbar -->
+      <div class="programs-toolbar">
+        <div class="toolbar-left">
+          <span class="toolbar-label">Формат</span>
+          <button class="f-btn active" onclick="filterProgs('all',this)">Все</button>
+          <button class="f-btn" onclick="filterProgs('Онлайн',this)">🖥 Онлайн</button>
+          <button class="f-btn" onclick="filterProgs('Очно',this)">🏛 Очно</button>
+          <button class="f-btn" onclick="filterProgs('Смешанный',this)">↔ Смешанный</button>
+        </div>
+        <div class="programs-count">Показано: <span id="progCount">0</span> программ</div>
+      </div>
+
+      <div class="programs-list" id="programsList"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const UNIS = [
+  {id:1,abbr:"ЕНУ",short:"ЕНУ им. Л.Н. Гумилёва",full:"НАО «Евразийский национальный университет имени Л.Н. Гумилёва»",city:"Астана",url:"https://enu.kz",color:"#1E3560",badge:"Учредитель",
+   svg:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIj48Y2lyY2xlIGN4PSI1NSIgY3k9IjU1IiByPSI1MiIgZmlsbD0iIzFFMzU2MCIgb3BhY2l0eT0iMC4xIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSI1NSIgcj0iNDUiIGZpbGw9IiMxRTM1NjAiLz48dGV4dCB4PSI1NSIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2ZmZiI+RU5VPC90ZXh0Pjwvc3ZnPg==",
+   programs:[
+    {id:1,name:"Финансовая грамотность для пенсионеров",direction:"Финансы",format:"Очно",duration:"2 месяца",schedule:"Вт, Чт 10:00",free:true,desc:"Практический курс по управлению личным бюджетом, банковским продуктам и цифровым платежам для людей старшего возраста."},
+    {id:2,name:"Основы цифровых технологий",direction:"IT и технологии",format:"Онлайн",duration:"1.5 месяца",schedule:"Пн, Ср, Пт 11:00",free:true,desc:"Освоение смартфона, интернета, мессенджеров и государственных сервисов онлайн. Для начинающих пользователей."},
+    {id:3,name:"История и культура Казахстана",direction:"Гуманитарные науки",format:"Смешанный",duration:"3 месяца",schedule:"Сб 10:00–13:00",free:false,desc:"Глубокое погружение в историю, традиции и культурное наследие казахского народа. Лекции, экскурсии, встречи с историками."},
+    {id:4,name:"Скандинавская ходьба и активное долголетие",direction:"Здоровый образ жизни",format:"Очно",duration:"Постоянно",schedule:"Пн, Ср, Пт 08:00",free:true,desc:"Групповые занятия скандинавской ходьбой в парках Астаны. Инструктаж по технике и питанию для поддержания здоровья."},
+  ]},
+  {id:2,abbr:"КазНУ",short:"КазНУ им. аль-Фараби",full:"НАО «Казахский национальный университет имени аль-Фараби»",city:"Алматы",url:"https://kaznu.kz",color:"#2A4A7F",badge:"Учредитель",
+   svg:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIj48Y2lyY2xlIGN4PSI1NSIgY3k9IjU1IiByPSI1MiIgZmlsbD0iIzJBNEE3RiIgb3BhY2l0eT0iMC4xIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSI1NSIgcj0iNDUiIGZpbGw9IiMyQTRBN0YiLz48dGV4dCB4PSI1NSIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2ZmZiI+S2F6TlU8L3RleHQ+PC9zdmc+",
+   programs:[
+    {id:1,name:"Психологическое благополучие и медитация",direction:"Психология",format:"Онлайн",duration:"6 недель",schedule:"Пн, Пт 14:00",free:true,desc:"Практики mindfulness, управления стрессом и поддержания ментального здоровья в зрелом возрасте."},
+    {id:2,name:"Казахский язык для русскоязычных",direction:"Языки",format:"Смешанный",duration:"4 месяца",schedule:"Вт, Чт 10:00",free:true,desc:"Интерактивное изучение казахского языка с акцентом на разговорную практику, культурный контекст и повседневные ситуации."},
+    {id:3,name:"Живопись и графика для взрослых",direction:"Искусство",format:"Очно",duration:"3 месяца",schedule:"Сб 10:00–14:00",free:false,desc:"Курс рисования для начинающих: акварель, графика, основы композиции. Все материалы предоставляются."},
+    {id:4,name:"Садоводство и органическое земледелие",direction:"Природа и экология",format:"Очно",duration:"2 месяца",schedule:"Сб, Вс 09:00",free:true,desc:"Практические занятия на университетских грядках: органическое земледелие, посев, уход за растениями."},
+    {id:5,name:"Введение в философию",direction:"Гуманитарные науки",format:"Онлайн",duration:"2 месяца",schedule:"Ср 15:00",free:true,desc:"Обзор мировых философских традиций — от античности до современности. Дискуссионный формат, сократический диалог."},
+  ]},
+  {id:3,abbr:"КарУ",short:"Карагандинский университет",full:"НАО «Карагандинский университет имени Е.А. Букетова»",city:"Караганда",url:"https://ksu.kz",color:"#4A6FA5",badge:"Учредитель",
+   svg:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIj48Y2lyY2xlIGN4PSI1NSIgY3k9IjU1IiByPSI1MiIgZmlsbD0iIzRBNkZBNSIgb3BhY2l0eT0iMC4xIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSI1NSIgcj0iNDUiIGZpbGw9IiM0QTZGQTUILZ48dGV4dCB4PSI1NSIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2ZmZiI+S2FyVTwvdGV4dD48L3N2Zz4=",
+   programs:[
+    {id:1,name:"Шахматы: от азов до турнира",direction:"Интеллектуальные игры",format:"Очно",duration:"3 месяца",schedule:"Пн, Ср 15:00",free:true,desc:"Шахматный клуб для взрослых. Обучение стратегии, тактике и участие в товарищеских турнирах внутри университета."},
+    {id:2,name:"Цифровая фотография",direction:"IT и технологии",format:"Смешанный",duration:"6 недель",schedule:"Сб 11:00–14:00",free:false,desc:"Мастерство фотографии на смартфон и зеркальную камеру. Основы композиции, обработка в мобильных приложениях."},
+    {id:3,name:"Английский язык (начальный уровень)",direction:"Языки",format:"Очно",duration:"4 месяца",schedule:"Вт, Чт 10:00",free:true,desc:"Практический курс английского для путешествий и повседневного общения. Маленькие группы, дружеская атмосфера."},
+  ]},
+  {id:4,abbr:"АГУ",short:"Актюбинский региональный университет",full:"НАО «Актюбинский региональный университет имени К. Жубанова»",city:"Актобе",url:"https://aru.kz",color:"#7B2D00",badge:"Учредитель",
+   svg:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIj48Y2lyY2xlIGN4PSI1NSIgY3k9IjU1IiByPSI1MiIgZmlsbD0iIzdCMkQwMCIgb3BhY2l0eT0iMC4xIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSI1NSIgcj0iNDUiIGZpbGw9IiM3QjJEMDAiLz48dGV4dCB4PSI1NSIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2ZmZiI+QUdVPC90ZXh0Pjwvc3ZnPg==",
+   programs:[
+    {id:1,name:"Родоведение и генеалогия",direction:"Гуманитарные науки",format:"Смешанный",duration:"2 месяца",schedule:"Сб 10:00",free:true,desc:"Изучение своей родословной, работа с архивами и базами данных. Составление генеалогического древа семьи."},
+    {id:2,name:"Народные ремёсла Западного Казахстана",direction:"Искусство",format:"Очно",duration:"3 месяца",schedule:"Вт, Пт 14:00",free:true,desc:"Практическое освоение традиционных ремёсел: войлоковаляние, вышивка, ткачество. Мастер-классы от местных умельцев."},
+  ]},
+  {id:5,abbr:"ВГУ",short:"ВКУ им. С. Аманжолова",full:"НАО «Восточно-Казахстанский университет имени С. Аманжолова»",city:"Усть-Каменогорск",url:"https://vku.edu.kz",color:"#1A4D2E",badge:"Учредитель",
+   svg:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIj48Y2lyY2xlIGN4PSI1NSIgY3k9IjU1IiByPSI1MiIgZmlsbD0iIzFBNEQyRSIgb3BhY2l0eT0iMC4xIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSI1NSIgcj0iNDUiIGZpbGw9IiMxQTREMkUiLz48dGV4dCB4PSI1NSIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2ZmZiI+VktVPC90ZXh0Pjwvc3ZnPg==",
+   programs:[
+    {id:1,name:"Экологический туризм Алтая",direction:"Природа и экология",format:"Очно",duration:"4 недели",schedule:"Выходные",free:false,desc:"Пешие походы, изучение природы Алтайских гор, основы экологии и охраны природы. Практика на открытом воздухе."},
+    {id:2,name:"Русский и казахский фольклор",direction:"Гуманитарные науки",format:"Очно",duration:"2 месяца",schedule:"Ср 15:00",free:true,desc:"Изучение народных сказок, легенд, песен и обрядов двух народов. Хоровое пение, театральные постановки."},
+    {id:3,name:"Основы первой медицинской помощи",direction:"Здоровый образ жизни",format:"Смешанный",duration:"3 недели",schedule:"Сб 10:00–14:00",free:true,desc:"Практический курс оказания первой помощи при неотложных состояниях. Теория + тренировки на манекенах."},
+  ]},
+  {id:6,abbr:"ПГУ",short:"Павлодарский университет",full:"НАО «Павлодарский педагогический университет»",city:"Павлодар",url:"https://ppu.edu.kz",color:"#8B1A1A",badge:"Учредитель",
+   svg:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIj48Y2lyY2xlIGN4PSI1NSIgY3k9IjU1IiByPSI1MiIgZmlsbD0iIzhCMUExQSIgb3BhY2l0eT0iMC4xIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSI1NSIgcj0iNDUiIGZpbGw9IiM4QjFBMUEiLz48dGV4dCB4PSI1NSIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2ZmZiI+UFBVPC90ZXh0Pjwvc3ZnPg==",
+   programs:[
+    {id:1,name:"Педагогическое мастерство для бабушек и дедушек",direction:"Педагогика",format:"Онлайн",duration:"6 недель",schedule:"Пн, Ср 11:00",free:true,desc:"Современные методы воспитания и развития внуков. Психология детского возраста, игровые техники обучения."},
+    {id:2,name:"Хоровое пение и музыкальная грамота",direction:"Искусство",format:"Очно",duration:"Постоянно",schedule:"Чт 16:00",free:true,desc:"Хоровой коллектив Серебряного университета. Разучивание народных и классических произведений. Выступления на городских мероприятиях."},
+    {id:3,name:"Вязание и декоративно-прикладное искусство",direction:"Искусство",format:"Очно",duration:"2 месяца",schedule:"Вт, Пт 14:00",free:true,desc:"Вязание крючком и спицами, вышивка. Создание изделий для дома и в подарок. Дружный клуб мастериц."},
+  ]},
+];
+
+let selectedUni = null;
+let currentFormatFilter = 'all';
+
+function buildUniItem(uni) {
+  return `<div class="uni-item" data-id="${uni.id}" onclick="selectUni(${uni.id})" id="uniItem${uni.id}">
+    <img class="uni-emblem" src="${uni.svg}" alt="${uni.abbr}">
+    <div class="uni-info">
+      <div class="uni-name">${uni.short}</div>
+      <div class="uni-city">📍 ${uni.city}</div>
+    </div>
+    <div class="uni-count">${uni.programs.length}</div>
+  </div>`;
+}
+
+function renderSidebar(filter='') {
+  const list = document.getElementById('uniList');
+  const filtered = UNIS.filter(u =>
+    !filter || u.short.toLowerCase().includes(filter.toLowerCase()) || u.city.toLowerCase().includes(filter.toLowerCase())
+  );
+  list.innerHTML = filtered.map(buildUniItem).join('');
+  if(selectedUni) {
+    const el = document.getElementById('uniItem'+selectedUni);
+    if(el) el.classList.add('active');
+  }
+}
+
+function filterSidebar(val) { renderSidebar(val); }
+
+const DIRECTION_ICONS = {
+  'Финансы':'💰','IT и технологии':'💻','Гуманитарные науки':'📜','Здоровый образ жизни':'🏃',
+  'Психология':'🧠','Языки':'🗣','Искусство':'🎨','Природа и экология':'🌿',
+  'Интеллектуальные игры':'♟','Педагогика':'👨‍🏫','default':'📖'
+};
+
+function getIcon(dir) { return DIRECTION_ICONS[dir]||DIRECTION_ICONS['default']; }
+
+function getFormatClass(fmt) {
+  if(fmt==='Онлайн') return 'online';
+  if(fmt==='Очно') return 'offline';
+  return 'mixed';
+}
+
+function buildProgCard(p) {
+  return `<div class="prog-card" id="prog${p.id}" data-format="${p.format}">
+    <div class="prog-header" onclick="toggleProg(${p.id})">
+      <div class="prog-icon">${getIcon(p.direction)}</div>
+      <div class="prog-main">
+        <div class="prog-direction">${p.direction}</div>
+        <div class="prog-name">${p.name}</div>
+        <div class="prog-badges">
+          <span class="badge-format ${getFormatClass(p.format)}">${p.format}</span>
+        </div>
+      </div>
+      <div class="prog-chevron">▾</div>
+    </div>
+    <div class="prog-body">
+      <div class="prog-desc">${p.desc}</div>
+      <div class="prog-body-grid">
+        <div class="prog-detail">
+          <span class="detail-label">Длительность</span>
+          <span class="detail-val">📅 ${p.duration}</span>
+        </div>
+        <div class="prog-detail">
+          <span class="detail-label">Расписание</span>
+          <span class="detail-val">🕙 ${p.schedule}</span>
+        </div>
+        <div class="prog-detail">
+          <span class="detail-label">Формат обучения</span>
+          <span class="detail-val">${p.format==='Онлайн'?'🖥':'p.format'==='Очно'?'🏛':'↔'} ${p.format}</span>
+        </div>
+        <div class="prog-detail">
+          <span class="detail-label">Направление</span>
+          <span class="detail-val">${getIcon(p.direction)} ${p.direction}</span>
+        </div>
+      </div>
+      <div class="prog-footer">
+        <a href="#" class="prog-enroll-btn">Записаться на курс →</a>
+        ${p.free
+          ? '<div class="prog-free-badge">✓ Бесплатно</div>'
+          : '<div class="prog-free-badge" style="background:#FDF6E8;color:#7A5A10;border-color:#E8D49A;">💛 Платный</div>'}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleProg(id) {
+  const card = document.getElementById('prog'+id);
+  card.classList.toggle('open');
+}
+
+function filterProgs(fmt, btn) {
+  currentFormatFilter = fmt;
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPrograms();
+}
+
+function renderPrograms() {
+  if(!selectedUni) return;
+  const uni = UNIS.find(u=>u.id===selectedUni);
+  const progs = uni.programs.filter(p=> currentFormatFilter==='all' || p.format===currentFormatFilter);
+  const list = document.getElementById('programsList');
+  document.getElementById('progCount').textContent = progs.length;
+  if(!progs.length) {
+    list.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-title">Программы не найдены</div>
+      <div class="empty-sub">По выбранному фильтру программ нет. Попробуйте другой формат обучения.</div>
+    </div>`;
+    return;
+  }
+  list.innerHTML = progs.map(buildProgCard).join('');
+}
+
+function selectUni(id) {
+  selectedUni = id;
+  currentFormatFilter = 'all';
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.f-btn')[0].classList.add('active');
+
+  // Update sidebar active
+  document.querySelectorAll('.uni-item').forEach(el=>el.classList.remove('active'));
+  const item = document.getElementById('uniItem'+id);
+  if(item) item.classList.add('active');
+
+  const uni = UNIS.find(u=>u.id===id);
+  document.getElementById('welcomeScreen').style.display='none';
+  const panel = document.getElementById('uniPanel');
+  panel.classList.remove('visible');
+  void panel.offsetWidth; // reflow for animation
+  panel.classList.add('visible');
+
+  // Fill header
+  document.getElementById('uniHeaderEmblem').src = uni.svg;
+  document.getElementById('uniHeaderEmblem').alt = uni.abbr;
+  document.getElementById('uniHeaderName').textContent = uni.short;
+  document.getElementById('uniHeaderFull').textContent = uni.full;
+  document.getElementById('uniHeaderCard').style.setProperty('--uni-color', uni.color);
+  document.getElementById('uniWebBtn').href = uni.url;
+  document.getElementById('uniHeaderMeta').innerHTML = `
+    <div class="meta-chip">📍 ${uni.city}</div>
+    <div class="meta-chip">${uni.badge==='Учредитель'?'★ Учредитель':'Член КАСУ'}</div>
+    <div class="meta-chip">🎓 ${uni.programs.length} программ</div>
+  `;
+
+  renderPrograms();
+}
+
+renderSidebar();
+</script>
+</body>
+</html>
