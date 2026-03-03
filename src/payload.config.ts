@@ -19,6 +19,7 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import localization from './i18n/localization'
 import { ProgramsPage } from './globals/Programpage'
+import { MembersPage } from './globals/MembersPage'
 import { Programs } from './collections/Programs'
 
 const filename = fileURLToPath(import.meta.url)
@@ -71,7 +72,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users, Members, Regions, Directions, Programs],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Homepage, ProgramsPage],
+  globals: [Header, Footer, Homepage, ProgramsPage, MembersPage],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

@@ -122,12 +122,14 @@ export interface Config {
     footer: Footer;
     homepage: Homepage;
     'programs-page': ProgramsPage;
+    'members-page': MembersPage;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     'programs-page': ProgramsPageSelect<false> | ProgramsPageSelect<true>;
+    'members-page': MembersPageSelect<false> | MembersPageSelect<true>;
   };
   locale: 'ru' | 'en' | 'kk';
   user: User;
@@ -1841,6 +1843,18 @@ export interface ProgramsPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members-page".
+ */
+export interface MembersPage {
+  id: number;
+  tag?: string | null;
+  title: string;
+  subtitle?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1946,6 +1960,18 @@ export interface ProgramsPageSelect<T extends boolean = true> {
         directionsCount?: T;
         freeNote?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members-page_select".
+ */
+export interface MembersPageSelect<T extends boolean = true> {
+  tag?: T;
+  title?: T;
+  subtitle?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

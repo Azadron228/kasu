@@ -19,10 +19,14 @@ export default async function ProgramsPage({ params }: Args) {
   return (
     <div className="min-h-screen bg-[#F0F4FA]">
       {/* ── HEADER ── */}
-      <PageHeaderBlock page={page} />
+      <PageHeaderBlock 
+        tag={page?.tag ?? undefined} 
+        title={page?.title ?? 'Образовательные программы'} 
+        subtitle={page?.subtitle ?? undefined} 
+      />
 
       {/* ── STATS ── */}
-      <StatsBarBlock page={page} />
+      <StatsBarBlock stats={page?.stats} />
 
       {/* ── EXPLORER (sidebar + programs) ── */}
       <ProgramsExplorerBlock locale={locale} />

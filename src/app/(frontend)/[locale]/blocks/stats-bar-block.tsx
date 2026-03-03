@@ -1,15 +1,18 @@
-import { ProgramsPage } from '@/payload-types'
+type Props = {
+  stats?: {
+    universitiesCount?: number | null
+    programsCount?: number | null
+    directionsCount?: number | null
+    freeNote?: string | null
+  }
+}
 
-type Props = { page: ProgramsPage }
-
-export default function StatsBarBlock({ page }: Props) {
-  const s = page?.stats
-
+export default function StatsBarBlock({ stats }: Props) {
   const cells = [
-    { value: s?.universitiesCount ?? 14, label: 'Университетов' },
-    { value: s?.programsCount ?? 68, label: 'Программ' },
-    { value: s?.directionsCount ?? 12, label: 'Направлений' },
-    { value: 'Беспл.', label: s?.freeNote ?? 'Большинство курсов' },
+    { value: stats?.universitiesCount ?? 14, label: 'Университетов' },
+    { value: stats?.programsCount ?? 68, label: 'Программ' },
+    { value: stats?.directionsCount ?? 12, label: 'Направлений' },
+    { value: 'Беспл.', label: stats?.freeNote ?? 'Большинство курсов' },
   ]
 
   return (

@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import React from 'react'
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/globals/Footer/Component'
-import { Header } from '@/globals/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -47,7 +46,6 @@ export default async function RootLayout({ children, params }: Args) {
         <Providers>
           <NextIntlClientProvider messages={messages}>
             <AdminBar adminBarProps={{ preview: isEnabled }} />
-            {/* <Header locale={locale} /> */}
             <main>{children}</main>
             <Footer locale={locale} />
           </NextIntlClientProvider>
