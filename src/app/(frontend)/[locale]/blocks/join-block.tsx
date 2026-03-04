@@ -10,7 +10,7 @@ export async function JoinBlock({ homepage }: { homepage: Homepage }) {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-80 bg-[radial-gradient(ellipse,rgba(184,208,232,0.1)_0%,transparent_70%)] pointer-events-none"></div>
       <img
         className="w-24 h-24 rounded-full mx-auto mb-7 ring-4 ring-sky/20 shadow-2xl relative z-10 object-cover"
-        src="/logo.png"
+        src="/logo.svg"
         alt="Logo"
       />
       <h2 className="relative z-10 font-serif text-4xl text-brand-white mb-4">

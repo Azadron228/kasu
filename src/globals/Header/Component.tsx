@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { LangSwitcher } from './LangSwitcher'
 import { getTranslations } from 'next-intl/server'
 import { TypedLocale } from 'payload'
-// import { Logo } from '@/components/Logo/Logo'
+import { Logo } from '@/components/Logo/Logo'
 
 export async function Header({ locale }: { locale: TypedLocale }) {
   const t = await getTranslations('nav')
@@ -18,7 +18,7 @@ export async function Header({ locale }: { locale: TypedLocale }) {
       </div>
       <header className="sticky top-0 z-50 bg-brand-white border-b border-silver-lt shadow-md h-20 px-6 lg:px-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3.5 no-underline">
-          {/* <Logo color="#1E3560" /> */}
+          <Logo className="w-16 h-16 rounded-full overflow-hidden shadow-lg shrink-0" />
           <div className="hidden sm:block">
             <div className="font-serif text-2xl font-extrabold text-navy leading-none uppercase">КАСУ</div>
             <div className="text-xs text-brand-muted font-semibold leading-tight max-w-xs mt-0.5">

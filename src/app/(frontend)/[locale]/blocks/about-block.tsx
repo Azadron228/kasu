@@ -9,7 +9,7 @@ export default async function AboutBlock({ homepage }: { homepage: Homepage }) {
           <div className="absolute -top-20 -right-20 w-56 h-56 bg-[radial-gradient(circle,rgba(184,208,232,0.15)_0%,transparent_70%)] rounded-full pointe-events-none"></div>
           <img
             className="w-24 h-24 rounded-full mx-auto mb-6 ring-4 ring-sky/20 shadow-2xl relative z-10 object-cover"
-            src="/logo.png"
+            src="/logo.svg"
             alt="КАСУ U3A"
           />
           <h3 className="font-serif text-brand-white text-xl mb-5 relative z-10">

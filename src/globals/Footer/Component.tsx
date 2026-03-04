@@ -1,15 +1,13 @@
 import Link from 'next/link'
 import React from 'react'
-// import { Logo } from '@/components/Logo/Logo'
+import { Logo } from '@/components/Logo/Logo'
 
 export async function Footer({ locale }: { locale: string }) {
   return (
     <footer className="bg-navy-deep text-brand-white/60 px-6 lg:px-16 py-14">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
         <div className="lg:col-span-1 flex items-start gap-4">
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center p-2 shrink-0 shadow-lg">
-            {/* <Logo color="#1E3560" /> */}
-          </div>
+            <Logo className="w-12 h-12 rounded-full overflow-hidden shadow-lg shrink-0" />
           <div>
             <h3 className="font-serif text-brand-white text-base mb-2">КАСУ — U3A Kazakhstan</h3>
             <p className="text-xs leading-relaxed">
