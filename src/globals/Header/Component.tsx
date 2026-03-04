@@ -3,40 +3,40 @@ import Link from 'next/link'
 import { LangSwitcher } from './LangSwitcher'
 import { getTranslations } from 'next-intl/server'
 import { TypedLocale } from 'payload'
-import { Logo } from '@/components/Logo/Logo'
+// import { Logo } from '@/components/Logo/Logo'
 
 export async function Header({ locale }: { locale: TypedLocale }) {
   const t = await getTranslations('nav')
 
   return (
     <>
-      <div className="lang-bar">
-        {/* <g
-          xmlns="http://www.w3.org/2000/svg"
-          transform="translate(0.000000,913.000000) scale(0.100000,-0.100000)"
-          fill="#000000"
-          stroke="none"
-        ></g> */}
-        <span className="lang-bar-left"> Қазақстандық Күміс Университеттер Қауымдастығы</span>
+      <div className="bg-navy-deep px-6 lg:px-16 py-2 flex justify-between items-center">
+        <span className="text-sky text-xs font-semibold tracking-wider opacity-70">
+          Қазақстандық Күміс Университеттер Қауымдастығы
+        </span>
         <LangSwitcher />
       </div>
-      <header>
-        <Link href="/" className="logo-area">
-          <Logo color="#1e2d5e" />
-          <div className="logo-text">
-            <div className="abbr">КАСУ</div>
-            <div className="full">{t('siteFullName')}</div>
-            <div className="u3a">U3A KAZAKHSTAN</div>
+      <header className="sticky top-0 z-50 bg-brand-white border-b border-silver-lt shadow-md h-20 px-6 lg:px-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3.5 no-underline">
+          {/* <Logo color="#1E3560" /> */}
+          <div className="hidden sm:block">
+            <div className="font-serif text-2xl font-extrabold text-navy leading-none uppercase">КАСУ</div>
+            <div className="text-xs text-brand-muted font-semibold leading-tight max-w-xs mt-0.5">
+              {t('siteFullName')}
+            </div>
+            <span className="inline-block bg-navy text-sky text-xs font-extrabold px-1.5 py-0.5 rounded mt-1 tracking-widest">
+              U3A KAZAKHSTAN
+            </span>
           </div>
         </Link>
-        <nav>
-          <Link href="/about">{t('about')}</Link>
-          <Link href="/activities">{t('activities')}</Link>
-          <Link href="/news">{t('news')}</Link>
-          <Link href="/members">{t('members')}</Link>
-          <Link href="/documents">{t('documents')}</Link>
-          <Link href="/contacts">{t('contacts')}</Link>
-          <Link href="/join" className="nav-cta">
+        <nav className="hidden lg:flex items-center gap-0.5">
+          <Link href="/about" className="text-navy font-bold text-sm px-3 py-2 rounded-lg hover:bg-sky-pale hover:text-steel transition-all">{t('about')}</Link>
+          <Link href="/activities" className="text-navy font-bold text-sm px-3 py-2 rounded-lg hover:bg-sky-pale hover:text-steel transition-all">{t('activities')}</Link>
+          <Link href="/news" className="text-navy font-bold text-sm px-3 py-2 rounded-lg hover:bg-sky-pale hover:text-steel transition-all">{t('news')}</Link>
+          <Link href="/members" className="text-navy font-bold text-sm px-3 py-2 rounded-lg hover:bg-sky-pale hover:text-steel transition-all">{t('members')}</Link>
+          <Link href="/documents" className="text-navy font-bold text-sm px-3 py-2 rounded-lg hover:bg-sky-pale hover:text-steel transition-all">{t('documents')}</Link>
+          <Link href="/contacts" className="text-navy font-bold text-sm px-3 py-2 rounded-lg hover:bg-sky-pale hover:text-steel transition-all">{t('contacts')}</Link>
+          <Link href="/join" className="ml-2 bg-navy text-brand-white px-5 py-2.5 rounded-full font-bold text-sm shadow-lg hover:bg-navy-mid hover:-translate-y-0.5 transition-all">
             {t('join')}
           </Link>
         </nav>

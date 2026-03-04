@@ -18,12 +18,16 @@ export function LangSwitcher() {
   }
 
   return (
-    <div className="lang-bar-right">
+    <div className="flex gap-1.5">
       {langs.map((lang) => (
         <button
           key={lang.code}
           onClick={() => handleChange(lang.code)}
-          className={`lang-btn ${locale === lang.code ? 'active' : ''}`}
+          className={`px-2 py-1 rounded text-xs font-bold tracking-widest uppercase transition-all ${
+            locale === lang.code
+              ? 'text-sky bg-sky/15'
+              : 'text-silver hover:bg-sky/15 hover:text-sky'
+          }`}
         >
           {lang.label}
         </button>

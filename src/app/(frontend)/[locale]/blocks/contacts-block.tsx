@@ -4,38 +4,72 @@ import { getTranslations } from 'next-intl/server'
 export default async function ContactsBlock({ homepage }: { homepage: Homepage }) {
   const t = await getTranslations('home')
   return (
-    <section>
-      <div className="contacts-inner">
+    <section className="px-6 lg:px-16 py-20" id="contacts">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
         <div>
-          <h2 className="s-title">{t('contacts')}</h2>
-          <div className="contact-info">
-            <div className="c-row">
-              <div className="c-icon">📍</div>
+          <div className="text-xs font-extrabold tracking-[0.3em] uppercase text-steel mb-3">
+            Свяжитесь с нами
+          </div>
+          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-navy leading-tight">
+            {t('contacts')}
+          </h2>
+          <div className="flex flex-col gap-6 mt-8">
+            <div className="flex gap-4 items-start">
+              <div className="w-10 h-10 bg-sky-pale rounded-xl flex items-center justify-center text-navy shrink-0 text-xl">
+                📍
+              </div>
               <div>
-                <div className="c-label">{t('contactsAddress')}</div>
-                <div className="c-val">{homepage?.contactAddress}</div>
+                <div className="font-extrabold text-navy text-sm mb-1">{t('contactsAddress')}</div>
+                <div className="text-brand-muted text-sm">{homepage?.contactAddress}</div>
               </div>
             </div>
-            <div className="c-row">
-              <div className="c-icon">📞</div>
+            <div className="flex gap-4 items-start">
+              <div className="w-10 h-10 bg-sky-pale rounded-xl flex items-center justify-center text-navy shrink-0 text-xl">
+                📞
+              </div>
               <div>
-                <div className="c-label">{t('contactsPhone')}</div>
-                <div className="c-val">{homepage?.contactPhone}</div>
+                <div className="font-extrabold text-navy text-sm mb-1">{t('contactsPhone')}</div>
+                <div className="text-brand-muted text-sm">{homepage?.contactPhone}</div>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-10 h-10 bg-sky-pale rounded-xl flex items-center justify-center text-navy shrink-0 text-xl">
+                ✉️
+              </div>
+              <div>
+                <div className="font-extrabold text-navy text-sm mb-1">Электронная почта</div>
+                <div className="text-brand-muted text-sm">{homepage?.contactEmail}</div>
               </div>
             </div>
           </div>
         </div>
-        <div className="contact-form">
-          <h3>{t('contactsWrite')}</h3>
-          <form>
-            <input type="text" placeholder={t('contactsName')} required />
-            <input type="email" placeholder={t('contactsEmail')} required />
-            <textarea placeholder={t('contactsMessage')} rows={4} required></textarea>
-            <button type="submit" className="btn-prim">
-              {t('contactsSend')}
-            </button>
-          </form>
-        </div>
+        <form className="bg-sky-pale p-8 rounded-3xl">
+          <h3 className="font-serif text-navy text-2xl mb-6">{t('contactsWrite')}</h3>
+          <input
+            type="text"
+            placeholder={t('contactsName')}
+            className="w-full p-3.5 mb-3 border border-silver-lt rounded-xl focus:ring-1 focus:ring-steel outline-none bg-brand-white"
+            required
+          />
+          <input
+            type="email"
+            placeholder={t('contactsEmail')}
+            className="w-full p-3.5 mb-3 border border-silver-lt rounded-xl focus:ring-1 focus:ring-steel outline-none bg-brand-white"
+            required
+          />
+          <textarea
+            placeholder={t('contactsMessage')}
+            rows={4}
+            className="w-full p-3.5 mb-4 border border-silver-lt rounded-xl focus:ring-1 focus:ring-steel outline-none bg-brand-white resize-y"
+            required
+          ></textarea>
+          <button
+            type="submit"
+            className="w-full bg-navy text-brand-white font-bold py-4 rounded-xl hover:bg-navy-mid transition-all"
+          >
+            {t('contactsSend')}
+          </button>
+        </form>
       </div>
     </section>
   )
