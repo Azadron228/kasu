@@ -14,10 +14,10 @@ export async function JoinBlock({ homepage }: { homepage: Homepage }) {
         alt="Logo"
       />
       <h2 className="relative z-10 font-serif text-4xl text-brand-white mb-4">
-        {homepage?.joinTitle}
+        Присоединяйтесь к КАСУ (U3A)
       </h2>
       <p className="relative z-10 text-brand-white/70 text-base max-w-lg mx-auto mb-9 leading-relaxed">
-        {homepage?.joinSubtitle}
+        Станьте частью профессионального сообщества, объединяющего серебряные университеты Казахстана. Вместе мы создаём будущее непрерывного образования третьего возраста.
       </p>
       <div className="relative z-10 flex flex-wrap justify-center gap-4">
         <Link

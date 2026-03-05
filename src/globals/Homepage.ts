@@ -42,22 +42,5 @@ export const Homepage: GlobalConfig = {
         { name: 'body', type: 'text', localized: true },
       ],
     },
-    { name: 'joinTitle', type: 'text', localized: true },
-    { name: 'joinSubtitle', type: 'text', localized: true },
-    { name: 'contactEmail', type: 'email' },
-    { name: 'contactPhone', type: 'text' },
-    { name: 'contactAddress', type: 'textarea', localized: true },
-    {
-      name: 'socialLinks',
-      type: 'array',
-      fields: [
-        {
-          name: 'platform',
-          type: 'select',
-          options: ['Instagram', 'Facebook', 'YouTube', 'LinkedIn', 'Twitter'],
-        },
-        { name: 'url', type: 'text' },
-      ],
-    },
   ],
 }

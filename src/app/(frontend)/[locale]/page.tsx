@@ -3,7 +3,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import { setRequestLocale } from 'next-intl/server'
 import { TypedLocale } from 'payload'
 import HeroBlock from './blocks/hero-block'
-import { Homepage } from '@/payload-types'
+import { Homepage, Settings } from '@/payload-types'
 import StatsBlock from './blocks/stats-block'
 import DirectionsBlock from './blocks/directions-block'
 import AboutBlock from './blocks/about-block'
@@ -22,6 +22,7 @@ export default async function HomePage({ params }: Args) {
   const { locale } = await params
   setRequestLocale(locale)
   const homepage = (await getCachedGlobal('homepage', 1)()) as Homepage
+  const settings = (await getCachedGlobal('settings', 1)()) as Settings
   return (
     <div>
       <Header locale={locale} />
@@ -42,7 +43,7 @@ export default async function HomePage({ params }: Args) {
       <JoinBlock homepage={homepage} />
 
       {/* ── CONTACTS ── */}
-      <ContactsBlock homepage={homepage} />
+      <ContactsBlock settings={settings} />
     </div>
   )
 }

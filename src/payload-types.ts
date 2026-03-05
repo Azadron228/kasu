@@ -123,6 +123,7 @@ export interface Config {
     homepage: Homepage;
     'programs-page': ProgramsPage;
     'members-page': MembersPage;
+    settings: Setting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -130,6 +131,7 @@ export interface Config {
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     'programs-page': ProgramsPageSelect<false> | ProgramsPageSelect<true>;
     'members-page': MembersPageSelect<false> | MembersPageSelect<true>;
+    settings: SettingsSelect<false> | SettingsSelect<true>;
   };
   locale: 'ru' | 'en' | 'kk';
   user: User;
@@ -1799,18 +1801,6 @@ export interface Homepage {
         id?: string | null;
       }[]
     | null;
-  joinTitle?: string | null;
-  joinSubtitle?: string | null;
-  contactEmail?: string | null;
-  contactPhone?: string | null;
-  contactAddress?: string | null;
-  socialLinks?:
-    | {
-        platform?: ('Instagram' | 'Facebook' | 'YouTube' | 'LinkedIn' | 'Twitter') | null;
-        url?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1841,6 +1831,25 @@ export interface MembersPage {
   tag?: string | null;
   title: string;
   subtitle?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings".
+ */
+export interface Setting {
+  id: number;
+  contactEmail: string;
+  contactPhone: string;
+  contactAddress: string;
+  socialLinks?:
+    | {
+        platform: 'Instagram' | 'Facebook' | 'YouTube' | 'LinkedIn' | 'Twitter' | 'Telegram' | 'WhatsApp';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1910,18 +1919,6 @@ export interface HomepageSelect<T extends boolean = true> {
         body?: T;
         id?: T;
       };
-  joinTitle?: T;
-  joinSubtitle?: T;
-  contactEmail?: T;
-  contactPhone?: T;
-  contactAddress?: T;
-  socialLinks?:
-    | T
-    | {
-        platform?: T;
-        url?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1954,6 +1951,25 @@ export interface MembersPageSelect<T extends boolean = true> {
   tag?: T;
   title?: T;
   subtitle?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings_select".
+ */
+export interface SettingsSelect<T extends boolean = true> {
+  contactEmail?: T;
+  contactPhone?: T;
+  contactAddress?: T;
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -21,6 +21,7 @@ import localization from './i18n/localization'
 import { ProgramsPage } from './globals/Programpage'
 import { MembersPage } from './globals/MembersPage'
 import { Programs } from './collections/Programs'
+import { Settings } from './globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -72,7 +73,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users, Members, Regions, Directions, Programs],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Homepage, ProgramsPage, MembersPage],
+  globals: [Header, Footer, Homepage, ProgramsPage, MembersPage, Settings],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

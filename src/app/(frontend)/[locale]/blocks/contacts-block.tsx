@@ -1,7 +1,7 @@
-import { Homepage } from '@/payload-types'
+import { Settings } from '@/payload-types'
 import { getTranslations } from 'next-intl/server'
 
-export default async function ContactsBlock({ homepage }: { homepage: Homepage }) {
+export default async function ContactsBlock({ settings }: { settings: Settings }) {
   const t = await getTranslations('home')
   return (
     <section className="px-6 lg:px-16 py-20" id="contacts">
@@ -20,7 +20,7 @@ export default async function ContactsBlock({ homepage }: { homepage: Homepage }
               </div>
               <div>
                 <div className="font-extrabold text-navy text-sm mb-1">{t('contactsAddress')}</div>
-                <div className="text-brand-muted text-sm">{homepage?.contactAddress}</div>
+                <div className="text-brand-muted text-sm">{settings?.contactAddress}</div>
               </div>
             </div>
             <div className="flex gap-4 items-start">
@@ -29,7 +29,7 @@ export default async function ContactsBlock({ homepage }: { homepage: Homepage }
               </div>
               <div>
                 <div className="font-extrabold text-navy text-sm mb-1">{t('contactsPhone')}</div>
-                <div className="text-brand-muted text-sm">{homepage?.contactPhone}</div>
+                <div className="text-brand-muted text-sm">{settings?.contactPhone}</div>
               </div>
             </div>
             <div className="flex gap-4 items-start">
@@ -38,7 +38,7 @@ export default async function ContactsBlock({ homepage }: { homepage: Homepage }
               </div>
               <div>
                 <div className="font-extrabold text-navy text-sm mb-1">Электронная почта</div>
-                <div className="text-brand-muted text-sm">{homepage?.contactEmail}</div>
+                <div className="text-brand-muted text-sm">{settings?.contactEmail}</div>
               </div>
             </div>
           </div>
