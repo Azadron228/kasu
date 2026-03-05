@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Документы — КАСУ U3A Kazakhstan</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#1E3560;--navy-mid:#2A4A7F;--navy-deep:#162848;--steel:#4A6FA5;
+    --sky:#B8D0E8;--sky-pale:#EAF2FA;--silver:#A8B8CC;--silver-lt:#E4EBF3;
+    --gold:#B8A060;--gold-lt:#D4BC80;--gold-pale:#F5F0E2;
+    --white:#FAFBFD;--text:#1A2438;--muted:#56647A;
+    --radius:14px;--shadow:0 8px 40px rgba(30,53,96,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Nunito',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden;}
+
+  /* LANG BAR */
+  .lang-bar{background:var(--navy-deep);padding:7px 64px;display:flex;justify-content:space-between;align-items:center;}
+  .lang-bar-left{color:var(--sky);font-size:11px;font-weight:600;letter-spacing:.5px;opacity:.7;}
+  .lang-bar-right{display:flex;gap:6px;}
+  .lang-btn{color:var(--silver);text-decoration:none;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:4px;transition:all .2s;}
+  .lang-btn:hover,.lang-btn.active{background:rgba(184,208,232,.15);color:var(--sky);}
+
+  /* HEADER */
+  header{background:var(--white);border-bottom:1px solid var(--silver-lt);padding:0 64px;display:flex;align-items:center;justify-content:space-between;height:88px;position:sticky;top:0;z-index:200;box-shadow:0 2px 24px rgba(30,53,96,.07);}
+  .logo-area{display:flex;align-items:center;gap:14px;text-decoration:none;}
+  .logo-circle{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy-mid));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 16px rgba(30,53,96,.25);font-family:'Playfair Display',serif;color:var(--sky);font-size:18px;font-weight:800;}
+  .logo-text .abbr{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:var(--navy);line-height:1;}
+  .logo-text .full{font-size:10px;color:var(--muted);font-weight:600;line-height:1.4;max-width:260px;margin-top:2px;}
+  .logo-text .u3a{display:inline-block;background:var(--navy);color:var(--sky);font-size:9px;font-weight:800;padding:1px 7px;border-radius:3px;letter-spacing:1px;margin-top:3px;}
+  nav{display:flex;gap:2px;align-items:center;}
+  nav a{color:var(--navy);text-decoration:none;font-size:13px;font-weight:700;padding:8px 11px;border-radius:8px;transition:all .2s;white-space:nowrap;}
+  nav a:hover,nav a.active{background:var(--sky-pale);color:var(--steel);}
+  .nav-cta{background:var(--navy)!important;color:var(--white)!important;padding:9px 20px!important;border-radius:24px!important;margin-left:8px;box-shadow:0 4px 14px rgba(30,53,96,.3)!important;}
+  .nav-cta:hover{background:var(--navy-mid)!important;transform:translateY(-1px);}
+
+  /* PAGE HERO */
+  .page-hero{background:linear-gradient(150deg,var(--navy-deep) 0%,var(--navy) 55%,var(--navy-mid) 100%);padding:56px 64px 52px;position:relative;overflow:hidden;}
+  .page-hero::before{content:'';position:absolute;top:-100px;right:-60px;width:480px;height:480px;background:radial-gradient(circle,rgba(184,208,232,.1) 0%,transparent 70%);border-radius:50%;}
+  .page-hero::after{content:'';position:absolute;bottom:-80px;left:30%;width:360px;height:360px;background:radial-gradient(circle,rgba(184,160,96,.07) 0%,transparent 65%);border-radius:50%;}
+  .breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:22px;position:relative;z-index:2;}
+  .breadcrumb a{color:var(--sky);font-size:12px;font-weight:600;text-decoration:none;opacity:.7;transition:opacity .2s;}
+  .breadcrumb a:hover{opacity:1;}
+  .breadcrumb span{color:rgba(255,255,255,.35);font-size:12px;}
+  .breadcrumb .cur{color:rgba(255,255,255,.6);font-size:12px;}
+  .page-hero-content{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:40px;}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(184,208,232,.12);border:1px solid rgba(184,208,232,.25);color:var(--sky);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:18px;}
+  .hero-tag .dot{width:6px;height:6px;background:var(--sky);border-radius:50%;opacity:.7;}
+  .page-hero h1{font-family:'Playfair Display',serif;font-size:44px;font-weight:800;color:var(--white);line-height:1.1;margin-bottom:12px;}
+  .page-hero-desc{color:rgba(255,255,255,.68);font-size:14.5px;line-height:1.75;max-width:480px;}
+  .hero-right-block{display:flex;flex-direction:column;gap:24px;align-items:flex-end;flex-shrink:0;}
+  .hero-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 28px;}
+  .h-stat{text-align:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 20px;}
+  .h-stat .n{font-family:'Playfair Display',serif;font-size:32px;font-weight:800;color:var(--sky);display:block;line-height:1;}
+  .h-stat .l{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:5px;}
+  .hero-actions{display:flex;gap:10px;}
+  .btn-hero-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy-deep);font-weight:800;font-size:13px;padding:12px 22px;border-radius:24px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 16px rgba(184,160,96,.35);transition:all .25s;}
+  .btn-hero-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(184,160,96,.5);}
+  .btn-hero-ghost{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);color:var(--white);font-weight:700;font-size:13px;padding:12px 22px;border-radius:24px;border:1px solid rgba(255,255,255,.25);cursor:pointer;font-family:'Nunito',sans-serif;transition:all .25s;}
+  .btn-hero-ghost:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.5);}
+
+  /* FILTER BAR */
+  .filter-bar{background:var(--white);border-bottom:1px solid var(--silver-lt);padding:18px 64px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(30,53,96,.05);position:sticky;top:88px;z-index:100;flex-wrap:wrap;}
+  .search-wrap{flex:1;max-width:360px;position:relative;}
+  .search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--silver);}
+  .search-wrap input{width:100%;padding:10px 14px 10px 42px;border:1.5px solid var(--silver-lt);border-radius:10px;font-family:'Nunito',sans-serif;font-size:13.5px;color:var(--text);background:var(--white);outline:none;transition:border-color .2s;}
+  .search-wrap input:focus{border-color:var(--steel);}
+  .search-wrap input::placeholder{color:var(--silver);}
+  .filter-label{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap;}
+  .filter-chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--silver-lt);background:var(--white);color:var(--muted);transition:all .2s;white-space:nowrap;}
+  .chip:hover{border-color:var(--steel);color:var(--steel);}
+  .chip.active{background:var(--navy);border-color:var(--navy);color:var(--white);}
+  .filter-count{margin-left:auto;font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;}
+
+  /* LAYOUT */
+  .docs-layout{display:grid;grid-template-columns:256px 1fr;gap:0;min-height:calc(100vh - 250px);}
+
+  /* SIDEBAR */
+  .docs-sidebar{background:var(--sky-pale);border-right:1px solid var(--silver-lt);padding:32px 20px;position:sticky;top:148px;height:fit-content;}
+  .sidebar-title{font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+  .sidebar-nav{list-style:none;}
+  .sidebar-nav li{margin-bottom:4px;}
+  .sidebar-nav a{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;color:var(--text);text-decoration:none;font-size:13px;font-weight:600;transition:all .2s;}
+  .sidebar-nav a:hover{background:var(--white);color:var(--navy);}
+  .sidebar-nav a.active{background:var(--navy);color:var(--white);}
+  .sidebar-nav a.active .s-count{background:rgba(255,255,255,.2);color:var(--white);}
+  .s-icon{font-size:14px;margin-right:8px;}
+  .s-count{background:var(--silver-lt);color:var(--muted);font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;}
+  .sidebar-divider{height:1px;background:var(--silver-lt);margin:18px 0;}
+  .sidebar-info{background:linear-gradient(135deg,var(--navy-deep),var(--navy));border-radius:12px;padding:18px;}
+  .sidebar-info p{color:rgba(255,255,255,.7);font-size:12px;line-height:1.6;margin-bottom:12px;}
+  .sidebar-info a{display:block;background:var(--gold);color:var(--navy-deep);text-align:center;font-size:12px;font-weight:800;padding:9px;border-radius:8px;text-decoration:none;transition:all .2s;}
+  .sidebar-info a:hover{background:var(--gold-lt);}
+
+  /* CONTENT */
+  .docs-content{padding:36px 44px;}
+
+  .sec-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--silver-lt);}
+  .sec-label{font-size:10.5px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--steel);margin-bottom:8px;}
+  .sec-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--navy);}
+  .sec-view-all{color:var(--steel);font-size:12.5px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s;white-space:nowrap;}
+  .sec-view-all:hover{color:var(--navy);}
+
+  /* FEATURED CARDS */
+  .featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:44px;}
+  .feat-card{background:var(--white);border-radius:var(--radius);border:1.5px solid var(--silver-lt);padding:26px;box-shadow:var(--shadow);transition:all .25s;cursor:pointer;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;}
+  .feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--steel));}
+  .feat-card:hover{transform:translateY(-4px);box-shadow:0 20px 56px rgba(30,53,96,.16);border-color:var(--sky);}
+  .feat-card .fc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
+  .fc-type-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:4px;}
+  .fc-type-badge.charter{background:#E8F0FA;color:var(--navy);}
+  .fc-type-badge.legal{background:#F0EAF5;color:#6B4C9A;}
+  .fc-format{font-size:11px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:4px;}
+  .fc-format .fmt-dot{width:6px;height:6px;border-radius:2px;}
+  .fmt-dot.pdf{background:#E74C3C;}
+  .fmt-dot.doc{background:#2B579A;}
+  .fc-icon{font-size:34px;margin-bottom:12px;}
+  .feat-card h3{font-family:'Playfair Display',serif;color:var(--navy);font-size:16px;line-height:1.35;margin-bottom:8px;}
+  .feat-card p{color:var(--muted);font-size:12.5px;line-height:1.65;}
+  .fc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:12px;border-top:1px solid var(--silver-lt);}
+  .fc-date{font-size:11px;color:var(--muted);font-weight:600;}
+  .fc-dl{display:inline-flex;align-items:center;gap:6px;background:var(--sky-pale);color:var(--steel);font-size:11.5px;font-weight:800;padding:7px 14px;border-radius:8px;text-decoration:none;transition:all .2s;}
+  .fc-dl:hover{background:var(--navy);color:var(--white);}
+
+  /* DOC TABLE */
+  .docs-section{margin-bottom:44px;}
+  .doc-table{width:100%;border-collapse:collapse;}
+  .doc-table thead tr{background:var(--sky-pale);}
+  .doc-table th{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:12px 14px;text-align:left;}
+  .doc-table th:first-child{border-radius:10px 0 0 10px;}
+  .doc-table th:last-child{border-radius:0 10px 10px 0;}
+  .doc-table tbody tr{border-bottom:1px solid var(--silver-lt);transition:background .15s;cursor:pointer;}
+  .doc-table tbody tr:hover{background:var(--sky-pale);}
+  .doc-table tbody tr:last-child{border-bottom:none;}
+  .doc-table td{padding:14px 14px;font-size:13.5px;vertical-align:middle;}
+  .td-name{display:flex;align-items:center;gap:12px;}
+  .td-file-icon{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .td-file-icon.pdf{background:#FDECEA;color:#E74C3C;}
+  .td-file-icon.doc{background:#EAF0FB;color:#2B579A;}
+  .td-file-icon.xlsx{background:#EBF5EB;color:#217346;}
+  .td-title{font-weight:700;color:var(--navy);font-size:13.5px;}
+  .td-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+  .td-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;padding:3px 10px;border-radius:4px;white-space:nowrap;}
+  .td-badge.charter{background:#E8F0FA;color:var(--navy);}
+  .td-badge.legal{background:#F0EAF5;color:#6B4C9A;}
+  .td-badge.report{background:var(--gold-pale);color:#7A6020;}
+  .td-badge.protocol{background:#EAF5F0;color:#2A7A5A;}
+  .td-badge.policy{background:#FFF0E8;color:#B85520;}
+  .td-date{color:var(--muted);font-size:12.5px;}
+  .td-size{color:var(--muted);font-size:12px;}
+  .td-actions{display:flex;align-items:center;gap:8px;}
+  .btn-dl{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:var(--white);font-size:11.5px;font-weight:800;padding:7px 14px;border-radius:8px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;white-space:nowrap;}
+  .btn-dl:hover{background:var(--navy-mid);transform:translateY(-1px);}
+  .btn-view{display:inline-flex;align-items:center;background:var(--sky-pale);color:var(--steel);font-size:11.5px;font-weight:800;padding:7px 10px;border-radius:8px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;}
+  .btn-view:hover{background:var(--silver-lt);}
+  .new-badge{display:inline-block;background:var(--gold);color:var(--navy-deep);font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-left:8px;vertical-align:middle;}
+
+  /* REQUEST SECTION */
+  .request-section{background:linear-gradient(140deg,var(--navy-deep) 0%,var(--navy) 100%);border-radius:20px;padding:44px;margin-bottom:44px;position:relative;overflow:hidden;}
+  .request-section::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(184,208,232,.12) 0%,transparent 70%);border-radius:50%;}
+  .request-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;position:relative;z-index:2;}
+  .request-left{}
+  .request-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(184,208,232,.12);border:1px solid rgba(184,208,232,.2);color:var(--sky);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:16px;}
+  .request-section h3{font-family:'Playfair Display',serif;color:var(--white);font-size:24px;margin-bottom:12px;}
+  .request-section p{color:rgba(255,255,255,.65);font-size:13.5px;line-height:1.75;}
+  .request-benefits{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:10px;}
+  .request-benefits li{display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,.7);font-size:13px;}
+  .request-benefits li::before{content:'✦';color:var(--gold);font-size:11px;margin-top:1px;flex-shrink:0;}
+  .request-form{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px;}
+  .request-form h4{color:var(--white);font-family:'Playfair Display',serif;font-size:18px;margin-bottom:20px;}
+  .form-group{margin-bottom:14px;}
+  .form-group label{display:block;color:rgba(255,255,255,.6);font-size:11.5px;font-weight:700;letter-spacing:.5px;margin-bottom:6px;}
+  .form-group input,.form-group textarea,.form-group select{width:100%;padding:11px 14px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;font-family:'Nunito',sans-serif;font-size:13.5px;color:var(--white);outline:none;transition:border-color .2s;}
+  .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,.3);}
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:rgba(184,208,232,.5);}
+  .form-group select option{background:var(--navy-deep);color:var(--white);}
+  .form-group textarea{resize:vertical;min-height:80px;}
+  .btn-request{width:100%;background:var(--gold);color:var(--navy-deep);font-weight:800;font-size:13.5px;padding:13px;border-radius:12px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .25s;box-shadow:0 4px 16px rgba(184,160,96,.3);}
+  .btn-request:hover{background:var(--gold-lt);transform:translateY(-1px);}
+
+  /* MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(22,40,72,.7);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--white);border-radius:20px;padding:36px;width:100%;max-width:520px;position:relative;box-shadow:0 32px 80px rgba(22,40,72,.3);}
+  .modal-close{position:absolute;top:18px;right:18px;width:32px;height:32px;background:var(--sky-pale);border:none;border-radius:8px;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all .2s;}
+  .modal-close:hover{background:var(--silver-lt);}
+  .modal h3{font-family:'Playfair Display',serif;color:var(--navy);font-size:22px;margin-bottom:6px;}
+  .modal-sub{color:var(--muted);font-size:13px;margin-bottom:24px;}
+  .modal-form-group{margin-bottom:14px;}
+  .modal-form-group label{display:block;color:var(--muted);font-size:11.5px;font-weight:700;letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase;}
+  .modal-form-group input,.modal-form-group select,.modal-form-group textarea{width:100%;padding:11px 14px;border:1.5px solid var(--silver-lt);border-radius:10px;font-family:'Nunito',sans-serif;font-size:13.5px;color:var(--text);outline:none;background:var(--white);transition:border-color .2s;}
+  .modal-form-group input:focus,.modal-form-group select:focus,.modal-form-group textarea:focus{border-color:var(--steel);}
+  .modal-form-group textarea{resize:vertical;min-height:80px;}
+  .upload-drop{border:2px dashed var(--silver-lt);border-radius:12px;padding:28px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:14px;}
+  .upload-drop:hover{border-color:var(--steel);}
+  .upload-drop-icon{font-size:32px;margin-bottom:8px;}
+  .upload-drop p{color:var(--muted);font-size:12.5px;}
+  .upload-drop strong{color:var(--steel);}
+  .modal-btn{width:100%;background:var(--navy);color:var(--white);font-weight:800;font-size:14px;padding:13px;border-radius:12px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;}
+  .modal-btn:hover{background:var(--navy-mid);}
+  .modal-btn.gold{background:var(--gold);color:var(--navy-deep);}
+  .modal-btn.gold:hover{background:var(--gold-lt);}
+
+  /* PAGINATION */
+  .pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:32px;padding-top:24px;border-top:1px solid var(--silver-lt);}
+  .pg-btn{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--silver-lt);background:var(--white);color:var(--muted);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
+  .pg-btn:hover{border-color:var(--steel);color:var(--steel);}
+  .pg-btn.active{background:var(--navy);border-color:var(--navy);color:var(--white);}
+  .pg-btn.disabled{opacity:.35;cursor:default;}
+
+  /* FOOTER */
+  footer{background:var(--navy-deep);color:rgba(255,255,255,.65);padding:56px 64px 36px;}
+  .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px;}
+  .f-brand{display:flex;align-items:flex-start;gap:14px;}
+  .f-logo-circle{width:52px;height:52px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--navy-mid),var(--steel));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;color:var(--sky);font-size:16px;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+  .f-brand-text h3{font-family:'Playfair Display',serif;color:var(--white);font-size:16px;margin-bottom:6px;}
+  .f-brand-text p{font-size:12px;line-height:1.7;max-width:260px;}
+  .f-col h4{font-family:'Playfair Display',serif;color:var(--white);font-size:14px;margin-bottom:14px;}
+  .f-col a{display:block;font-size:12.5px;color:rgba(255,255,255,.55);text-decoration:none;margin-bottom:8px;transition:color .2s;}
+  .f-col a:hover{color:var(--sky);}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:11.5px;}
+
+  @media(max-width:900px){
+    .lang-bar,.filter-bar{padding:10px 20px;}
+    header{padding:0 20px;}
+    .page-hero{padding:40px 20px 36px;}
+    .page-hero-content{flex-direction:column;align-items:flex-start;}
+    .hero-right-block{width:100%;align-items:flex-start;}
+    .hero-stats{grid-template-columns:repeat(4,1fr);}
+    .docs-layout{grid-template-columns:1fr;}
+    .docs-sidebar{display:none;}
+    .docs-content{padding:24px 20px;}
+    .featured-grid{grid-template-columns:1fr;}
+    .request-inner{grid-template-columns:1fr;}
+    footer{padding:40px 20px 24px;}
+    .footer-top{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <span class="lang-bar-left">Казахстанская Ассоциация Серебряных Университетов — U3A Kazakhstan</span>
+  <div class="lang-bar-right">
+    <a href="#" class="lang-btn active">РУС</a>
+    <a href="#" class="lang-btn">ҚАЗ</a>
+    <a href="#" class="lang-btn">ENG</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a class="logo-area" href="#">
+    <div class="logo-circle">К</div>
+    <div class="logo-text">
+      <div class="abbr">КАСУ</div>
+      <div class="full">Казахстанская Ассоциация Серебряных Университетов</div>
+      <span class="u3a">U3A</span>
+    </div>
+  </a>
+  <nav>
+    <a href="#">Об Ассоциации</a>
+    <a href="#">Деятельность</a>
+    <a href="#">Члены</a>
+    <a href="#" class="active">Документы</a>
+    <a href="#">Новости</a>
+    <a href="#">Контакты</a>
+    <a href="#" class="nav-cta">Вступить</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="#">Главная</a>
+    <span>›</span>
+    <span class="cur">Документы</span>
+  </div>
+  <div class="page-hero-content">
+    <div class="page-hero-left">
+      <div class="hero-tag"><span class="dot"></span>Официальный архив</div>
+      <h1>Документы<br>Ассоциации</h1>
+      <p class="page-hero-desc">Устав, нормативные акты, протоколы заседаний и отчётность КАСУ. Все официальные документы в открытом доступе.</p>
+    </div>
+
+    
+    
+
+  </div>
+</div>
+
+
+
+<!-- LAYOUT -->
+<div class="docs-layout">
+  <aside class="docs-sidebar">
+    <div class="sidebar-title">Категории</div>
+    <ul class="sidebar-nav">
+      <li><a href="#founding" class="active"><span><span class="s-icon">📋</span>Учредительные</span><span class="s-count">4</span></a></li>
+      <li><a href="#normative"><span><span class="s-icon">⚖️</span>Нормативные акты</span><span class="s-count">11</span></a></li>
+      <li><a href="#reports"><span><span class="s-icon">📊</span>Отчётность</span><span class="s-count">9</span></a></li>
+      <li><a href="#protocols"><span><span class="s-icon">📝</span>Протоколы</span><span class="s-count">16</span></a></li>
+      <li><a href="#projects"><span><span class="s-icon">🎯</span>Проекты и программы</span><span class="s-count">5</span></a></li>
+      <li><a href="#partners"><span><span class="s-icon">🤝</span>Соглашения</span><span class="s-count">3</span></a></li>
+    </ul>
+  </aside>
+
+  <main class="docs-content">
+
+    <!-- FOUNDING DOCS -->
+    <div class="docs-section" id="founding">
+      <div class="sec-header">
+        <div>
+          <div class="sec-label">Основные документы</div>
+          <div class="sec-title">Учредительные документы</div>
+        </div>
+        <a href="#" class="sec-view-all">Все документы →</a>
+      </div>
+      <div class="featured-grid">
+        <a class="feat-card" href="#" data-cat="charter">
+          <div class="fc-top">
+            <span class="fc-type-badge charter">Устав</span>
+            <div class="fc-format"><span class="fmt-dot pdf"></span>PDF</div>
+          </div>
+          <div class="fc-icon">📜</div>
+          <h3>Устав КАСУ — Казахстанской Ассоциации Серебряных Университетов</h3>
+          <p>Основной учредительный документ, определяющий цели, задачи, структуру управления и порядок деятельности организации.</p>
+          <div class="fc-footer">
+            <span class="fc-date">Принят: 15 марта 2019 г.</span>
+            <span class="fc-dl">⬇ Скачать</span>
+          </div>
+        </a>
+        <a class="feat-card" href="#" data-cat="charter">
+          <div class="fc-top">
+            <span class="fc-type-badge legal">Регистрация</span>
+            <div class="fc-format"><span class="fmt-dot pdf"></span>PDF</div>
+          </div>
+          <div class="fc-icon">🏛️</div>
+          <h3>Свидетельство о государственной регистрации ОЮЛ <span class="new-badge">NEW</span></h3>
+          <p>Официальное свидетельство о регистрации в Министерстве юстиции Республики Казахстан как объединение юридических лиц.</p>
+          <div class="fc-footer">
+            <span class="fc-date">Обновлено: 10 января 2025 г.</span>
+            <span class="fc-dl">⬇ Скачать</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- NORMATIVE -->
+    <div class="docs-section" id="normative">
+      <div class="sec-header">
+        <div>
+          <div class="sec-label">Внутренние акты</div>
+          <div class="sec-title">Нормативные документы</div>
+        </div>
+        <a href="#" class="sec-view-all">Все документы →</a>
+      </div>
+      <table class="doc-table">
+        <thead><tr><th>Наименование документа</th><th>Тип</th><th>Дата</th><th>Размер</th><th>Действия</th></tr></thead>
+        <tbody>
+          <tr data-cat="legal"><td><div class="td-name"><div class="td-file-icon pdf">📄</div><div><div class="td-title">Положение о Совете Ассоциации</div><div class="td-sub">Утверждено на общем собрании, ред. 2024</div></div></div></td><td><span class="td-badge legal">Нормативный акт</span></td><td class="td-date">22.11.2024</td><td class="td-size">1.2 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+          <tr data-cat="legal"><td><div class="td-name"><div class="td-file-icon doc">📝</div><div><div class="td-title">Кодекс этики членов КАСУ <span class="new-badge">NEW</span></div><div class="td-sub">Принят 12 февраля 2025 г.</div></div></div></td><td><span class="td-badge legal">Нормативный акт</span></td><td class="td-date">12.02.2025</td><td class="td-size">0.8 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+          <tr data-cat="policy"><td><div class="td-name"><div class="td-file-icon pdf">📄</div><div><div class="td-title">Политика конфиденциальности и защиты данных</div><div class="td-sub">Соответствует законодательству РК</div></div></div></td><td><span class="td-badge policy">Политика</span></td><td class="td-date">01.01.2024</td><td class="td-size">0.6 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+          <tr data-cat="legal"><td><div class="td-name"><div class="td-file-icon pdf">📄</div><div><div class="td-title">Положение о членстве в КАСУ</div><div class="td-sub">Порядок вступления и выхода из ассоциации</div></div></div></td><td><span class="td-badge legal">Нормативный акт</span></td><td class="td-date">05.06.2023</td><td class="td-size">0.9 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+          <tr data-cat="legal"><td><div class="td-name"><div class="td-file-icon doc">📝</div><div><div class="td-title">Регламент общего собрания членов</div><div class="td-sub">Процедура проведения заседаний</div></div></div></td><td><span class="td-badge legal">Нормативный акт</span></td><td class="td-date">18.09.2023</td><td class="td-size">0.7 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- REPORTS -->
+    <div class="docs-section" id="reports">
+      <div class="sec-header">
+        <div>
+          <div class="sec-label">Финансы и деятельность</div>
+          <div class="sec-title">Отчётность</div>
+        </div>
+        <a href="#" class="sec-view-all">Все документы →</a>
+      </div>
+      <table class="doc-table">
+        <thead><tr><th>Наименование документа</th><th>Тип</th><th>Дата</th><th>Размер</th><th>Действия</th></tr></thead>
+        <tbody>
+          <tr data-cat="report"><td><div class="td-name"><div class="td-file-icon pdf">📄</div><div><div class="td-title">Годовой отчёт о деятельности КАСУ 2024 <span class="new-badge">NEW</span></div><div class="td-sub">Итоги работы, достижения, статистика</div></div></div></td><td><span class="td-badge report">Отчёт</span></td><td class="td-date">15.01.2025</td><td class="td-size">4.8 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+          <tr data-cat="report"><td><div class="td-name"><div class="td-file-icon xlsx">📊</div><div><div class="td-title">Финансовый отчёт за 2024 год</div><div class="td-sub">Бухгалтерская отчётность и смета</div></div></div></td><td><span class="td-badge report">Финансы</span></td><td class="td-date">20.01.2025</td><td class="td-size">2.1 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+          <tr data-cat="report"><td><div class="td-name"><div class="td-file-icon pdf">📄</div><div><div class="td-title">Годовой отчёт о деятельности КАСУ 2023</div><div class="td-sub">Итоги работы за 2023 год</div></div></div></td><td><span class="td-badge report">Отчёт</span></td><td class="td-date">10.01.2024</td><td class="td-size">3.9 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PROTOCOLS -->
+    <div class="docs-section" id="protocols">
+      <div class="sec-header">
+        <div>
+          <div class="sec-label">Заседания и решения</div>
+          <div class="sec-title">Протоколы заседаний</div>
+        </div>
+        <a href="#" class="sec-view-all">Все протоколы →</a>
+      </div>
+      <table class="doc-table">
+        <thead><tr><th>Наименование документа</th><th>Тип</th><th>Дата</th><th>Размер</th><th>Действия</th></tr></thead>
+        <tbody>
+          <tr data-cat="protocol"><td><div class="td-name"><div class="td-file-icon pdf">📄</div><div><div class="td-title">Протокол №3 Общего собрания членов КАСУ <span class="new-badge">NEW</span></div><div class="td-sub">Заседание от 28 февраля 2025 г.</div></div></div></td><td><span class="td-badge protocol">Протокол</span></td><td class="td-date">28.02.2025</td><td class="td-size">0.5 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+          <tr data-cat="protocol"><td><div class="td-name"><div class="td-file-icon pdf">📄</div><div><div class="td-title">Протокол №2 Заседания Совета Ассоциации</div><div class="td-sub">Заседание от 15 ноября 2024 г.</div></div></div></td><td><span class="td-badge protocol">Протокол</span></td><td class="td-date">15.11.2024</td><td class="td-size">0.4 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+          <tr data-cat="protocol"><td><div class="td-name"><div class="td-file-icon pdf">📄</div><div><div class="td-title">Протокол №1 Учредительного собрания КАСУ</div><div class="td-sub">Основополагающий документ, 2019 г.</div></div></div></td><td><span class="td-badge protocol">Протокол</span></td><td class="td-date">15.03.2019</td><td class="td-size">1.1 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+          <tr data-cat="protocol"><td><div class="td-name"><div class="td-file-icon doc">📝</div><div><div class="td-title">Решение Совета по стратегии развития 2025–2030</div><div class="td-sub">Утверждение стратегической программы</div></div></div></td><td><span class="td-badge protocol">Решение</span></td><td class="td-date">10.12.2024</td><td class="td-size">1.8 МБ</td><td class="td-actions"><button class="btn-dl">⬇ Скачать</button><button class="btn-view">👁</button></td></tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <div class="pg-btn disabled">←</div>
+        <div class="pg-btn active">1</div>
+        <div class="pg-btn">2</div>
+        <div class="pg-btn">3</div>
+        <div class="pg-btn">→</div>
+      </div>
+    </div>
+
+
+  </main>
+</div>
+
+<!-- UPLOAD MODAL -->
+<div class="modal-overlay" id="modal-upload" onclick="closeModalOutside(event,'upload')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('upload')">✕</button>
+    <h3>Добавить документ</h3>
+    <p class="modal-sub">Загрузите официальный документ КАСУ. Доступно авторизованным пользователям.</p>
+    <div class="upload-drop" onclick="alert('Выберите файл')">
+      <div class="upload-drop-icon">📂</div>
+      <p>Перетащите файл сюда или <strong>выберите на устройстве</strong></p>
+      <p style="margin-top:6px;font-size:11px;color:var(--silver)">PDF, DOCX, XLSX — до 20 МБ</p>
+    </div>
+    <div class="modal-form-group">
+      <label>Название документа</label>
+      <input type="text" placeholder="Введите название документа">
+    </div>
+    <div class="modal-form-group">
+      <label>Категория</label>
+      <select>
+        <option>Учредительные документы</option>
+        <option>Нормативные акты</option>
+        <option>Отчётность</option>
+        <option>Протоколы</option>
+        <option>Проекты и программы</option>
+        <option>Соглашения</option>
+      </select>
+    </div>
+    <div class="modal-form-group">
+      <label>Дата документа</label>
+      <input type="date">
+    </div>
+    <button class="modal-btn gold" style="margin-top:4px" onclick="alert('Документ отправлен на проверку');closeModal('upload')">⬆ Загрузить документ</button>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="f-brand">
+      <div class="f-logo-circle">К</div>
+      <div class="f-brand-text">
+        <h3>КАСУ — U3A Kazakhstan</h3>
+        <p>Казахстанская Ассоциация Серебряных Университетов. Официальная некоммерческая организация (ОЮЛ) Республики Казахстан.</p>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>Организация</h4>
+      <a href="#">Об Ассоциации</a><a href="#">Руководство</a><a href="#">Члены</a><a href="#">Документы</a><a href="#">Отчётность</a>
+    </div>
+    <div class="f-col">
+      <h4>Деятельность</h4>
+      <a href="#">Направления</a><a href="#">Проекты</a><a href="#">Мероприятия</a><a href="#">Партнёры</a><a href="#">Публикации</a>
+    </div>
+    <div class="f-col">
+      <h4>Помощь</h4>
+      <a href="#">FAQ</a><a href="#">Вступить в КАСУ</a><a href="#">Контакты</a><a href="#">Карта сайта</a><a href="#">Политика конфиденц.</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 КАСУ (U3A) — Казахстанская Ассоциация Серебряных Университетов</span>
+    <span>Қазақстан Республикасы</span>
+  </div>
+</footer>
+</body>
+</html>

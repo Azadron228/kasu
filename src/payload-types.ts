@@ -76,6 +76,8 @@ export interface Config {
     regions: Region;
     directions: Direction;
     programs: Program;
+    documents: Document;
+    'document-categories': DocumentCategory;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -89,7 +91,7 @@ export interface Config {
   };
   collectionsJoins: {
     'payload-folders': {
-      documentsAndFolders: 'payload-folders' | 'media';
+      documentsAndFolders: 'payload-folders' | 'media' | 'documents';
     };
   };
   collectionsSelect: {
@@ -102,6 +104,8 @@ export interface Config {
     regions: RegionsSelect<false> | RegionsSelect<true>;
     directions: DirectionsSelect<false> | DirectionsSelect<true>;
     programs: ProgramsSelect<false> | ProgramsSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
+    'document-categories': DocumentCategoriesSelect<false> | DocumentCategoriesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -123,6 +127,7 @@ export interface Config {
     homepage: Homepage;
     'programs-page': ProgramsPage;
     'members-page': MembersPage;
+    'documents-page': DocumentsPage;
     settings: Setting;
   };
   globalsSelect: {
@@ -131,6 +136,7 @@ export interface Config {
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     'programs-page': ProgramsPageSelect<false> | ProgramsPageSelect<true>;
     'members-page': MembersPageSelect<false> | MembersPageSelect<true>;
+    'documents-page': DocumentsPageSelect<false> | DocumentsPageSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
   locale: 'ru' | 'en' | 'kk';
@@ -349,11 +355,62 @@ export interface FolderInterface {
           relationTo?: 'media';
           value: number | Media;
         }
+      | {
+          relationTo?: 'documents';
+          value: number | Document;
+        }
     )[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  folderType?: 'media'[] | null;
+  folderType?: ('media' | 'documents')[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: number;
+  title: string;
+  description?: string | null;
+  category: number | DocumentCategory;
+  date: string;
+  isFeatured?: boolean | null;
+  folder?: (number | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "document-categories".
+ */
+export interface DocumentCategory {
+  id: number;
+  title: string;
+  /**
+   * e.g. charter, legal, report, protocol, policy, agreement
+   */
+  slug: string;
+  /**
+   * Emoji для отображения в сайдбаре
+   */
+  icon: string;
+  /**
+   * e.g. Основные документы, Внутренние акты
+   */
+  sectionLabel?: string | null;
+  order: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -818,7 +875,6 @@ export interface Program {
    * e.g. 2 месяца, 6 недель, Постоянно
    */
   duration: string;
-  free?: boolean | null;
   description?: string | null;
   member: number | Member;
   updatedAt: string;
@@ -1049,6 +1105,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'programs';
         value: number | Program;
+      } | null)
+    | ({
+        relationTo: 'documents';
+        value: number | Document;
+      } | null)
+    | ({
+        relationTo: 'document-categories';
+        value: number | DocumentCategory;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1422,9 +1486,44 @@ export interface ProgramsSelect<T extends boolean = true> {
   direction?: T;
   format?: T;
   duration?: T;
-  free?: T;
   description?: T;
   member?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  category?: T;
+  date?: T;
+  isFeatured?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "document-categories_select".
+ */
+export interface DocumentCategoriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  icon?: T;
+  sectionLabel?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1831,6 +1930,18 @@ export interface MembersPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents-page".
+ */
+export interface DocumentsPage {
+  id: number;
+  tag?: string | null;
+  title: string;
+  subtitle?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings".
  */
 export interface Setting {
@@ -1943,6 +2054,18 @@ export interface ProgramsPageSelect<T extends boolean = true> {
  * via the `definition` "members-page_select".
  */
 export interface MembersPageSelect<T extends boolean = true> {
+  tag?: T;
+  title?: T;
+  subtitle?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents-page_select".
+ */
+export interface DocumentsPageSelect<T extends boolean = true> {
   tag?: T;
   title?: T;
   subtitle?: T;

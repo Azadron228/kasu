@@ -36,6 +36,23 @@
   --color-brand-text: #1A2438;
   --color-brand-muted: #56647A;
 
+  /* Document badge colors */
+  --color-badge-charter-bg: #E8F0FA;
+  --color-badge-charter-text: #1E3560;
+  --color-badge-legal-bg: #F0EAF5;
+  --color-badge-legal-text: #6B4C9A;
+  --color-badge-report-bg: #F5F0E2;
+  --color-badge-report-text: #7A6020;
+  --color-badge-protocol-bg: #EAF5F0;
+  --color-badge-protocol-text: #2A7A5A;
+  --color-badge-policy-bg: #FFF0E8;
+  --color-badge-policy-text: #B85520;
+
+  /* File format dot colors */
+  --color-fmt-pdf: #E74C3C;
+  --color-fmt-doc: #2B579A;
+  --color-fmt-xlsx: #217346;
+
   --radius-custom: 14px;
   --shadow-custom: 0 8px 40px rgba(30,53,96,0.12);
 }

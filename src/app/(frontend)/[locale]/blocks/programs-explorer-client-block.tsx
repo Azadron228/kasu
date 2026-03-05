@@ -380,11 +380,6 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                             <span className={`rounded-xl border px-2 py-0.5 text-[10px] font-bold ${fmtStyle}`}>
                               {fmtLabel}
                             </span>
-                            {prog.free && (
-                              <span className="rounded-xl border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
-                                ✓ Бесплатно
-                              </span>
-                            )}
                           </div>
                         </div>
 

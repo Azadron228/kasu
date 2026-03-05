@@ -60,12 +60,6 @@ export const Programs: CollectionConfig = {
       admin: { description: 'e.g. 2 месяца, 6 недель, Постоянно' },
     },
     {
-      name: 'free',
-      type: 'checkbox',
-      label: 'Бесплатно',
-      defaultValue: true,
-    },
-    {
       name: 'description',
       type: 'textarea',
       localized: true,
