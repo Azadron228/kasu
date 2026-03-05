@@ -31,24 +31,12 @@ export default async function AboutBlock({ homepage }: { homepage: Homepage }) {
         </div>
         <div>
           <div className="text-xs font-extrabold tracking-[0.3em] uppercase text-steel mb-3">
-            Кто мы такие
+            Об Ассоциации
           </div>
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-navy leading-tight mb-5">
-            Объединяя опыт и знания
-          </h2>
           {homepage?.aboutBody && (
-            <div className="text-brand-muted text-base leading-relaxed mb-4">
+            <div className="text-brand-muted text-base leading-relaxed mb-4 about-body-content">
               <RichText data={homepage.aboutBody} enableProse={false} enableGutter={false} />
             </div>
-          )}
-          {homepage?.aboutBullets && (
-            <ul className="space-y-2.5 mt-4">
-              {homepage.aboutBullets.map((b, i) => (
-                <li className="flex items-start gap-2.5 text-sm text-brand-text" key={b.id ?? i}>
-                  <span className="text-gold mt-1 shrink-0 text-xs">✦</span> {b.point}
-                </li>
-              ))}
-            </ul>
           )}
         </div>
       </div>

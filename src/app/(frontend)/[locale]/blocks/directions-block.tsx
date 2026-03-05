@@ -15,10 +15,11 @@ export default async function DirectionsBlock({ locale }: { locale: TypedLocale 
           {t('directions')}
         </div>
         <h2 className="font-serif text-3xl lg:text-4xl font-bold text-navy leading-tight mb-4">
-          Наши приоритеты в обучении
+          Направления
+деятельности
         </h2>
         <p className="text-brand-muted text-base leading-relaxed">
-          Создаем возможности для самореализации через доступные образовательные форматы.
+          Ассоциация реализует образовательные, научные и социальные программы, направленные на поддержку активного долголетия граждан Казахстана в духе концепции U3A.
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

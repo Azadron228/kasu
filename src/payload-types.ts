@@ -1770,9 +1770,6 @@ export interface Footer {
  */
 export interface Homepage {
   id: number;
-  heroHeadline?: string | null;
-  heroSubheading?: string | null;
-  presidentQuote?: string | null;
   stats?:
     | {
         number?: string | null;
@@ -1799,12 +1796,6 @@ export interface Homepage {
     | {
         heading?: string | null;
         body?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  aboutBullets?:
-    | {
-        point?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1904,9 +1895,6 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "homepage_select".
  */
 export interface HomepageSelect<T extends boolean = true> {
-  heroHeadline?: T;
-  heroSubheading?: T;
-  presidentQuote?: T;
   stats?:
     | T
     | {
@@ -1920,12 +1908,6 @@ export interface HomepageSelect<T extends boolean = true> {
     | {
         heading?: T;
         body?: T;
-        id?: T;
-      };
-  aboutBullets?:
-    | T
-    | {
-        point?: T;
         id?: T;
       };
   joinTitle?: T;

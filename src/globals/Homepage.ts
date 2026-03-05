@@ -1,12 +1,16 @@
 import type { GlobalConfig } from 'payload'
 
+import {
+  lexicalEditor,
+  UnorderedListFeature,
+  OrderedListFeature,
+  HeadingFeature,
+} from '@payloadcms/richtext-lexical'
+
 export const Homepage: GlobalConfig = {
   slug: 'homepage',
   access: { read: () => true },
   fields: [
-    { name: 'heroHeadline', type: 'text', localized: true },
-    { name: 'heroSubheading', type: 'text', localized: true },
-    { name: 'presidentQuote', type: 'textarea', localized: true },
     {
       name: 'stats',
       type: 'array',
@@ -15,7 +19,21 @@ export const Homepage: GlobalConfig = {
         { name: 'label', type: 'text', localized: true },
       ],
     },
-    { name: 'aboutBody', type: 'richText', localized: true },
+    {
+      name: 'aboutBody', type: 'richText',
+
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+            UnorderedListFeature(),
+            OrderedListFeature(),
+          ]
+        },
+      }),
+      localized: true
+    },
     {
       name: 'aboutInfoBlocks',
       type: 'array',
@@ -23,12 +41,6 @@ export const Homepage: GlobalConfig = {
         { name: 'heading', type: 'text', localized: true },
         { name: 'body', type: 'text', localized: true },
       ],
-    },
-    {
-      name: 'aboutBullets',
-      type: 'array',
-      localized: true,
-      fields: [{ name: 'point', type: 'text', localized: true }],
     },
     { name: 'joinTitle', type: 'text', localized: true },
     { name: 'joinSubtitle', type: 'text', localized: true },

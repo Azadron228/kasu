@@ -103,3 +103,30 @@
 @source inline("bg-success/30");
 @source inline("border-warning");
 @source inline("bg-warning/30");
+
+.about-body-content ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.about-body-content li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--color-brand-text);
+  line-height: normal;
+}
+
+.about-body-content li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 0.125rem;
+  color: var(--color-gold);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}

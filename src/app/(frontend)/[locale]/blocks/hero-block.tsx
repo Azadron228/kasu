@@ -10,19 +10,12 @@ export default async function HeroBlock({ homepage }: { homepage: Homepage }) {
       <div className="relative z-10">
         <div className="inline-flex items-center gap-2 bg-sky/10 border border-sky/25 text-sky text-xs font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full mb-7">
           <span className="w-1.5 h-1.5 bg-sky rounded-full opacity-70"></span>
-          {homepage?.heroSubheading}
+          Kazakhstan Association of Universities of the Third Age
         </div>
         <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-extrabold text-brand-white leading-[1.1] mb-6">
-          {homepage?.heroHeadline?.includes(' ') ? (
-            <>
-              {homepage.heroHeadline.split(' ').slice(0, -2).join(' ')}{' '}
-              <br />
-              {homepage.heroHeadline.split(' ').slice(-2, -1)}{' '}
-              <span className="text-sky italic">{homepage.heroHeadline.split(' ').slice(-1)}</span>
-            </>
-          ) : (
-            homepage?.heroHeadline
-          )}
+          Образование
+          для третьего
+          возраста
         </h1>
         <p className="text-brand-white/70 text-lg leading-relaxed max-w-lg mb-10">
           КАСУ (U3A) объединяет образовательные организации Казахстана, развивающие серебряное образование и поддерживающие активное долголетие граждан старшего возраста по всей стране.
@@ -59,7 +52,7 @@ export default async function HeroBlock({ homepage }: { homepage: Homepage }) {
             </div>
           </div>
           <blockquote className="text-brand-white/80 text-sm leading-relaxed italic border-l-2 border-gold pl-3.5">
-            &quot;{homepage?.presidentQuote}&quot;
+            «Серебряный университет — это право каждого человека на развитие, знания и полноценную жизнь в любом возрасте. Вместе мы создаём это будущее.»
           </blockquote>
         </div>
       </div>
