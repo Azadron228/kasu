@@ -1,12 +1,17 @@
 import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
 
 export const Documents: CollectionConfig = {
     slug: 'documents',
     folders: true,
     upload: {
-        staticDir: 'documents',
+        staticDir: path.resolve(dirname, '../../public/media'),
     },
     admin: {
         useAsTitle: 'title',
