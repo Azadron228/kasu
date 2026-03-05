@@ -60,14 +60,6 @@ export const Programs: CollectionConfig = {
       admin: { description: 'e.g. 2 месяца, 6 недель, Постоянно' },
     },
     {
-      name: 'schedule',
-      type: 'text',
-      localized: true,
-      required: true,
-      label: 'Расписание',
-      admin: { description: 'e.g. Вт, Чт 10:00' },
-    },
-    {
       name: 'free',
       type: 'checkbox',
       label: 'Бесплатно',

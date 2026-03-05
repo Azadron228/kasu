@@ -270,9 +270,9 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
               </div>
 
               <div className="flex shrink-0 flex-col gap-2">
-                {selectedMember.website && (
+                {selectedMember.main_url && (
                   <a
-                    href={selectedMember.website}
+                    href={selectedMember.main_url}
                     target="_blank"
                     rel="noreferrer"
                     className="rounded-lg bg-[#1E3560] px-4 py-2 text-center text-[12px] font-bold text-white transition-colors hover:bg-[#2A4A7F]"
@@ -280,9 +280,16 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                     🌐 Сайт
                   </a>
                 )}
-                <button className="rounded-lg border-[1.5px] border-[#D4BC80] bg-[#F5F0E2] px-4 py-2 text-[12px] font-bold text-[#1E3560] transition-colors hover:bg-[#D4BC80]">
-                  🎓 Серебр. ун-т
-                </button>
+                {selectedMember.silver_url && (
+                  <a
+                    href={selectedMember.silver_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-lg bg-[#1E3560] px-4 py-2 text-center text-[12px] font-bold text-white transition-colors hover:bg-[#2A4A7F]"
+                  >
+                    🎓 Серебр. ун-т
+                  </a>
+                )}
               </div>
             </div>
 
@@ -401,7 +408,6 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                           <div className="mb-4 grid grid-cols-2 gap-x-7 gap-y-3.5">
                             {[
                               { label: 'Длительность', value: `📅 ${prog.duration}` },
-                              { label: 'Расписание', value: `🕙 ${prog.schedule}` },
                               { label: 'Формат обучения', value: `${fmtIcon} ${fmtLabel}` },
                               { label: 'Направление', value: `${dirIcon} ${dirLabel}` },
                             ].map(({ label, value }) => (
@@ -420,15 +426,6 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                             <button className="rounded-lg bg-[#1E3560] px-[22px] py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-[#2A4A7F]">
                               Записаться на курс →
                             </button>
-                            {prog.free ? (
-                              <span className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[12px] font-bold text-emerald-800">
-                                ✓ Бесплатно
-                              </span>
-                            ) : (
-                              <span className="rounded-xl border border-[#E8D49A] bg-[#FDF6E8] px-3 py-1.5 text-[12px] font-bold text-[#7A5A10]">
-                                💛 Платный
-                              </span>
-                            )}
                           </div>
                         </div>
                       )}

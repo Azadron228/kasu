@@ -818,10 +818,6 @@ export interface Program {
    * e.g. 2 месяца, 6 недель, Постоянно
    */
   duration: string;
-  /**
-   * e.g. Вт, Чт 10:00
-   */
-  schedule: string;
   free?: boolean | null;
   description?: string | null;
   member: number | Member;
@@ -1426,7 +1422,6 @@ export interface ProgramsSelect<T extends boolean = true> {
   direction?: T;
   format?: T;
   duration?: T;
-  schedule?: T;
   free?: T;
   description?: T;
   member?: T;
