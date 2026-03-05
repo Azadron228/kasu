@@ -52,7 +52,7 @@ export const Members: CollectionConfig = {
       type: 'relationship',
       relationTo: 'regions',
       required: true,
-      hasMany: false, // A member belongs to one region
+      hasMany: false,
     },
     {
       name: 'status',
@@ -65,7 +65,7 @@ export const Members: CollectionConfig = {
       required: true,
     },
     { name: 'logo', type: 'upload', relationTo: 'media', required: false },
-    { name: 'website', type: 'text' },
-    { name: 'description', type: 'textarea', localized: true },
+    { name: 'main_url', type: 'text' },
+    { name: 'silver_url', type: 'text' },
   ],
 }

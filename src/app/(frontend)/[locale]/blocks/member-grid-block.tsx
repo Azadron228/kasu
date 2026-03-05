@@ -27,9 +27,9 @@ export default async function MembersGridBlock({ status, region, search }: Props
                 : { name: '' }
             }
             status={member.status}
-            logo={member.logo}
-            website={member.website ?? ''}
-            description={member.description}
+            logo={member.logo as any}
+            main_url={member.main_url}
+            silver_url={member.silver_url}
           />
         ))}
         {/* Join CTA always last */}

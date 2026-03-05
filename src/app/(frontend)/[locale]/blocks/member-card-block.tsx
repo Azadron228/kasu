@@ -6,21 +6,22 @@ import Image from 'next/image'
 // ─────────────────────────────────────────────
 
 export interface MemberCardProps {
-  id: string
+  id: string | number
   index?: number
   shortName: string
   fullName: string
   city: string
   region: { name: string }
   status: 'founder' | 'member'
-  logo: {
+  logo?: {
     url: string
     alt?: string
     width?: number
     height?: number
-  }
-  website?: string
-  description?: string
+  } | null
+  main_url?: string | null
+  silver_url?: string | null
+  description?: string | null
   /** Accent colour extracted from the logo or set per-university */
   accentColor?: string
 }
@@ -47,7 +48,8 @@ export function MemberCard({
   region,
   status,
   logo,
-  website,
+  main_url,
+  silver_url,
   description,
   accentColor = '#1E3560',
 }: MemberCardProps) {
@@ -87,17 +89,6 @@ export function MemberCard({
 
         {/* Text meta */}
         <div className="flex-1 min-w-0 pt-0.5">
-          {num && (
-            <span
-              className="inline-block text-[9.5px] font-black tracking-[1px] px-2 py-0.5 rounded-[4px] mb-2"
-              style={{
-                background: accentColor + '22',
-                color: accentColor,
-              }}
-            >
-              #{num} · КАСУ
-            </span>
-          )}
           <h3 className="font-serif text-[15px] font-bold text-[#1E3560] leading-snug mb-1.5 line-clamp-2">
             {shortName}
           </h3>
@@ -122,21 +113,6 @@ export function MemberCard({
         </p>
       )}
 
-      {/* ── Silver university pill ── */}
-      <div className="mx-5 mb-4 flex items-center gap-2.5 bg-gradient-to-br from-[#EAF2FA] to-[#DDE8F5] rounded-xl p-3 border border-[#E4EBF3]">
-        <div className="flex-shrink-0 w-8 h-8 bg-[#1E3560] rounded-lg flex items-center justify-center text-base">
-          🎓
-        </div>
-        <div>
-          <span className="block text-[9.5px] font-black uppercase tracking-[1.5px] text-[#4A6FA5] mb-0.5">
-            Серебряный университет
-          </span>
-          <span className="text-[12px] font-bold text-[#1E3560]">
-            Программа U3A · активный участник КАСУ
-          </span>
-        </div>
-      </div>
-
       {/* ── Region tag ── */}
       <div className="px-5 pb-3">
         <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#56647A] bg-[#F0F4FA] rounded-full px-3 py-1">
@@ -145,27 +121,27 @@ export function MemberCard({
       </div>
 
       {/* ── Actions ── */}
-      <div className="mt-auto flex gap-2 px-5 py-3 bg-[#EAF2FA] border-t border-[#E4EBF3]">
-        {website ? (
+      <div className="mt-auto flex items-center gap-2 px-[22px] py-[13px] bg-[#EAF2FA] border-t border-[#E4EBF3]">
+        {main_url ? (
           <a
-            href={website}
+            href={main_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1.5 bg-[#1E3560] hover:bg-[#2A4A7F] text-white text-[11.5px] font-bold px-4 py-2 rounded-full transition-all duration-200 hover:-translate-y-px"
+            className="flex-1 inline-flex items-center justify-center gap-[5px] bg-[#1E3560] hover:bg-[#2A4A7F] text-white text-[11.5px] font-bold px-4 py-2 rounded-[18px] transition-all duration-200 hover:-translate-y-px"
           >
             🌐 Сайт
           </a>
-        ) : (
-          <span className="flex-1 flex items-center justify-center gap-1.5 bg-[#E4EBF3] text-[#A8B8CC] text-[11.5px] font-bold px-4 py-2 rounded-full cursor-not-allowed">
-            🌐 Нет сайта
-          </span>
-        )}
-        <Link
-          href={`/members/${id}`}
-          className="flex-1 flex items-center justify-center gap-1.5 border-[1.5px] border-[#4A6FA5] text-[#4A6FA5] hover:bg-[#4A6FA5] hover:text-white text-[11.5px] font-bold px-4 py-2 rounded-full transition-all duration-200"
-        >
-          🎓 Подробнее
-        </Link>
+        ) : null}
+        {silver_url ? (
+          <a
+            href={silver_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 inline-flex items-center justify-center gap-[5px] bg-transparent hover:bg-[#56647A] text-[#56647A] hover:text-white border-[1.5px] border-[#56647A] text-[11.5px] font-bold px-[14px] py-2 rounded-[18px] transition-all duration-200 hover:-translate-y-px"
+          >
+            🎓 Серебр. ун-т
+          </a>
+        ) : null}
       </div>
     </article>
   )

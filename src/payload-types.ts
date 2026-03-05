@@ -761,8 +761,8 @@ export interface Member {
   region: number | Region;
   status: 'founder' | 'member';
   logo?: (number | null) | Media;
-  website?: string | null;
-  description?: string | null;
+  main_url?: string | null;
+  silver_url?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1391,8 +1391,8 @@ export interface MembersSelect<T extends boolean = true> {
   region?: T;
   status?: T;
   logo?: T;
-  website?: T;
-  description?: T;
+  main_url?: T;
+  silver_url?: T;
   updatedAt?: T;
   createdAt?: T;
 }
