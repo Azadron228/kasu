@@ -6,7 +6,7 @@ export default async function AboutBlock({ homepage }: { homepage: Homepage }) {
     <section className="px-6 lg:px-16 py-20" id="about">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div className="relative overflow-hidden bg-gradient-to-br from-navy-deep to-navy rounded-3xl p-10 text-center">
-          <div className="absolute -top-20 -right-20 w-56 h-56 bg-[radial-gradient(circle,rgba(184,208,232,0.15)_0%,transparent_70%)] rounded-full pointe-events-none"></div>
+          <div className="absolute -top-20 -right-20 w-56 h-56 bg-[radial-gradient(circle,rgba(184,208,232,0.15)_0%,transparent_70%)] rounded-full pointer-events-none"></div>
           <img
             className="w-24 h-24 rounded-full mx-auto mb-6 ring-4 ring-sky/20 shadow-2xl relative z-10 object-cover"
             src="/logo.svg"

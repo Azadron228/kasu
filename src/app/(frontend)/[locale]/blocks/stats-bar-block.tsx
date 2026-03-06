@@ -16,13 +16,13 @@ export default function StatsBarBlock({ stats }: Props) {
   ]
 
   return (
-    <div className="grid grid-cols-4 bg-[#1E3560]">
+    <div className="grid grid-cols-4 bg-navy">
       {cells.map((cell, i) => (
         <div
           key={i}
           className="border-r border-white/[0.07] px-3 py-[18px] text-center last:border-r-0"
         >
-          <span className="block font-serif text-[28px] font-extrabold leading-none text-[#B8D0E8]">
+          <span className="block font-serif text-[28px] font-extrabold leading-none text-sky">
             {cell.value}
           </span>
           <span className="mt-1 block text-[9.5px] font-extrabold uppercase tracking-[1.5px] text-white/40">

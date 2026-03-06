@@ -17,12 +17,12 @@ export default async function ProgramsPage({ params }: Args) {
   const page = (await getCachedGlobal('programs-page', 1)()) as ProgramsPageType
 
   return (
-    <div className="min-h-screen bg-[#F0F4FA]">
+    <div className="min-h-screen bg-page-bg">
       {/* ── HEADER ── */}
-      <PageHeaderBlock 
-        tag={page?.tag ?? undefined} 
-        title={page?.title ?? 'Образовательные программы'} 
-        subtitle={page?.subtitle ?? undefined} 
+      <PageHeaderBlock
+        tag={page?.tag ?? undefined}
+        title={page?.title ?? 'Образовательные программы'}
+        subtitle={page?.subtitle ?? undefined}
       />
 
       {/* ── STATS ── */}

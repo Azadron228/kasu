@@ -6,7 +6,6 @@ import { MembersPage as MembersPageType } from '@/payload-types'
 import PageHeaderBlock from '../blocks/page-header-block'
 import FilterBlock from '../blocks/filter-block'
 import MembersGridBlock from '../blocks/member-grid-block'
-import { Header } from '@/globals/Header/Component'
 
 type Args = {
   params: Promise<{ locale: TypedLocale }>
@@ -26,7 +25,7 @@ export default async function MembersPage({ params, searchParams }: Args) {
   const search = typeof queryParams.search === 'string' ? queryParams.search : undefined
 
   return (
-    <div className="min-h-screen bg-[#F0F4FA]">
+    <div className="min-h-screen bg-page-bg">
       <PageHeaderBlock
         tag={page?.tag ?? undefined}
         title={page?.title ?? 'Члены Ассоциации'}

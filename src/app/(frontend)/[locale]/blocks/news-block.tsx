@@ -20,7 +20,7 @@ export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
         </div>
         <Link
           href="/news"
-          className="bg-brand-white/10 border border-navy/20 text-navy font-bold text-sm px-6 py-2.5 rounded-full hover:bg-navy hover:text-brand-white transition-all transition-colors"
+          className="bg-brand-white/10 border border-navy/20 text-navy font-bold text-sm px-6 py-2.5 rounded-full hover:bg-navy hover:text-brand-white transition-all"
         >
           {t('newsAll')}
         </Link>
@@ -29,15 +29,13 @@ export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
         {news.map((post, i) => (
           <Link
             href={`/news/${post.slug}`}
-            className={`group bg-brand-white rounded-2xl overflow-hidden shadow-custom transition-all hover:-translate-y-1 ${
-              i === 0 ? 'lg:col-span-2' : ''
-            }`}
+            className={`group bg-brand-white rounded-2xl overflow-hidden shadow-custom transition-all hover:-translate-y-1 ${i === 0 ? 'lg:col-span-2' : ''
+              }`}
             key={i}
           >
             <div
-              className={`relative bg-gradient-to-br from-navy to-navy-mid flex items-center justify-center text-4xl text-brand-white/20 ${
-                i === 0 ? 'h-64 text-7xl' : 'h-48'
-              }`}
+              className={`relative bg-gradient-to-br from-navy to-navy-mid flex items-center justify-center text-4xl text-brand-white/20 ${i === 0 ? 'h-64 text-7xl' : 'h-48'
+                }`}
             >
               <span className="absolute top-4 left-4 bg-steel text-brand-white text-[0.6rem] font-extrabold tracking-widest uppercase px-2.5 py-1 rounded">
                 {t('newsTag')}
@@ -49,9 +47,8 @@ export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
                 {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString(locale) : ''}
               </div>
               <h3
-                className={`font-serif text-navy leading-tight mb-3 group-hover:text-steel transition-colors ${
-                  i === 0 ? 'text-2xl' : 'text-lg'
-                }`}
+                className={`font-serif text-navy leading-tight mb-3 group-hover:text-steel transition-colors ${i === 0 ? 'text-2xl' : 'text-lg'
+                  }`}
               >
                 {post.title}
               </h3>

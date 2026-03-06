@@ -53,6 +53,8 @@
   --color-fmt-doc: #2B579A;
   --color-fmt-xlsx: #217346;
 
+  --color-page-bg: #F0F4FA;
+
   --radius-custom: 14px;
   --shadow-custom: 0 8px 40px rgba(30,53,96,0.12);
 }

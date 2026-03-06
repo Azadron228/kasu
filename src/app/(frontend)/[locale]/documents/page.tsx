@@ -40,7 +40,7 @@ export default async function DocumentsPage({ params }: Args) {
   })
 
   return (
-    <div className="min-h-screen bg-[#EAF2FA]">
+    <div className="min-h-screen bg-sky-pale">
       <PageHeaderBlock
         tag={page?.tag ?? 'Официальный архив'}
         title={page?.title ?? 'Документы Ассоциации'}
