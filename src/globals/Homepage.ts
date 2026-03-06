@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { anyone } from '@/access/anyone'
 
 import {
   lexicalEditor,
@@ -9,7 +10,8 @@ import {
 
 export const Homepage: GlobalConfig = {
   slug: 'homepage',
-  access: { read: () => true },
+  admin: { group: 'Страницы' },
+  access: { read: anyone },
   fields: [
     {
       name: 'stats',

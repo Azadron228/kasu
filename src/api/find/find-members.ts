@@ -15,10 +15,10 @@ type MembersParams = {
   status?: string
   region?: string
   search?: string
+  locale?: TypedLocale
 }
 
-
-export async function getFilteredMembers({ status, region, search }: MembersParams) {
+export async function getFilteredMembers({ status, region, search, locale }: MembersParams) {
 
   const and: Record<string, any>[] = []
 
@@ -34,6 +34,7 @@ export async function getFilteredMembers({ status, region, search }: MembersPara
     collection: 'members',
     limit: 100,
     depth: 1,
+    locale,
     where: and.length > 0 ? { and } : undefined,
   })
 

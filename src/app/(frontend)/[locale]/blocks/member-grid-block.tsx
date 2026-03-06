@@ -5,10 +5,11 @@ type Props = {
   status?: string
   region?: string
   search?: string
+  locale: any
 }
 
-export default async function MembersGridBlock({ status, region, search }: Props) {
-  const members = await getFilteredMembers({ status, region, search })
+export default async function MembersGridBlock({ status, region, search, locale }: Props) {
+  const members = await getFilteredMembers({ status, region, search, locale })
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">

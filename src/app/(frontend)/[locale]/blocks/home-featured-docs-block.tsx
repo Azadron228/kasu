@@ -1,8 +1,7 @@
 import React from 'react'
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
 import { Link } from '@/i18n/routing'
 import { TypedLocale } from 'payload'
+import { getFeaturedDocuments } from '@/api/find/find-documents'
 
 type Props = {
     locale: TypedLocale
@@ -22,22 +21,7 @@ function getFileEmoji(mimeType?: string | null): string {
 }
 
 export default async function HomeFeaturedDocsBlock({ locale }: Props) {
-    const payload = await getPayload({ config: configPromise })
-
-    const { docs: categories } = await payload.find({
-        collection: 'document-categories',
-        sort: 'order',
-        limit: 50,
-    })
-
-    const { docs: featured } = await payload.find({
-        collection: 'documents',
-        where: { isFeatured: { equals: true } },
-        sort: '-date',
-        limit: 100,
-        depth: 1,
-        locale,
-    })
+    const { categories, featured } = await getFeaturedDocuments(locale)
 
     if (!featured.length) return null
 

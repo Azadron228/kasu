@@ -5,6 +5,18 @@ import { getTranslations } from 'next-intl/server'
 
 import { TypedLocale } from 'payload'
 
+function DirectionCard({ dir }: { dir: any }) {
+  return (
+    <>
+      <div className="w-12 h-12 bg-sky-pale rounded-xl flex items-center justify-center text-2xl mb-5">
+        {dir.icon}
+      </div>
+      <h3 className="font-serif text-xl font-bold text-navy mb-2.5">{dir.title}</h3>
+      <p className="text-brand-muted text-sm leading-relaxed">{dir.description}</p>
+    </>
+  )
+}
+
 export default async function DirectionsBlock({ locale }: { locale: TypedLocale }) {
   const directions = await getDirections(locale)
   const t = await getTranslations('home')
@@ -15,8 +27,7 @@ export default async function DirectionsBlock({ locale }: { locale: TypedLocale 
           {t('directions')}
         </div>
         <h2 className="font-serif text-3xl lg:text-4xl font-bold text-navy leading-tight mb-4">
-          Направления
-деятельности
+          Направления деятельности
         </h2>
         <p className="text-brand-muted text-base leading-relaxed">
           Ассоциация реализует образовательные, научные и социальные программы, направленные на поддержку активного долголетия граждан Казахстана в духе концепции U3A.
@@ -28,24 +39,16 @@ export default async function DirectionsBlock({ locale }: { locale: TypedLocale 
             <Link
               href={PATHS.EDU_PROGRAMS}
               className="bg-brand-white p-8 rounded-2xl shadow-custom border-t-4 border-navy hover:-translate-y-1.5 transition-all"
-              key={i}
+              key={dir.id || i}
             >
-              <div className="w-12 h-12 bg-sky-pale rounded-xl flex items-center justify-center text-2xl mb-5">
-                {dir.icon}
-              </div>
-              <h3 className="font-serif text-xl font-bold text-navy mb-2.5">{dir.title}</h3>
-              <p className="text-brand-muted text-sm leading-relaxed">{dir.description}</p>
+              <DirectionCard dir={dir} />
             </Link>
           ) : (
             <div
               className="bg-brand-white p-8 rounded-2xl shadow-custom border-t-4 border-navy hover:-translate-y-1.5 transition-all"
-              key={i}
+              key={dir.id || i}
             >
-              <div className="w-12 h-12 bg-sky-pale rounded-xl flex items-center justify-center text-2xl mb-5">
-                {dir.icon}
-              </div>
-              <h3 className="font-serif text-xl font-bold text-navy mb-2.5">{dir.title}</h3>
-              <p className="text-brand-muted text-sm leading-relaxed">{dir.description}</p>
+              <DirectionCard dir={dir} />
             </div>
           ),
         )}
@@ -53,3 +56,4 @@ export default async function DirectionsBlock({ locale }: { locale: TypedLocale 
     </section>
   )
 }
+

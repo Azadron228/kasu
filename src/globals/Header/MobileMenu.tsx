@@ -56,7 +56,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ navLinks, joinButtonLabe
 
             {/* Full-screen menu overlay */}
             <div
-                className={`fixed inset-0 top-20 z-40 bg-brand-white flex flex-col pt-8 px-6 lg:px-16 overflow-y-auto duration-500 transition-all ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? 'opacity-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 -translate-y-8 invisible pointer-events-none'
+                className={`absolute top-full left-0 right-0 z-40 bg-brand-white flex flex-col h-[calc(100vh-5rem)] pt-8 px-6 lg:px-16 overflow-y-auto duration-500 transition-all ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? 'opacity-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 -translate-y-8 invisible pointer-events-none'
                     }`}
             >
                 <nav className="flex flex-col gap-4 mb-10">

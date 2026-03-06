@@ -1,10 +1,10 @@
 import type { GlobalConfig } from 'payload'
+import { anyone } from '@/access/anyone'
 
 export const Settings: GlobalConfig = {
     slug: 'settings',
-    access: {
-        read: () => true,
-    },
+    admin: { group: 'Настройки' },
+    access: { read: anyone },
     fields: [
         {
             name: 'contactEmail',
