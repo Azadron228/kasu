@@ -27,9 +27,6 @@ export default async function MembersPage({ params, searchParams }: Args) {
 
   return (
     <div className="min-h-screen bg-[#F0F4FA]">
-      <Header locale={locale} />
-
-      {/* ── HEADER ── */}
       <PageHeaderBlock
         tag={page?.tag ?? undefined}
         title={page?.title ?? 'Члены Ассоциации'}

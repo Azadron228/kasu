@@ -12,7 +12,6 @@ import MembersBlock from './blocks/members-block'
 import { JoinBlock } from './blocks/join-block'
 import ContactsBlock from './blocks/contacts-block'
 import HomeFeaturedDocsBlock from './blocks/home-featured-docs-block'
-import { Header } from '@/globals/Header/Component'
 
 
 type Args = {
@@ -26,7 +25,6 @@ export default async function HomePage({ params }: Args) {
   const settings = (await getCachedGlobal('settings', 1)()) as Settings
   return (
     <div>
-      <Header locale={locale} />
       <HeroBlock homepage={homepage} />
       <StatsBlock homepage={homepage} />
       <DirectionsBlock locale={locale} />

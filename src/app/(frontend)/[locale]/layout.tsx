@@ -13,6 +13,7 @@ import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import { Header } from '@/globals/Header/Component'
 
 type Args = {
   children: React.ReactNode
@@ -46,6 +47,7 @@ export default async function RootLayout({ children, params }: Args) {
         <Providers>
           <NextIntlClientProvider messages={messages}>
             <AdminBar adminBarProps={{ preview: isEnabled }} />
+            <Header locale={locale} />
             <main>{children}</main>
             <Footer locale={locale} />
           </NextIntlClientProvider>
