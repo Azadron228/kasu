@@ -1,18 +1,33 @@
+import React from 'react'
+import { Link } from '@/i18n/routing'
+
 type Props = {
   tag?: string
   title: string
   subtitle?: string
+  breadcrumbLabel?: string
 }
 
-export default function PageHeaderBlock({ tag, title, subtitle }: Props) {
+export default function PageHeaderBlock({ tag, title, subtitle, breadcrumbLabel }: Props) {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-navy-deep via-navy to-navy-mid px-6 md:px-12 xl:px-[72px] pb-14 pt-12">
+    <div className="relative overflow-hidden bg-gradient-to-br from-navy-deep via-navy to-navy-mid px-6 md:px-12 xl:px-[72px] pb-14 pt-8">
+      {/* breadcrumbs */}
+      {breadcrumbLabel && (
+        <div className="relative z-10 mb-8 flex items-center gap-2.5 text-xs font-bold tracking-wide uppercase">
+          <Link href="/" className="text-sky/60 hover:text-white transition-colors">
+            Главная
+          </Link>
+          <span className="text-sky/30 text-[10px]">›</span>
+          <span className="text-white/90">{breadcrumbLabel}</span>
+        </div>
+      )}
+
       {/* decorative blobs */}
       <div className="pointer-events-none absolute -right-20 -top-20 h-[480px] w-[480px] rounded-full bg-[radial-gradient(circle,rgba(184,208,232,0.1)_0%,transparent_70%)]" />
       <div className="pointer-events-none absolute -bottom-16 left-[30%] h-[300px] w-[300px] rounded-full bg-[radial-gradient(circle,rgba(184,160,96,0.07)_0%,transparent_70%)]" />
 
       <div className="relative z-10 flex items-center gap-7">
-        <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-navy-mid text-[34px] shadow-[0_0_0_3px_rgba(184,208,232,0.25),0_8px_36px_rgba(0,0,0,0.3)]">
+        <div className="flex font-sans h-20 w-20 shrink-0 items-center justify-center rounded-full bg-navy-mid text-[34px] shadow-[0_0_0_3px_rgba(184,208,232,0.25),0_8px_36px_rgba(0,0,0,0.3)]">
           🎓
         </div>
 

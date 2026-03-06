@@ -23,6 +23,7 @@ export default async function ProgramsPage({ params }: Args) {
         tag={page?.tag ?? undefined}
         title={page?.title ?? 'Образовательные программы'}
         subtitle={page?.subtitle ?? undefined}
+        breadcrumbLabel="Программы"
       />
 
       {/* ── STATS ── */}

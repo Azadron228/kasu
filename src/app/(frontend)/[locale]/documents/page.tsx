@@ -25,6 +25,7 @@ export default async function DocumentsPage({ params }: Args) {
         tag={page?.tag ?? 'Официальный архив'}
         title={page?.title ?? 'Документы Ассоциации'}
         subtitle={page?.subtitle ?? undefined}
+        breadcrumbLabel="Документы"
       />
 
       <DocumentsExplorerBlock

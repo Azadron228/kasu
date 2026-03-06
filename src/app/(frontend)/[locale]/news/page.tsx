@@ -4,6 +4,8 @@ import { getPayload } from 'payload'
 import React from 'react'
 import Link from 'next/link'
 
+import PageHeaderBlock from '../blocks/page-header-block'
+
 export const dynamic = 'force-static'
 export const revalidate = 600
 
@@ -17,29 +19,35 @@ export default async function NewsPage() {
   })
 
   return (
-    <main className="container py-16">
-      <h1 className="s-title mb-10">Новости и события</h1>
+    <main className="bg-page-bg min-h-screen">
+      <PageHeaderBlock
+        title="Новости и события"
+        breadcrumbLabel="Новости"
+        tag="Архив событий"
+      />
+      <div className="container py-16">
 
-      <div className="grid grid-cols-5 grid-rows-5 gap-4">
-        {posts.docs.map((post, i) => (
-          <Link
-            href={`/news/${post.slug}`}
-            className={`news-card`}
-            key={i}
-            style={{ textDecoration: 'none' }}
-          >
-            <div className="n-img">
-              <span className="n-tag">Новость</span>
-            </div>
-            <div className="n-body">
-              <div className="n-date">
-                {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}
+        <div className="grid grid-cols-5 grid-rows-5 gap-4">
+          {posts.docs.map((post, i) => (
+            <Link
+              href={`/news/${post.slug}`}
+              className={`news-card`}
+              key={i}
+              style={{ textDecoration: 'none' }}
+            >
+              <div className="n-img">
+                <span className="n-tag">Новость</span>
               </div>
-              <h3>{post.title}</h3>
-              <p className="line-clamp-3">{post.excerpt || ''}</p>
-            </div>
-          </Link>
-        ))}
+              <div className="n-body">
+                <div className="n-date">
+                  {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}
+                </div>
+                <h3>{post.title}</h3>
+                <p className="line-clamp-3">{post.excerpt || ''}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </main>
   )

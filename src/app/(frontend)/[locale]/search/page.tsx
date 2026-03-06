@@ -8,6 +8,8 @@ import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
 
+import PageHeaderBlock from '../blocks/page-header-block'
+
 type Args = {
   searchParams: Promise<{
     q: string
@@ -27,62 +29,49 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       categories: true,
       meta: true,
     },
-    // pagination: false reduces overhead if you don't need totalDocs
     pagination: false,
     ...(query
       ? {
-          where: {
-            or: [
-              {
-                title: {
-                  like: query,
-                },
-              },
-              {
-                'meta.description': {
-                  like: query,
-                },
-              },
-              {
-                'meta.title': {
-                  like: query,
-                },
-              },
-              {
-                slug: {
-                  like: query,
-                },
-              },
-            ],
-          },
-        }
+        where: {
+          or: [
+            { title: { like: query } },
+            { 'meta.description': { like: query } },
+            { 'meta.title': { like: query } },
+            { slug: { like: query } },
+          ],
+        },
+      }
       : {}),
   })
 
   return (
-    <div className="pt-24 pb-24">
+    <div className="bg-page-bg min-h-screen">
+      <PageHeaderBlock
+        title="Поиск по сайту"
+        subtitle={query ? `Результаты поиска для: "${query}"` : 'Введите запрос для поиска по материалам Ассоциации'}
+        breadcrumbLabel="Поиск"
+      />
       <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Search</h1>
 
-          <div className="max-w-[50rem] mx-auto">
-            <Search />
-          </div>
+      <div className="container py-12">
+        <div className="max-w-[50rem] mx-auto mb-16">
+          <Search />
         </div>
-      </div>
 
-      {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
-      ) : (
-        <div className="container">No results found.</div>
-      )}
+        {posts.totalDocs > 0 ? (
+          <CollectionArchive posts={posts.docs as CardPostData[]} />
+        ) : (
+          <div className="container text-center py-10 text-brand-muted">
+            {query ? 'По вашему запросу ничего не найдено.' : 'Начните поиск, введя ключевое слово выше.'}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Payload Website Template Search`,
+    title: `Поиск | КАСУ U3A`,
   }
 }

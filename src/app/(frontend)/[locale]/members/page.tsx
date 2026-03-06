@@ -30,6 +30,7 @@ export default async function MembersPage({ params, searchParams }: Args) {
         tag={page?.tag ?? undefined}
         title={page?.title ?? 'Члены Ассоциации'}
         subtitle={page?.subtitle ?? undefined}
+        breadcrumbLabel="Участники"
       />
 
       {/* ── FILTER — full-width sticky bar, no side padding ── */}
