@@ -9,6 +9,8 @@ import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
 
 import PageHeaderBlock from '../blocks/page-header-block'
+import { payload } from '@/config/instance'
+import findPosts from '@/api/find/find-posts'
 
 type Args = {
   searchParams: Promise<{
@@ -17,33 +19,8 @@ type Args = {
 }
 export default async function Page({ searchParams: searchParamsPromise }: Args) {
   const { q: query } = await searchParamsPromise
-  const payload = await getPayload({ config: configPromise })
 
-  const posts = await payload.find({
-    collection: 'search',
-    depth: 1,
-    limit: 12,
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      meta: true,
-    },
-    pagination: false,
-    ...(query
-      ? {
-        where: {
-          or: [
-            { title: { like: query } },
-            { 'meta.description': { like: query } },
-            { 'meta.title': { like: query } },
-            { slug: { like: query } },
-          ],
-        },
-      }
-      : {}),
-  })
-
+  const posts = await findPosts(query)
   return (
     <div className="bg-page-bg min-h-screen">
       <PageHeaderBlock

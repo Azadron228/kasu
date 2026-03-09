@@ -1,60 +1,82 @@
-import type { Metadata } from 'next/types'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import React from 'react'
-import Link from 'next/link'
-
+import { Metadata } from 'next'
+import { NewsGrid } from './components/grid-news'
+import { Pagination } from '@/components/Pagination'
 import PageHeaderBlock from '../blocks/page-header-block'
+import PageClient from './page.client'
+import { NewsFilter } from './components/news-filter'
+import { Suspense } from 'react'
 
-export const dynamic = 'force-static'
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
-export default async function NewsPage() {
+type Args = {
+  searchParams: Promise<{ category?: string; page?: string }>
+}
+
+export default async function NewsPage({ searchParams }: Args) {
+  const { category, page } = await searchParams
+  const currentPage = Number(page) || 1
+
   const payload = await getPayload({ config: configPromise })
+
+  const categoriesResult = await payload.find({
+    collection: 'categories',
+    limit: 100,
+    pagination: false,
+  })
 
   const posts = await payload.find({
     collection: 'posts',
+    depth: 1,
     limit: 12,
+    page: currentPage,
     sort: '-publishedAt',
+    select: {
+      title: true,
+      slug: true,
+      excerpt: true,
+      publishedAt: true,
+      categories: true,
+      meta: { description: true },
+    },
+    ...(category
+      ? {
+        where: {
+          'categories.slug': { equals: category },
+        },
+      }
+      : {}),
   })
 
   return (
     <main className="bg-page-bg min-h-screen">
+      <PageClient />
       <PageHeaderBlock
         title="Новости и события"
         breadcrumbLabel="Новости"
         tag="Архив событий"
       />
       <div className="container py-16">
-
-        <div className="grid grid-cols-5 grid-rows-5 gap-4">
-          {posts.docs.map((post, i) => (
-            <Link
-              href={`/news/${post.slug}`}
-              className={`news-card`}
-              key={i}
-              style={{ textDecoration: 'none' }}
-            >
-              <div className="n-img">
-                <span className="n-tag">Новость</span>
-              </div>
-              <div className="n-body">
-                <div className="n-date">
-                  {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}
-                </div>
-                <h3>{post.title}</h3>
-                <p className="line-clamp-3">{post.excerpt || ''}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <Suspense fallback={null}>
+          <NewsFilter
+            categories={categoriesResult.docs}
+            activeCategory={category}
+            totalDocs={posts.totalDocs}
+          />
+        </Suspense>
+        <NewsGrid posts={posts.docs} />
+        {posts.totalPages > 1 && (
+          <div className="mt-12">
+            <Pagination page={posts.page!} totalPages={posts.totalPages} />
+          </div>
+        )}
       </div>
     </main>
   )
 }
 
 export function generateMetadata(): Metadata {
-  return {
-    title: `Новости | КАСУ U3A`,
-  }
+  return { title: 'Новости | КАСУ U3A' }
 }
