@@ -2,7 +2,7 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-   CREATE TYPE "public"."_locales" AS ENUM('ru', 'kk', 'en');
+   CREATE TYPE "public"."_locales" AS ENUM('ru', 'en', 'kk');
   CREATE TYPE "public"."enum_pages_hero_links_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_pages_hero_links_link_appearance" AS ENUM('default', 'outline');
   CREATE TYPE "public"."enum_pages_blocks_cta_links_link_type" AS ENUM('reference', 'custom');
@@ -25,23 +25,22 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum__pages_v_blocks_archive_relation_to" AS ENUM('posts');
   CREATE TYPE "public"."enum__pages_v_version_hero_type" AS ENUM('none', 'highImpact', 'mediumImpact', 'lowImpact');
   CREATE TYPE "public"."enum__pages_v_version_status" AS ENUM('draft', 'published');
-  CREATE TYPE "public"."enum__pages_v_published_locale" AS ENUM('ru', 'kk', 'en');
+  CREATE TYPE "public"."enum__pages_v_published_locale" AS ENUM('ru', 'en', 'kk');
   CREATE TYPE "public"."enum_posts_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum__posts_v_version_status" AS ENUM('draft', 'published');
-  CREATE TYPE "public"."enum__posts_v_published_locale" AS ENUM('ru', 'kk', 'en');
-  CREATE TYPE "public"."enum_members_region" AS ENUM('abai', 'akmola', 'aktobe', 'almaty', 'atyrau', 'east_kazakhstan', 'jambyl', 'jetisu', 'karaganda', 'kostanay', 'kyzylorda', 'mangystau', 'north_kazakhstan', 'pavlodar', 'turkistan', 'west_kazakhstan', 'ulytau', 'almaty_city', 'astana_city', 'shymkent_city');
-  CREATE TYPE "public"."enum_projects_status" AS ENUM('active', 'completed', 'planned');
-  CREATE TYPE "public"."enum_documents_category" AS ENUM('charter', 'regulations', 'annual_reports', 'agreements');
-  CREATE TYPE "public"."enum_partners_type" AS ENUM('government', 'ngo', 'corporate', 'academic', 'other');
+  CREATE TYPE "public"."enum__posts_v_published_locale" AS ENUM('ru', 'en', 'kk');
+  CREATE TYPE "public"."enum_members_status" AS ENUM('founder', 'member');
+  CREATE TYPE "public"."enum_programs_direction" AS ENUM('finance', 'it', 'humanities', 'health', 'psychology', 'languages', 'art', 'nature', 'games', 'pedagogy');
+  CREATE TYPE "public"."enum_programs_format" AS ENUM('online', 'offline', 'blended');
   CREATE TYPE "public"."enum_redirects_to_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_forms_confirmation_type" AS ENUM('message', 'redirect');
   CREATE TYPE "public"."enum_payload_jobs_log_task_slug" AS ENUM('inline', 'schedulePublish');
   CREATE TYPE "public"."enum_payload_jobs_log_state" AS ENUM('failed', 'succeeded');
   CREATE TYPE "public"."enum_payload_jobs_task_slug" AS ENUM('inline', 'schedulePublish');
-  CREATE TYPE "public"."enum_payload_folders_folder_type" AS ENUM('media');
+  CREATE TYPE "public"."enum_payload_folders_folder_type" AS ENUM('media', 'documents');
   CREATE TYPE "public"."enum_header_nav_items_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_footer_nav_items_link_type" AS ENUM('reference', 'custom');
-  CREATE TYPE "public"."enum_settings_social_links_platform" AS ENUM('Instagram', 'Facebook', 'YouTube', 'LinkedIn', 'Twitter');
+  CREATE TYPE "public"."enum_settings_social_links_platform" AS ENUM('Instagram', 'Facebook', 'YouTube', 'LinkedIn', 'Twitter', 'Telegram', 'WhatsApp');
   CREATE TABLE "pages_hero_links" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -473,17 +472,32 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   CREATE TABLE "members" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"logo_id" integer NOT NULL,
-  	"website" varchar,
+  	"region_id" integer NOT NULL,
+  	"status" "enum_members_status" DEFAULT 'member' NOT NULL,
+  	"logo_id" integer,
+  	"main_url" varchar,
+  	"silver_url" varchar,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
   
   CREATE TABLE "members_locales" (
-  	"name" varchar NOT NULL,
+  	"short_name" varchar NOT NULL,
+  	"full_name" varchar NOT NULL,
   	"city" varchar NOT NULL,
-  	"region" "enum_members_region" NOT NULL,
-  	"description" varchar,
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"_locale" "_locales" NOT NULL,
+  	"_parent_id" integer NOT NULL
+  );
+  
+  CREATE TABLE "regions" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
+  CREATE TABLE "regions_locales" (
+  	"name" varchar NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
   	"_locale" "_locales" NOT NULL,
   	"_parent_id" integer NOT NULL
@@ -505,19 +519,19 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" integer NOT NULL
   );
   
-  CREATE TABLE "projects" (
+  CREATE TABLE "programs" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"start_date" timestamp(3) with time zone,
-  	"end_date" timestamp(3) with time zone,
-  	"image_id" integer,
+  	"direction" "enum_programs_direction" NOT NULL,
+  	"format" "enum_programs_format" NOT NULL,
+  	"member_id" integer NOT NULL,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
   
-  CREATE TABLE "projects_locales" (
-  	"title" varchar NOT NULL,
+  CREATE TABLE "programs_locales" (
+  	"name" varchar NOT NULL,
+  	"duration" varchar NOT NULL,
   	"description" varchar,
-  	"status" "enum_projects_status" DEFAULT 'active' NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
   	"_locale" "_locales" NOT NULL,
   	"_parent_id" integer NOT NULL
@@ -525,49 +539,43 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   CREATE TABLE "documents" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"file_id" integer NOT NULL,
-  	"year" numeric NOT NULL,
+  	"category_id" integer NOT NULL,
+  	"date" timestamp(3) with time zone NOT NULL,
+  	"is_featured" boolean DEFAULT false,
+  	"folder_id" integer,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"url" varchar,
+  	"thumbnail_u_r_l" varchar,
+  	"filename" varchar,
+  	"mime_type" varchar,
+  	"filesize" numeric,
+  	"width" numeric,
+  	"height" numeric,
+  	"focal_x" numeric,
+  	"focal_y" numeric
   );
   
   CREATE TABLE "documents_locales" (
   	"title" varchar NOT NULL,
-  	"category" "enum_documents_category" NOT NULL,
   	"description" varchar,
   	"id" serial PRIMARY KEY NOT NULL,
   	"_locale" "_locales" NOT NULL,
   	"_parent_id" integer NOT NULL
   );
   
-  CREATE TABLE "leadership" (
+  CREATE TABLE "document_categories" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"photo_id" integer,
-  	"order" numeric DEFAULT 0,
+  	"slug" varchar NOT NULL,
+  	"icon" varchar DEFAULT '📄' NOT NULL,
+  	"order" numeric DEFAULT 0 NOT NULL,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
   
-  CREATE TABLE "leadership_locales" (
-  	"name" varchar NOT NULL,
-  	"role" varchar NOT NULL,
-  	"bio" varchar,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_locale" "_locales" NOT NULL,
-  	"_parent_id" integer NOT NULL
-  );
-  
-  CREATE TABLE "partners" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"logo_id" integer,
-  	"website" varchar,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
-  );
-  
-  CREATE TABLE "partners_locales" (
-  	"name" varchar NOT NULL,
-  	"type" "enum_partners_type" NOT NULL,
+  CREATE TABLE "document_categories_locales" (
+  	"title" varchar NOT NULL,
+  	"section_label" varchar,
   	"id" serial PRIMARY KEY NOT NULL,
   	"_locale" "_locales" NOT NULL,
   	"_parent_id" integer NOT NULL
@@ -924,11 +932,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"categories_id" integer,
   	"users_id" integer,
   	"members_id" integer,
+  	"regions_id" integer,
   	"directions_id" integer,
-  	"projects_id" integer,
+  	"programs_id" integer,
   	"documents_id" integer,
-  	"leadership_id" integer,
-  	"partners_id" integer,
+  	"document_categories_id" integer,
   	"redirects_id" integer,
   	"forms_id" integer,
   	"form_submissions_id" integer,
@@ -1010,32 +1018,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"posts_id" integer
   );
   
-  CREATE TABLE "settings_social_links" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"platform" "enum_settings_social_links_platform",
-  	"url" varchar
-  );
-  
-  CREATE TABLE "settings" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"contact_email" varchar,
-  	"contact_phone" varchar,
-  	"updated_at" timestamp(3) with time zone,
-  	"created_at" timestamp(3) with time zone
-  );
-  
-  CREATE TABLE "settings_locales" (
-  	"site_name" varchar,
-  	"site_description" varchar,
-  	"contact_address" varchar,
-  	"footer_copyright" varchar,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_locale" "_locales" NOT NULL,
-  	"_parent_id" integer NOT NULL
-  );
-  
   CREATE TABLE "homepage_stats" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1050,44 +1032,100 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" varchar NOT NULL
   );
   
-  CREATE TABLE "homepage_about_bullets" (
+  CREATE TABLE "homepage_about_info_blocks" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
-  	"_locale" "_locales" NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"point" varchar
+  	"id" varchar PRIMARY KEY NOT NULL
   );
   
-  CREATE TABLE "homepage_join_benefits" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
+  CREATE TABLE "homepage_about_info_blocks_locales" (
+  	"heading" varchar,
+  	"body" varchar,
+  	"id" serial PRIMARY KEY NOT NULL,
   	"_locale" "_locales" NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"benefit" varchar
+  	"_parent_id" varchar NOT NULL
   );
   
   CREATE TABLE "homepage" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"about_founded" timestamp(3) with time zone,
-  	"about_registration_number" varchar,
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
   
   CREATE TABLE "homepage_locales" (
-  	"hero_headline" varchar,
-  	"hero_subheading" varchar,
-  	"hero_primary_cta_label" varchar,
-  	"hero_secondary_cta_label" varchar,
-  	"president_quote" varchar,
-  	"president_name" varchar,
-  	"president_role" varchar,
-  	"about_label" varchar,
-  	"about_title" varchar,
   	"about_body" jsonb,
-  	"join_title" varchar,
-  	"join_subtitle" varchar,
-  	"join_description" varchar,
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"_locale" "_locales" NOT NULL,
+  	"_parent_id" integer NOT NULL
+  );
+  
+  CREATE TABLE "programs_page" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"stats_universities_count" numeric DEFAULT 14,
+  	"stats_programs_count" numeric DEFAULT 68,
+  	"stats_directions_count" numeric DEFAULT 12,
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+  
+  CREATE TABLE "programs_page_locales" (
+  	"tag" varchar DEFAULT 'Серебряные университеты · КАСУ',
+  	"title" varchar DEFAULT 'Образовательные программы' NOT NULL,
+  	"subtitle" varchar,
+  	"stats_free_note" varchar DEFAULT 'Большинство курсов',
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"_locale" "_locales" NOT NULL,
+  	"_parent_id" integer NOT NULL
+  );
+  
+  CREATE TABLE "members_page" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+  
+  CREATE TABLE "members_page_locales" (
+  	"tag" varchar DEFAULT 'Серебряные университеты · КАСУ',
+  	"title" varchar DEFAULT 'Участники ассоциации' NOT NULL,
+  	"subtitle" varchar DEFAULT 'Университеты и организации, входящие в состав Казахстанской Ассоциации Серебряных Университетов (U3A Kazakhstan)',
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"_locale" "_locales" NOT NULL,
+  	"_parent_id" integer NOT NULL
+  );
+  
+  CREATE TABLE "documents_page" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+  
+  CREATE TABLE "documents_page_locales" (
+  	"tag" varchar DEFAULT 'Официальный архив',
+  	"title" varchar DEFAULT 'Документы Ассоциации' NOT NULL,
+  	"subtitle" varchar DEFAULT 'Устав, нормативные акты, протоколы заседаний и отчётность КАСУ. Все официальные документы в открытом доступе.',
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"_locale" "_locales" NOT NULL,
+  	"_parent_id" integer NOT NULL
+  );
+  
+  CREATE TABLE "settings_social_links" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"platform" "enum_settings_social_links_platform" NOT NULL,
+  	"url" varchar NOT NULL
+  );
+  
+  CREATE TABLE "settings" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"contact_email" varchar NOT NULL,
+  	"contact_phone" varchar NOT NULL,
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+  
+  CREATE TABLE "settings_locales" (
+  	"contact_address" varchar NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
   	"_locale" "_locales" NOT NULL,
   	"_parent_id" integer NOT NULL
@@ -1152,17 +1190,17 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "categories" ADD CONSTRAINT "categories_parent_id_categories_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."categories"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "categories_locales" ADD CONSTRAINT "categories_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "users_sessions" ADD CONSTRAINT "users_sessions_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "members" ADD CONSTRAINT "members_region_id_regions_id_fk" FOREIGN KEY ("region_id") REFERENCES "public"."regions"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "members" ADD CONSTRAINT "members_logo_id_media_id_fk" FOREIGN KEY ("logo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "members_locales" ADD CONSTRAINT "members_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."members"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "regions_locales" ADD CONSTRAINT "regions_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."regions"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "directions_locales" ADD CONSTRAINT "directions_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."directions"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "projects" ADD CONSTRAINT "projects_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "projects_locales" ADD CONSTRAINT "projects_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."projects"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "documents" ADD CONSTRAINT "documents_file_id_media_id_fk" FOREIGN KEY ("file_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "programs" ADD CONSTRAINT "programs_member_id_members_id_fk" FOREIGN KEY ("member_id") REFERENCES "public"."members"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "programs_locales" ADD CONSTRAINT "programs_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."programs"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "documents" ADD CONSTRAINT "documents_category_id_document_categories_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."document_categories"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "documents" ADD CONSTRAINT "documents_folder_id_payload_folders_id_fk" FOREIGN KEY ("folder_id") REFERENCES "public"."payload_folders"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "documents_locales" ADD CONSTRAINT "documents_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."documents"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "leadership" ADD CONSTRAINT "leadership_photo_id_media_id_fk" FOREIGN KEY ("photo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "leadership_locales" ADD CONSTRAINT "leadership_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."leadership"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "partners" ADD CONSTRAINT "partners_logo_id_media_id_fk" FOREIGN KEY ("logo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "partners_locales" ADD CONSTRAINT "partners_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."partners"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "document_categories_locales" ADD CONSTRAINT "document_categories_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."document_categories"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "redirects_rels" ADD CONSTRAINT "redirects_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."redirects"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "redirects_rels" ADD CONSTRAINT "redirects_rels_pages_fk" FOREIGN KEY ("pages_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "redirects_rels" ADD CONSTRAINT "redirects_rels_posts_fk" FOREIGN KEY ("posts_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
@@ -1206,11 +1244,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_categories_fk" FOREIGN KEY ("categories_id") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_members_fk" FOREIGN KEY ("members_id") REFERENCES "public"."members"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_regions_fk" FOREIGN KEY ("regions_id") REFERENCES "public"."regions"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_directions_fk" FOREIGN KEY ("directions_id") REFERENCES "public"."directions"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_projects_fk" FOREIGN KEY ("projects_id") REFERENCES "public"."projects"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_programs_fk" FOREIGN KEY ("programs_id") REFERENCES "public"."programs"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_documents_fk" FOREIGN KEY ("documents_id") REFERENCES "public"."documents"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_leadership_fk" FOREIGN KEY ("leadership_id") REFERENCES "public"."leadership"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_partners_fk" FOREIGN KEY ("partners_id") REFERENCES "public"."partners"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_document_categories_fk" FOREIGN KEY ("document_categories_id") REFERENCES "public"."document_categories"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_redirects_fk" FOREIGN KEY ("redirects_id") REFERENCES "public"."redirects"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_forms_fk" FOREIGN KEY ("forms_id") REFERENCES "public"."forms"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_form_submissions_fk" FOREIGN KEY ("form_submissions_id") REFERENCES "public"."form_submissions"("id") ON DELETE cascade ON UPDATE no action;
@@ -1226,13 +1264,16 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "footer_rels" ADD CONSTRAINT "footer_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."footer"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "footer_rels" ADD CONSTRAINT "footer_rels_pages_fk" FOREIGN KEY ("pages_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "footer_rels" ADD CONSTRAINT "footer_rels_posts_fk" FOREIGN KEY ("posts_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "settings_social_links" ADD CONSTRAINT "settings_social_links_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."settings"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "settings_locales" ADD CONSTRAINT "settings_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."settings"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "homepage_stats" ADD CONSTRAINT "homepage_stats_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."homepage"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "homepage_stats_locales" ADD CONSTRAINT "homepage_stats_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."homepage_stats"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "homepage_about_bullets" ADD CONSTRAINT "homepage_about_bullets_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."homepage"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "homepage_join_benefits" ADD CONSTRAINT "homepage_join_benefits_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."homepage"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "homepage_about_info_blocks" ADD CONSTRAINT "homepage_about_info_blocks_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."homepage"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "homepage_about_info_blocks_locales" ADD CONSTRAINT "homepage_about_info_blocks_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."homepage_about_info_blocks"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "homepage_locales" ADD CONSTRAINT "homepage_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."homepage"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "programs_page_locales" ADD CONSTRAINT "programs_page_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."programs_page"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "members_page_locales" ADD CONSTRAINT "members_page_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."members_page"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "documents_page_locales" ADD CONSTRAINT "documents_page_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."documents_page"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "settings_social_links" ADD CONSTRAINT "settings_social_links_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."settings"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "settings_locales" ADD CONSTRAINT "settings_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."settings"("id") ON DELETE cascade ON UPDATE no action;
   CREATE INDEX "pages_hero_links_order_idx" ON "pages_hero_links" USING btree ("_order");
   CREATE INDEX "pages_hero_links_parent_id_idx" ON "pages_hero_links" USING btree ("_parent_id");
   CREATE INDEX "pages_blocks_cta_links_order_idx" ON "pages_blocks_cta_links" USING btree ("_order");
@@ -1371,29 +1412,31 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "users_updated_at_idx" ON "users" USING btree ("updated_at");
   CREATE INDEX "users_created_at_idx" ON "users" USING btree ("created_at");
   CREATE UNIQUE INDEX "users_email_idx" ON "users" USING btree ("email");
+  CREATE INDEX "members_region_idx" ON "members" USING btree ("region_id");
   CREATE INDEX "members_logo_idx" ON "members" USING btree ("logo_id");
   CREATE INDEX "members_updated_at_idx" ON "members" USING btree ("updated_at");
   CREATE INDEX "members_created_at_idx" ON "members" USING btree ("created_at");
   CREATE UNIQUE INDEX "members_locales_locale_parent_id_unique" ON "members_locales" USING btree ("_locale","_parent_id");
+  CREATE INDEX "regions_updated_at_idx" ON "regions" USING btree ("updated_at");
+  CREATE INDEX "regions_created_at_idx" ON "regions" USING btree ("created_at");
+  CREATE UNIQUE INDEX "regions_locales_locale_parent_id_unique" ON "regions_locales" USING btree ("_locale","_parent_id");
   CREATE INDEX "directions_updated_at_idx" ON "directions" USING btree ("updated_at");
   CREATE INDEX "directions_created_at_idx" ON "directions" USING btree ("created_at");
   CREATE UNIQUE INDEX "directions_locales_locale_parent_id_unique" ON "directions_locales" USING btree ("_locale","_parent_id");
-  CREATE INDEX "projects_image_idx" ON "projects" USING btree ("image_id");
-  CREATE INDEX "projects_updated_at_idx" ON "projects" USING btree ("updated_at");
-  CREATE INDEX "projects_created_at_idx" ON "projects" USING btree ("created_at");
-  CREATE UNIQUE INDEX "projects_locales_locale_parent_id_unique" ON "projects_locales" USING btree ("_locale","_parent_id");
-  CREATE INDEX "documents_file_idx" ON "documents" USING btree ("file_id");
+  CREATE INDEX "programs_member_idx" ON "programs" USING btree ("member_id");
+  CREATE INDEX "programs_updated_at_idx" ON "programs" USING btree ("updated_at");
+  CREATE INDEX "programs_created_at_idx" ON "programs" USING btree ("created_at");
+  CREATE UNIQUE INDEX "programs_locales_locale_parent_id_unique" ON "programs_locales" USING btree ("_locale","_parent_id");
+  CREATE INDEX "documents_category_idx" ON "documents" USING btree ("category_id");
+  CREATE INDEX "documents_folder_idx" ON "documents" USING btree ("folder_id");
   CREATE INDEX "documents_updated_at_idx" ON "documents" USING btree ("updated_at");
   CREATE INDEX "documents_created_at_idx" ON "documents" USING btree ("created_at");
+  CREATE UNIQUE INDEX "documents_filename_idx" ON "documents" USING btree ("filename");
   CREATE UNIQUE INDEX "documents_locales_locale_parent_id_unique" ON "documents_locales" USING btree ("_locale","_parent_id");
-  CREATE INDEX "leadership_photo_idx" ON "leadership" USING btree ("photo_id");
-  CREATE INDEX "leadership_updated_at_idx" ON "leadership" USING btree ("updated_at");
-  CREATE INDEX "leadership_created_at_idx" ON "leadership" USING btree ("created_at");
-  CREATE UNIQUE INDEX "leadership_locales_locale_parent_id_unique" ON "leadership_locales" USING btree ("_locale","_parent_id");
-  CREATE INDEX "partners_logo_idx" ON "partners" USING btree ("logo_id");
-  CREATE INDEX "partners_updated_at_idx" ON "partners" USING btree ("updated_at");
-  CREATE INDEX "partners_created_at_idx" ON "partners" USING btree ("created_at");
-  CREATE UNIQUE INDEX "partners_locales_locale_parent_id_unique" ON "partners_locales" USING btree ("_locale","_parent_id");
+  CREATE UNIQUE INDEX "document_categories_slug_idx" ON "document_categories" USING btree ("slug");
+  CREATE INDEX "document_categories_updated_at_idx" ON "document_categories" USING btree ("updated_at");
+  CREATE INDEX "document_categories_created_at_idx" ON "document_categories" USING btree ("created_at");
+  CREATE UNIQUE INDEX "document_categories_locales_locale_parent_id_unique" ON "document_categories_locales" USING btree ("_locale","_parent_id");
   CREATE UNIQUE INDEX "redirects_from_idx" ON "redirects" USING btree ("from");
   CREATE INDEX "redirects_updated_at_idx" ON "redirects" USING btree ("updated_at");
   CREATE INDEX "redirects_created_at_idx" ON "redirects" USING btree ("created_at");
@@ -1493,11 +1536,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_locked_documents_rels_categories_id_idx" ON "payload_locked_documents_rels" USING btree ("categories_id");
   CREATE INDEX "payload_locked_documents_rels_users_id_idx" ON "payload_locked_documents_rels" USING btree ("users_id");
   CREATE INDEX "payload_locked_documents_rels_members_id_idx" ON "payload_locked_documents_rels" USING btree ("members_id");
+  CREATE INDEX "payload_locked_documents_rels_regions_id_idx" ON "payload_locked_documents_rels" USING btree ("regions_id");
   CREATE INDEX "payload_locked_documents_rels_directions_id_idx" ON "payload_locked_documents_rels" USING btree ("directions_id");
-  CREATE INDEX "payload_locked_documents_rels_projects_id_idx" ON "payload_locked_documents_rels" USING btree ("projects_id");
+  CREATE INDEX "payload_locked_documents_rels_programs_id_idx" ON "payload_locked_documents_rels" USING btree ("programs_id");
   CREATE INDEX "payload_locked_documents_rels_documents_id_idx" ON "payload_locked_documents_rels" USING btree ("documents_id");
-  CREATE INDEX "payload_locked_documents_rels_leadership_id_idx" ON "payload_locked_documents_rels" USING btree ("leadership_id");
-  CREATE INDEX "payload_locked_documents_rels_partners_id_idx" ON "payload_locked_documents_rels" USING btree ("partners_id");
+  CREATE INDEX "payload_locked_documents_rels_document_categories_id_idx" ON "payload_locked_documents_rels" USING btree ("document_categories_id");
   CREATE INDEX "payload_locked_documents_rels_redirects_id_idx" ON "payload_locked_documents_rels" USING btree ("redirects_id");
   CREATE INDEX "payload_locked_documents_rels_forms_id_idx" ON "payload_locked_documents_rels" USING btree ("forms_id");
   CREATE INDEX "payload_locked_documents_rels_form_submissions_id_idx" ON "payload_locked_documents_rels" USING btree ("form_submissions_id");
@@ -1526,19 +1569,19 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "footer_rels_path_idx" ON "footer_rels" USING btree ("path");
   CREATE INDEX "footer_rels_pages_id_idx" ON "footer_rels" USING btree ("pages_id");
   CREATE INDEX "footer_rels_posts_id_idx" ON "footer_rels" USING btree ("posts_id");
-  CREATE INDEX "settings_social_links_order_idx" ON "settings_social_links" USING btree ("_order");
-  CREATE INDEX "settings_social_links_parent_id_idx" ON "settings_social_links" USING btree ("_parent_id");
-  CREATE UNIQUE INDEX "settings_locales_locale_parent_id_unique" ON "settings_locales" USING btree ("_locale","_parent_id");
   CREATE INDEX "homepage_stats_order_idx" ON "homepage_stats" USING btree ("_order");
   CREATE INDEX "homepage_stats_parent_id_idx" ON "homepage_stats" USING btree ("_parent_id");
   CREATE UNIQUE INDEX "homepage_stats_locales_locale_parent_id_unique" ON "homepage_stats_locales" USING btree ("_locale","_parent_id");
-  CREATE INDEX "homepage_about_bullets_order_idx" ON "homepage_about_bullets" USING btree ("_order");
-  CREATE INDEX "homepage_about_bullets_parent_id_idx" ON "homepage_about_bullets" USING btree ("_parent_id");
-  CREATE INDEX "homepage_about_bullets_locale_idx" ON "homepage_about_bullets" USING btree ("_locale");
-  CREATE INDEX "homepage_join_benefits_order_idx" ON "homepage_join_benefits" USING btree ("_order");
-  CREATE INDEX "homepage_join_benefits_parent_id_idx" ON "homepage_join_benefits" USING btree ("_parent_id");
-  CREATE INDEX "homepage_join_benefits_locale_idx" ON "homepage_join_benefits" USING btree ("_locale");
-  CREATE UNIQUE INDEX "homepage_locales_locale_parent_id_unique" ON "homepage_locales" USING btree ("_locale","_parent_id");`)
+  CREATE INDEX "homepage_about_info_blocks_order_idx" ON "homepage_about_info_blocks" USING btree ("_order");
+  CREATE INDEX "homepage_about_info_blocks_parent_id_idx" ON "homepage_about_info_blocks" USING btree ("_parent_id");
+  CREATE UNIQUE INDEX "homepage_about_info_blocks_locales_locale_parent_id_unique" ON "homepage_about_info_blocks_locales" USING btree ("_locale","_parent_id");
+  CREATE UNIQUE INDEX "homepage_locales_locale_parent_id_unique" ON "homepage_locales" USING btree ("_locale","_parent_id");
+  CREATE UNIQUE INDEX "programs_page_locales_locale_parent_id_unique" ON "programs_page_locales" USING btree ("_locale","_parent_id");
+  CREATE UNIQUE INDEX "members_page_locales_locale_parent_id_unique" ON "members_page_locales" USING btree ("_locale","_parent_id");
+  CREATE UNIQUE INDEX "documents_page_locales_locale_parent_id_unique" ON "documents_page_locales" USING btree ("_locale","_parent_id");
+  CREATE INDEX "settings_social_links_order_idx" ON "settings_social_links" USING btree ("_order");
+  CREATE INDEX "settings_social_links_parent_id_idx" ON "settings_social_links" USING btree ("_parent_id");
+  CREATE UNIQUE INDEX "settings_locales_locale_parent_id_unique" ON "settings_locales" USING btree ("_locale","_parent_id");`)
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
@@ -1582,16 +1625,16 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "users" CASCADE;
   DROP TABLE "members" CASCADE;
   DROP TABLE "members_locales" CASCADE;
+  DROP TABLE "regions" CASCADE;
+  DROP TABLE "regions_locales" CASCADE;
   DROP TABLE "directions" CASCADE;
   DROP TABLE "directions_locales" CASCADE;
-  DROP TABLE "projects" CASCADE;
-  DROP TABLE "projects_locales" CASCADE;
+  DROP TABLE "programs" CASCADE;
+  DROP TABLE "programs_locales" CASCADE;
   DROP TABLE "documents" CASCADE;
   DROP TABLE "documents_locales" CASCADE;
-  DROP TABLE "leadership" CASCADE;
-  DROP TABLE "leadership_locales" CASCADE;
-  DROP TABLE "partners" CASCADE;
-  DROP TABLE "partners_locales" CASCADE;
+  DROP TABLE "document_categories" CASCADE;
+  DROP TABLE "document_categories_locales" CASCADE;
   DROP TABLE "redirects" CASCADE;
   DROP TABLE "redirects_rels" CASCADE;
   DROP TABLE "forms_blocks_checkbox" CASCADE;
@@ -1640,15 +1683,21 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "footer_nav_items" CASCADE;
   DROP TABLE "footer" CASCADE;
   DROP TABLE "footer_rels" CASCADE;
+  DROP TABLE "homepage_stats" CASCADE;
+  DROP TABLE "homepage_stats_locales" CASCADE;
+  DROP TABLE "homepage_about_info_blocks" CASCADE;
+  DROP TABLE "homepage_about_info_blocks_locales" CASCADE;
+  DROP TABLE "homepage" CASCADE;
+  DROP TABLE "homepage_locales" CASCADE;
+  DROP TABLE "programs_page" CASCADE;
+  DROP TABLE "programs_page_locales" CASCADE;
+  DROP TABLE "members_page" CASCADE;
+  DROP TABLE "members_page_locales" CASCADE;
+  DROP TABLE "documents_page" CASCADE;
+  DROP TABLE "documents_page_locales" CASCADE;
   DROP TABLE "settings_social_links" CASCADE;
   DROP TABLE "settings" CASCADE;
   DROP TABLE "settings_locales" CASCADE;
-  DROP TABLE "homepage_stats" CASCADE;
-  DROP TABLE "homepage_stats_locales" CASCADE;
-  DROP TABLE "homepage_about_bullets" CASCADE;
-  DROP TABLE "homepage_join_benefits" CASCADE;
-  DROP TABLE "homepage" CASCADE;
-  DROP TABLE "homepage_locales" CASCADE;
   DROP TYPE "public"."_locales";
   DROP TYPE "public"."enum_pages_hero_links_link_type";
   DROP TYPE "public"."enum_pages_hero_links_link_appearance";
@@ -1676,10 +1725,9 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "public"."enum_posts_status";
   DROP TYPE "public"."enum__posts_v_version_status";
   DROP TYPE "public"."enum__posts_v_published_locale";
-  DROP TYPE "public"."enum_members_region";
-  DROP TYPE "public"."enum_projects_status";
-  DROP TYPE "public"."enum_documents_category";
-  DROP TYPE "public"."enum_partners_type";
+  DROP TYPE "public"."enum_members_status";
+  DROP TYPE "public"."enum_programs_direction";
+  DROP TYPE "public"."enum_programs_format";
   DROP TYPE "public"."enum_redirects_to_type";
   DROP TYPE "public"."enum_forms_confirmation_type";
   DROP TYPE "public"."enum_payload_jobs_log_task_slug";

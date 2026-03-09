@@ -8,7 +8,7 @@ export default async function AboutBlock({ homepage }: { homepage: Homepage }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div className="relative overflow-hidden bg-gradient-to-br from-navy-deep to-navy rounded-3xl p-10 text-center">
           <div className="absolute -top-20 -right-20 w-56 h-56 bg-[radial-gradient(circle,rgba(184,208,232,0.15)_0%,transparent_70%)] rounded-full pointer-events-none"></div>
-          <Logo className="w-24 h-24 rounded-full mx-auto mb-6 ring-4 ring-sky/20 shadow-2xl relative z-10 object-cover" />
+          <Logo color='white' outline='white' className="w-24 h-24 rounded-full mx-auto mb-6 ring-4 ring-sky/20 shadow-2xl relative z-10 object-cover" />
           <h3 className="font-serif text-brand-white text-xl mb-5 relative z-10">
             Миссия и цели КАСУ
           </h3>

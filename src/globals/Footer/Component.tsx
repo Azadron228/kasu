@@ -7,7 +7,7 @@ export async function Footer({ locale }: { locale: string }) {
     <footer className="bg-navy-deep text-brand-white/60 px-6 lg:px-16 py-14">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
         <div className="lg:col-span-1 flex items-start gap-4">
-            <Logo className="w-12 h-12 rounded-full overflow-hidden shadow-lg shrink-0" />
+          <Logo color='white' outline='white' className="w-12 h-12 rounded-full overflow-hidden shadow-lg shrink-0" />
           <div>
             <h3 className="font-serif text-brand-white text-base mb-2">КАСУ — U3A Kazakhstan</h3>
             <p className="text-xs leading-relaxed">

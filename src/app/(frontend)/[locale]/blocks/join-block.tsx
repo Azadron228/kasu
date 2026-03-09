@@ -1,18 +1,21 @@
+import { Logo } from '@/components/Logo/Logo'
 import { PATHS } from '@/config/paths'
 import { Link } from '@/i18n/routing'
 import { Homepage } from '@/payload-types'
 import { getTranslations } from 'next-intl/server'
+
 
 export async function JoinBlock({ homepage }: { homepage: Homepage }) {
   const t = await getTranslations('home')
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-navy-deep via-navy to-navy-mid text-center px-6 lg:px-16 py-24" id="join">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-80 bg-[radial-gradient(ellipse,rgba(184,208,232,0.1)_0%,transparent_70%)] pointer-events-none"></div>
-      <img
+      {/* <img
         className="w-24 h-24 rounded-full mx-auto mb-7 ring-4 ring-sky/20 shadow-2xl relative z-10 object-cover"
         src="/logo.svg"
         alt="Logo"
-      />
+      /> */}
+      <Logo color='white' outline='white' width={'10rem'} height={'10rem'} />
       <h2 className="relative z-10 font-serif text-4xl text-brand-white mb-4">
         Присоединяйтесь к КАСУ (U3A)
       </h2>
