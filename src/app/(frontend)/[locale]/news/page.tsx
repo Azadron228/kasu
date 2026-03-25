@@ -57,7 +57,7 @@ export default async function NewsPage({ searchParams }: Args) {
       <PageClient />
       <PageHeaderBlock
         title={t('listTitle')}
-        breadcrumbLabel={t('breadcrumb')}
+        breadcrumbLabel={page?.title}
         tag={t('archiveEvents')}
       />
       <div className="container py-16">
@@ -82,4 +82,4 @@ export default async function NewsPage({ searchParams }: Args) {
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('news')
   return { title: t('metaTitle') }
-}
+}

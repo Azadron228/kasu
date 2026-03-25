@@ -52,7 +52,7 @@ export async function Header({ locale }: { locale: TypedLocale }) {
             </Link>
           ))}
           <Link
-            href="/join"
+            href="/#join"
             className="ml-2 bg-navy text-brand-white px-5 py-2.5 rounded-full font-bold text-sm shadow-lg hover:bg-navy-mid hover:-translate-y-0.5 transition-all"
           >
             {joinLabel}

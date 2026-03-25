@@ -31,7 +31,7 @@ export default async function MembersPage({ params, searchParams }: Args) {
         tag={page?.tag ?? undefined}
         title={page?.title ?? t('listTitle')}
         subtitle={page?.subtitle ?? undefined}
-        breadcrumbLabel={t('breadcrumb')}
+        breadcrumbLabel={page?.title ?? t('listTitle')}
       />
 
       {/* ── FILTER — full-width sticky bar, no side padding ── */}

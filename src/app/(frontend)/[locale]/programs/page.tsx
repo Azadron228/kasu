@@ -24,7 +24,7 @@ export default async function ProgramsPage({ params }: Args) {
         tag={page?.tag ?? undefined}
         title={page?.title ?? t('listTitle')}
         subtitle={page?.subtitle ?? undefined}
-        breadcrumbLabel={t('breadcrumb')}
+        breadcrumbLabel={page?.title ?? t('listTitle')}
       />
 
       {/* ── STATS ── */}
