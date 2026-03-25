@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 type Category = {
     id: number
@@ -45,6 +46,7 @@ export function NewsFilter({
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const [isPending, startTransition] = useTransition()
+    const t = useTranslations('news')
 
     // Локальный стейт поиска — debounce через useTransition
     const [query, setQuery] = useState(searchParams.get('query') ?? '')
@@ -76,7 +78,7 @@ export function NewsFilter({
         <div className="mb-8">
 
             <p className="mb-3 text-[11px] font-bold uppercase tracking-[2px] text-[#56647A]">
-                Поиск и фильтрация
+                {t('filterTitle')}
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -95,7 +97,7 @@ export function NewsFilter({
                         type="text"
                         value={query}
                         onChange={(e) => handleSearch(e.target.value)}
-                        placeholder="Найти материал…"
+                        placeholder={t('searchPlaceholder')}
                         className="
               w-full rounded-xl border border-[#E4EBF3] bg-white
               py-2.5 pl-9 pr-4 text-sm font-semibold text-[#1A2438]
@@ -107,7 +109,7 @@ export function NewsFilter({
                 </div>
 
                 <span className="text-[11px] font-bold uppercase tracking-widest text-[#56647A]">
-                    Тема:
+                    {t('categoryLabel')}
                 </span>
 
                 {categories.map((cat) => {
@@ -144,17 +146,17 @@ export function NewsFilter({
               hover:border-[#A8B8CC] hover:text-[#1A2438]
             "
                     >
-                        ✕ Сбросить
+                        {t('reset')}
                     </button>
                 )}
             </div>
             <div className="mt-6 flex items-center justify-between border-b border-[#E4EBF3] pb-4">
                 <p className="text-[13px] font-semibold text-[#56647A]">
-                    Показано:{' '}
+                    {t('shown')}{' '}
                     <span className={`text-[16px] font-bold text-[#1E3560] transition-opacity ${isPending ? 'opacity-40' : 'opacity-100'}`}>
                         {totalDocs}
                     </span>{' '}
-                    материалов
+                    {t('materials')}
                 </p>
             </div>
         </div>

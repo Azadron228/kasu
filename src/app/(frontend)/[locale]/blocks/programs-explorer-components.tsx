@@ -1,17 +1,5 @@
 import { Program } from '@/payload-types'
-
-export const DIRECTION_LABELS: Record<string, string> = {
-    finance: 'Финансы',
-    it: 'IT и технологии',
-    humanities: 'Гуманитарные науки',
-    health: 'Здоровый образ жизни',
-    psychology: 'Психология',
-    languages: 'Языки',
-    art: 'Искусство',
-    nature: 'Природа и экология',
-    games: 'Интеллектуальные игры',
-    pedagogy: 'Педагогика',
-}
+import { useTranslations } from 'next-intl'
 
 export const DIRECTION_ICONS: Record<string, string> = {
     finance: '💰',
@@ -24,12 +12,6 @@ export const DIRECTION_ICONS: Record<string, string> = {
     nature: '🌿',
     games: '♟',
     pedagogy: '👨‍🏫',
-}
-
-export const FORMAT_LABELS: Record<string, string> = {
-    online: 'Онлайн',
-    offline: 'Очно',
-    blended: 'Смешанный',
 }
 
 export const FORMAT_STYLES: Record<string, string> = {
@@ -51,9 +33,10 @@ type ProgramCardProps = {
 }
 
 export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
+    const t = useTranslations('blocks.programsExplorer')
     const dirIcon = DIRECTION_ICONS[prog.direction ?? ''] ?? '📖'
-    const dirLabel = DIRECTION_LABELS[prog.direction ?? ''] ?? prog.direction
-    const fmtLabel = FORMAT_LABELS[prog.format ?? ''] ?? prog.format
+    const dirLabel = prog.direction ? t(prog.direction as any) : ''
+    const fmtLabel = prog.format ? t(prog.format as any) : ''
     const fmtIcon = FORMAT_ICONS[prog.format ?? ''] ?? ''
     const fmtStyle = FORMAT_STYLES[prog.format ?? ''] ?? FORMAT_STYLES['blended']
 
@@ -114,9 +97,9 @@ export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
 
                     <div className="mb-4 grid grid-cols-2 gap-x-7 gap-y-3.5">
                         {[
-                            { label: 'Длительность', value: `📅 ${prog.duration}` },
-                            { label: 'Формат обучения', value: `${fmtIcon} ${fmtLabel}` },
-                            { label: 'Направление', value: `${dirIcon} ${dirLabel}` },
+                            { label: t('durationLabel'), value: `📅 ${prog.duration}` },
+                            { label: t('formatStudyLabel'), value: `${fmtIcon} ${fmtLabel}` },
+                            { label: t('directionLabel'), value: `${dirIcon} ${dirLabel}` },
                         ].map(({ label, value }) => (
                             <div key={label} className="flex flex-col gap-1">
                                 <span className="text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A]">
@@ -131,7 +114,7 @@ export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
 
                     <div className="flex flex-wrap items-center justify-between gap-2.5">
                         <button className="rounded-lg bg-[#1E3560] px-[22px] py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-[#2A4A7F]">
-                            Записаться на курс →
+                            {t('enrollButton')}
                         </button>
                     </div>
                 </div>

@@ -17,10 +17,10 @@ export async function JoinBlock({ homepage }: { homepage: Homepage }) {
       /> */}
       <Logo color='white' outline='white' width={'10rem'} height={'10rem'} />
       <h2 className="relative z-10 font-serif text-4xl text-brand-white mb-4">
-        Присоединяйтесь к КАСУ (U3A)
+        {t('joinTitle')}
       </h2>
       <p className="relative z-10 text-brand-white/70 text-base max-w-lg mx-auto mb-9 leading-relaxed">
-        Станьте частью профессионального сообщества, объединяющего серебряные университеты Казахстана. Вместе мы создаём будущее непрерывного образования третьего возраста.
+        {t('joinDesc')}
       </p>
       <div className="relative z-10 flex flex-wrap justify-center gap-4">
         <Link
@@ -33,7 +33,7 @@ export async function JoinBlock({ homepage }: { homepage: Homepage }) {
           href="/about"
           className="bg-brand-white/10 border border-brand-white/25 text-brand-white font-bold text-sm px-10 py-4 rounded-full hover:bg-brand-white/20 transition-all font-sans"
         >
-          Узнать условия
+          {t('joinConditions')}
         </Link>
       </div>
     </section>

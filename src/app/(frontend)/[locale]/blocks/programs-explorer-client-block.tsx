@@ -2,11 +2,11 @@
 
 import { useState, useMemo } from 'react'
 import { Member, Program } from '@/payload-types'
+import { useTranslations } from 'next-intl'
 
 import {
   ProgramCard,
-  FORMAT_ICONS,
-  FORMAT_LABELS
+  FORMAT_ICONS
 } from './programs-explorer-components'
 
 // ── types ────────────────────────────────────────────────────────────────────
@@ -19,6 +19,7 @@ type Props = {
 // ── component ────────────────────────────────────────────────────────────────
 
 export default function ProgramsExplorerClient({ members, programs }: Props) {
+  const t = useTranslations('blocks.programsExplorer')
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [search, setSearch] = useState('')
   const [formatFilter, setFormatFilter] = useState<string>('all')
@@ -95,13 +96,13 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
         <div className="sticky top-0 z-10 border-b border-[#E4EBF3] bg-[#FAFBFD] px-6 py-5">
           <p className="mb-3 flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[2px] text-[#56647A]">
             <span className="h-px w-4 bg-[#A8B8CC]" />
-            Выберите университет
+            {t('sidebarTitle')}
           </p>
           <div className="flex items-center gap-2 rounded-xl border-[1.5px] border-[#E4EBF3] bg-[#EAF2FA] px-3 py-2">
             <span className="shrink-0 text-sm text-[#A8B8CC]">🔍</span>
             <input
               type="text"
-              placeholder="Поиск университета..."
+              placeholder={t('sidebarSearchPlaceholder')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-transparent text-[13px] text-[#1A2438] outline-none placeholder:text-[#A8B8CC]"
@@ -169,15 +170,14 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
               📚
             </div>
             <h2 className="mb-3 font-serif text-[26px] font-bold text-[#1E3560]">
-              Выберите университет
+              {t('welcomeTitle')}
             </h2>
             <p className="max-w-[420px] text-sm leading-[1.7] text-[#56647A]">
-              Выберите университет из списка слева, чтобы увидеть его образовательные программы для
-              старшего поколения
+              {t('welcomeText')}
             </p>
             <div className="mt-8 flex items-center gap-3 text-[13px] font-bold text-[#4A6FA5]">
               <span className="h-px w-10 bg-[#A8B8CC]" />
-              ← Список университетов
+              {t('backToSidebar')}
             </div>
           </div>
         )}
@@ -205,7 +205,7 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
 
               <div className="flex-1">
                 <p className="mb-1.5 text-[9.5px] font-extrabold uppercase tracking-[2.5px] text-[#56647A]">
-                  Серебряный университет · КАСУ
+                  {t('tagline')}
                 </p>
                 <h2 className="mb-1 font-serif text-[22px] font-bold leading-snug text-[#1A2438]">
                   {selectedMember.shortName}
@@ -216,8 +216,8 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                 <div className="mt-3 flex flex-wrap gap-2.5">
                   {[
                     `📍 ${selectedMember.city}`,
-                    selectedMember.status === 'founder' ? '★ Учредитель' : 'Член КАСУ',
-                    `🎓 ${memberPrograms.length} программ`,
+                    selectedMember.status === 'founder' ? t('statusFounder') : t('statusMember'),
+                    t('programCount', { count: memberPrograms.length }),
                   ].map((chip) => (
                     <span
                       key={chip}
@@ -237,7 +237,7 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                     rel="noreferrer"
                     className="rounded-lg bg-[#1E3560] px-4 py-2 text-center text-[12px] font-bold text-white transition-colors hover:bg-[#2A4A7F]"
                   >
-                    🌐 Сайт
+                    {t('website')}
                   </a>
                 )}
                 {selectedMember.silver_url && (
@@ -247,7 +247,7 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                     rel="noreferrer"
                     className="rounded-lg bg-[#1E3560] px-4 py-2 text-center text-[12px] font-bold text-white transition-colors hover:bg-[#2A4A7F]"
                   >
-                    🎓 Серебр. ун-т
+                    {t('silverUniversity')}
                   </a>
                 )}
               </div>
@@ -257,7 +257,7 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="mr-1 text-[10.5px] font-extrabold uppercase tracking-[1.5px] text-[#56647A]">
-                  Формат
+                  {t('formatLabel')}
                 </span>
                 {(['all', 'online', 'offline', 'blended'] as const).map((key) => (
                   <button
@@ -271,15 +271,15 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                     ].join(' ')}
                   >
                     {key === 'all'
-                      ? 'Все'
-                      : `${FORMAT_ICONS[key]} ${FORMAT_LABELS[key]}`}
+                      ? t('allFormats')
+                      : `${FORMAT_ICONS[key]} ${t(key as any)}`}
                   </button>
                 ))}
               </div>
               <p className="text-[12px] font-bold text-[#56647A]">
-                Показано:{' '}
+                {t('shown')}{' '}
                 <span className="font-extrabold text-[#1E3560]">{visiblePrograms.length}</span>{' '}
-                программ
+                {t('programsSuffix', { count: visiblePrograms.length })}
               </p>
             </div>
 
@@ -288,10 +288,10 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
               <div className="py-20 text-center">
                 <div className="mb-5 text-5xl opacity-40">🔍</div>
                 <h3 className="mb-2 font-serif text-[22px] font-bold text-[#1E3560]">
-                  Программы не найдены
+                  {t('notFoundTitle')}
                 </h3>
                 <p className="text-sm leading-relaxed text-[#56647A]">
-                  По выбранному фильтру программ нет. Попробуйте другой формат обучения.
+                  {t('notFoundText')}
                 </p>
               </div>
             ) : (

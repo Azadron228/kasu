@@ -11,6 +11,7 @@ import { CardPostData } from '@/components/Card'
 import PageHeaderBlock from '../blocks/page-header-block'
 import { payload } from '@/config/instance'
 import findPosts from '@/api/find/find-posts'
+import { getTranslations } from 'next-intl/server'
 
 type Args = {
   searchParams: Promise<{
@@ -19,14 +20,15 @@ type Args = {
 }
 export default async function Page({ searchParams: searchParamsPromise }: Args) {
   const { q: query } = await searchParamsPromise
+  const t = await getTranslations('search')
 
   const posts = await findPosts(query)
   return (
     <div className="bg-page-bg min-h-screen">
       <PageHeaderBlock
-        title="Поиск по сайту"
-        subtitle={query ? `Результаты поиска для: "${query}"` : 'Введите запрос для поиска по материалам Ассоциации'}
-        breadcrumbLabel="Поиск"
+        title={t('title')}
+        subtitle={query ? t('resultsFor', { query }) : t('initialText')}
+        breadcrumbLabel={t('breadcrumb')}
       />
       <PageClient />
 
@@ -39,7 +41,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
           <CollectionArchive posts={posts.docs as CardPostData[]} />
         ) : (
           <div className="container text-center py-10 text-brand-muted">
-            {query ? 'По вашему запросу ничего не найдено.' : 'Начните поиск, введя ключевое слово выше.'}
+            {query ? t('notFound') : t('emptyPrompt')}
           </div>
         )}
       </div>
@@ -47,8 +49,9 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   )
 }
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('search')
   return {
-    title: `Поиск | КАСУ U3A`,
+    title: t('metaTitle'),
   }
 }

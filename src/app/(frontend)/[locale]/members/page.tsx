@@ -1,6 +1,6 @@
 import React from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import { setRequestLocale } from 'next-intl/server'
+import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { TypedLocale } from 'payload'
 import { MembersPage as MembersPageType } from '@/payload-types'
 import PageHeaderBlock from '../blocks/page-header-block'
@@ -18,6 +18,7 @@ export default async function MembersPage({ params, searchParams }: Args) {
   const { locale } = await params
   setRequestLocale(locale)
   const queryParams = await searchParams
+  const t = await getTranslations('members')
   const page = (await getCachedGlobal('members-page', 1)()) as MembersPageType
 
   const status = typeof queryParams.status === 'string' ? queryParams.status : undefined
@@ -28,9 +29,9 @@ export default async function MembersPage({ params, searchParams }: Args) {
     <div className="min-h-screen bg-page-bg">
       <PageHeaderBlock
         tag={page?.tag ?? undefined}
-        title={page?.title ?? 'Члены Ассоциации'}
+        title={page?.title ?? t('listTitle')}
         subtitle={page?.subtitle ?? undefined}
-        breadcrumbLabel="Участники"
+        breadcrumbLabel={t('breadcrumb')}
       />
 
       {/* ── FILTER — full-width sticky bar, no side padding ── */}

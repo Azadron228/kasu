@@ -10,12 +10,12 @@ export async function Header({ locale }: { locale: TypedLocale }) {
   const t = await getTranslations('nav')
 
   const navLinks = [
-    { href: '/about', label: t('about') },
+    { href: '/#about', label: t('about') },
     { href: '/activities', label: t('activities') },
     { href: '/news', label: t('news') },
     { href: '/members', label: t('members') },
     { href: '/documents', label: t('documents') },
-    { href: '/contacts', label: t('contacts') },
+    { href: '/#contacts', label: t('contacts') },
   ]
 
   const joinLabel = t('join')
@@ -24,7 +24,7 @@ export async function Header({ locale }: { locale: TypedLocale }) {
     <>
       <div className="bg-navy-deep px-6 lg:px-16 py-2 flex justify-between items-center">
         <span className="text-sky text-xs font-semibold tracking-wider opacity-70">
-          Қазақстандық Күміс Университеттер Қауымдастығы
+          {t('topBarText')}
         </span>
         <LangSwitcher />
       </div>
@@ -37,7 +37,7 @@ export async function Header({ locale }: { locale: TypedLocale }) {
               {t('siteFullName')}
             </div>
             <span className="inline-block bg-navy text-sky text-[10px] sm:text-xs font-extrabold px-1.5 py-0.5 rounded mt-1 tracking-widest leading-none">
-              U3A KAZAKHSTAN
+              {locale === 'ru' ? 'U3A КАЗАХСТАН' : locale === 'kk' ? 'U3A ҚАЗАҚСТАН' : 'U3A KAZAKHSTAN'}
             </span>
           </div>
         </Link>

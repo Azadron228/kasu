@@ -8,7 +8,7 @@ export default async function ContactsBlock({ settings }: { settings: Setting })
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
         <div>
           <div className="text-xs font-extrabold tracking-[0.3em] uppercase text-steel mb-3">
-            Свяжитесь с нами
+            {t('contactsTag')}
           </div>
           <h2 className="font-serif text-3xl lg:text-4xl font-bold text-navy leading-tight">
             {t('contacts')}
@@ -37,7 +37,7 @@ export default async function ContactsBlock({ settings }: { settings: Setting })
                 ✉️
               </div>
               <div>
-                <div className="font-extrabold text-navy text-sm mb-1">Электронная почта</div>
+                <div className="font-extrabold text-navy text-sm mb-1">{t('contactsEmail')}</div>
                 <div className="text-brand-muted text-sm">{settings?.contactEmail}</div>
               </div>
             </div>
@@ -53,7 +53,7 @@ export default async function ContactsBlock({ settings }: { settings: Setting })
           />
           <input
             type="email"
-            placeholder={t('contactsEmail')}
+            placeholder={t('contactsEmailPlaceholder')}
             className="w-full p-3.5 mb-3 border border-silver-lt rounded-xl focus:ring-1 focus:ring-steel outline-none bg-brand-white"
             required
           />

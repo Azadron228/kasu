@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server'
+
 type Props = {
   stats?: {
     universitiesCount?: number | null
@@ -7,12 +9,13 @@ type Props = {
   }
 }
 
-export default function StatsBarBlock({ stats }: Props) {
+export default async function StatsBarBlock({ stats }: Props) {
+  const t = await getTranslations('blocks.stats')
   const cells = [
-    { value: stats?.universitiesCount ?? 14, label: 'Университетов' },
-    { value: stats?.programsCount ?? 68, label: 'Программ' },
-    { value: stats?.directionsCount ?? 12, label: 'Направлений' },
-    { value: 'Беспл.', label: stats?.freeNote ?? 'Большинство курсов' },
+    { value: stats?.universitiesCount ?? 14, label: t('universities') },
+    { value: stats?.programsCount ?? 68, label: t('programs') },
+    { value: stats?.directionsCount ?? 12, label: t('directions') },
+    { value: t('free'), label: stats?.freeNote ?? t('defaultFreeNote') },
   ]
 
   return (

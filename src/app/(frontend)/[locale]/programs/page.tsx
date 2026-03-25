@@ -1,6 +1,6 @@
 import React from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import { setRequestLocale } from 'next-intl/server'
+import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { TypedLocale } from 'payload'
 import { ProgramsPage as ProgramsPageType } from '@/payload-types'
 import PageHeaderBlock from '../blocks/page-header-block'
@@ -14,6 +14,7 @@ type Args = {
 export default async function ProgramsPage({ params }: Args) {
   const { locale } = await params
   setRequestLocale(locale)
+  const t = await getTranslations('programs')
   const page = (await getCachedGlobal('programs-page', 1)()) as ProgramsPageType
 
   return (
@@ -21,9 +22,9 @@ export default async function ProgramsPage({ params }: Args) {
       {/* ── HEADER ── */}
       <PageHeaderBlock
         tag={page?.tag ?? undefined}
-        title={page?.title ?? 'Образовательные программы'}
+        title={page?.title ?? t('listTitle')}
         subtitle={page?.subtitle ?? undefined}
-        breadcrumbLabel="Программы"
+        breadcrumbLabel={t('breadcrumb')}
       />
 
       {/* ── STATS ── */}

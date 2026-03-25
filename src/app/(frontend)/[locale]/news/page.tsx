@@ -7,6 +7,7 @@ import PageHeaderBlock from '../blocks/page-header-block'
 import PageClient from './page.client'
 import { NewsFilter } from './components/news-filter'
 import { Suspense } from 'react'
+import { getTranslations } from 'next-intl/server'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -18,6 +19,7 @@ type Args = {
 export default async function NewsPage({ searchParams }: Args) {
   const { category, page } = await searchParams
   const currentPage = Number(page) || 1
+  const t = await getTranslations('news')
 
   const payload = await getPayload({ config: configPromise })
 
@@ -54,9 +56,9 @@ export default async function NewsPage({ searchParams }: Args) {
     <main className="bg-page-bg min-h-screen">
       <PageClient />
       <PageHeaderBlock
-        title="Новости и события"
-        breadcrumbLabel="Новости"
-        tag="Архив событий"
+        title={t('listTitle')}
+        breadcrumbLabel={t('breadcrumb')}
+        tag={t('archiveEvents')}
       />
       <div className="container py-16">
         <Suspense fallback={null}>
@@ -77,6 +79,7 @@ export default async function NewsPage({ searchParams }: Args) {
   )
 }
 
-export function generateMetadata(): Metadata {
-  return { title: 'Новости | КАСУ U3A' }
-}
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('news')
+  return { title: t('metaTitle') }
+}

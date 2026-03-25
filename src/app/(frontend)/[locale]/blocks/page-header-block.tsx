@@ -1,5 +1,7 @@
+'use client'
 import React from 'react'
 import { Link } from '@/i18n/routing'
+import { useTranslations } from 'next-intl'
 
 type Props = {
   tag?: string
@@ -9,13 +11,14 @@ type Props = {
 }
 
 export default function PageHeaderBlock({ tag, title, subtitle, breadcrumbLabel }: Props) {
+  const t = useTranslations('nav')
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-navy-deep via-navy to-navy-mid px-6 md:px-12 xl:px-[72px] pb-14 pt-8">
       {/* breadcrumbs */}
       {breadcrumbLabel && (
         <div className="relative z-10 mb-8 flex items-center gap-2.5 text-xs font-bold tracking-wide uppercase">
           <Link href="/" className="text-sky/60 hover:text-white transition-colors">
-            Главная
+            {t('home')}
           </Link>
           <span className="text-sky/30 text-[10px]">›</span>
           <span className="text-white/90">{breadcrumbLabel}</span>
