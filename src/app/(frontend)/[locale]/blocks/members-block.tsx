@@ -40,9 +40,9 @@ export default async function MembersBlock({ locale }: { locale: TypedLocale }) 
               <span className="text-steel text-sm block mb-4">
                 {member.city}
               </span>
-              {member.website && (
+              {member.main_url && (
                 <a
-                  href={member.website.startsWith('http') ? member.website : `https://${member.website}`}
+                  href={member.main_url.startsWith('http') ? member.main_url : `https://${member.main_url}`}
                   className="text-gold font-bold text-sm hover:text-gold-lt flex items-center gap-1 mt-auto"
                   target="_blank"
                   rel="noopener noreferrer"

@@ -1,7 +1,7 @@
-import { Settings } from '@/payload-types'
+import { Setting } from '@/payload-types'
 import { getTranslations } from 'next-intl/server'
 
-export default async function ContactsBlock({ settings }: { settings: Settings }) {
+export default async function ContactsBlock({ settings }: { settings: Setting }) {
   const t = await getTranslations('home')
   return (
     <section className="px-6 lg:px-16 py-20" id="contacts">

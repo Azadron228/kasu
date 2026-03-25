@@ -19,10 +19,10 @@ type Props = {
 // ── component ────────────────────────────────────────────────────────────────
 
 export default function ProgramsExplorerClient({ members, programs }: Props) {
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [selectedId, setSelectedId] = useState<number | null>(null)
   const [search, setSearch] = useState('')
   const [formatFilter, setFormatFilter] = useState<string>('all')
-  const [openIds, setOpenIds] = useState<Set<string>>(new Set())
+  const [openIds, setOpenIds] = useState<Set<number>>(new Set())
 
   // filtered sidebar list
   const filteredMembers = useMemo(
@@ -59,13 +59,13 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
     [memberPrograms, formatFilter],
   )
 
-  function selectMember(id: string) {
+  function selectMember(id: number) {
     setSelectedId(id)
     setFormatFilter('all')
     setOpenIds(new Set())
   }
 
-  function toggleProgram(id: string) {
+  function toggleProgram(id: number) {
     setOpenIds((prev) => {
       const next = new Set(prev)
       next.has(id) ? next.delete(id) : next.add(id)
@@ -78,7 +78,7 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
     return typeof member.logo === 'object' ? (member.logo.url ?? null) : null
   }
 
-  function programCount(memberId: string) {
+  function programCount(memberId: number) {
     return programs.filter((p) => {
       const mid = typeof p.member === 'object' ? p.member?.id : p.member
       return mid === memberId
@@ -296,15 +296,14 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
               </div>
             ) : (
               <div className="flex flex-col gap-2.5">
-                return (
-                <ProgramCard
-                  key={prog.id}
-                  prog={prog}
-                  isOpen={openIds.has(prog.id)}
-                  toggleProgram={toggleProgram}
-                />
-                )
-                })}
+                {visiblePrograms.map((prog) => (
+                  <ProgramCard
+                    key={prog.id}
+                    prog={prog}
+                    isOpen={openIds.has(prog.id)}
+                    toggleProgram={toggleProgram}
+                  />
+                ))}
               </div>
             )}
           </div>

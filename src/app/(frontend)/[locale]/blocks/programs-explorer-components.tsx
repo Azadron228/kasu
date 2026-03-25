@@ -47,7 +47,7 @@ export const FORMAT_ICONS: Record<string, string> = {
 type ProgramCardProps = {
     prog: Program
     isOpen: boolean
-    toggleProgram: (id: string) => void
+    toggleProgram: (id: number) => void
 }
 
 export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
