@@ -26,38 +26,42 @@ export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {news.map((news, i) => (
-          <Link
-            href={`/news/${news.slug}`}
-            className={`group bg-brand-white rounded-2xl overflow-hidden shadow-custom transition-all hover:-translate-y-1 ${i === 0 ? 'lg:col-span-2' : ''
-              }`}
-            key={i}
-          >
-            <div
-              className={`relative bg-gradient-to-br from-navy to-navy-mid flex items-center justify-center text-4xl text-brand-white/20 ${i === 0 ? 'h-64 text-7xl' : 'h-48'
+        {news.map((newsItem, i) => {
+          const firstTag = newsItem.tags?.[0]
+          const tagLabel = firstTag && typeof firstTag === 'object' ? firstTag.title : t('newsTag')
+
+          return (
+            <Link
+              href={`/news/${newsItem.slug}`}
+              className={`group bg-brand-white rounded-2xl overflow-hidden shadow-custom transition-all hover:-translate-y-1 ${i === 0 ? 'lg:col-span-2' : ''
                 }`}
+              key={i}
             >
-              <span className="absolute top-4 left-4 bg-steel text-brand-white text-[0.6rem] font-extrabold tracking-widest uppercase px-2.5 py-1 rounded">
-                {t('newsTag')}
-              </span>
-              📰
-            </div>
+              <div
+                className={`relative bg-gradient-to-br from-navy to-navy-mid flex items-center justify-center text-4xl text-brand-white/20 ${i === 0 ? 'h-64 text-7xl' : 'h-48'
+                  }`}
+              >
+                <span className="absolute top-4 left-4 bg-steel text-brand-white text-[0.6rem] font-extrabold tracking-widest uppercase px-2.5 py-1 rounded">
+                  {tagLabel}
+                </span>
+                📰
+              </div>
             <div className="p-6">
               <div className="text-xs text-brand-muted mb-2 font-bold">
-                {news.publishedAt ? new Date(news.publishedAt).toLocaleDateString(locale) : ''}
+                {newsItem.publishedAt ? new Date(newsItem.publishedAt).toLocaleDateString(locale) : ''}
               </div>
               <h3
                 className={`font-serif text-navy leading-tight mb-3 group-hover:text-steel transition-colors ${i === 0 ? 'text-2xl' : 'text-lg'
                   }`}
               >
-                {news.title}
+                {newsItem.title}
               </h3>
               <p className="text-brand-muted text-sm leading-relaxed line-clamp-3">
-                {news.excerpt || ''}
+                {newsItem.excerpt || ''}
               </p>
             </div>
           </Link>
-        ))}
+        )})}
       </div>
     </section>
   )

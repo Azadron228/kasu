@@ -127,15 +127,6 @@ export const News: CollectionConfig<'news'> = {
               hasMany: true,
               relationTo: 'news',
             },
-            {
-              name: 'tags',
-              type: 'relationship',
-              admin: {
-                position: 'sidebar',
-              },
-              hasMany: true,
-              relationTo: 'news-tags',
-            },
           ],
           label: 'Meta',
         },
@@ -220,6 +211,15 @@ export const News: CollectionConfig<'news'> = {
           type: 'text',
         },
       ],
+    },
+    {
+      name: 'tags',
+      type: 'relationship',
+      admin: {
+        position: 'sidebar',
+      },
+      hasMany: true,
+      relationTo: 'news-tags',
     },
     slugField(),
   ],

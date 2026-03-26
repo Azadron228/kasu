@@ -264,7 +264,6 @@ export interface News {
     [k: string]: unknown;
   };
   relatedNews?: (number | News)[] | null;
-  tags?: (number | NewsTag)[] | null;
   meta?: {
     title?: string | null;
     /**
@@ -281,6 +280,7 @@ export interface News {
         name?: string | null;
       }[]
     | null;
+  tags?: (number | NewsTag)[] | null;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
@@ -416,30 +416,6 @@ export interface DocumentCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "news-tags".
- */
-export interface NewsTag {
-  id: number;
-  title: string;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
-  parent?: (number | null) | NewsTag;
-  breadcrumbs?:
-    | {
-        doc?: (number | null) | NewsTag;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -463,6 +439,30 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-tags".
+ */
+export interface NewsTag {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  parent?: (number | null) | NewsTag;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | NewsTag;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1321,7 +1321,6 @@ export interface NewsSelect<T extends boolean = true> {
   heroImage?: T;
   content?: T;
   relatedNews?: T;
-  tags?: T;
   meta?:
     | T
     | {
@@ -1337,6 +1336,7 @@ export interface NewsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
+  tags?: T;
   generateSlug?: T;
   slug?: T;
   updatedAt?: T;
