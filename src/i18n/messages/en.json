@@ -57,7 +57,7 @@
   "news": {
     "filterTitle": "Search and Filtering",
     "searchPlaceholder": "Search material...",
-    "categoryLabel": "Topic:",
+    "categoryLabel": "Tag:",
     "reset": "✕ Reset",
     "shown": "Shown:",
     "materials": "materials",

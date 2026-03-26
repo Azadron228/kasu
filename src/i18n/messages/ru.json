@@ -57,7 +57,7 @@
   "news": {
     "filterTitle": "Поиск и фильтрация",
     "searchPlaceholder": "Найти материал...",
-    "categoryLabel": "Тема:",
+    "categoryLabel": "Тег:",
     "reset": "✕ Сбросить",
     "shown": "Показано:",
     "materials": "материалов",

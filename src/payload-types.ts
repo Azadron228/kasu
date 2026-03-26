@@ -68,9 +68,9 @@ export interface Config {
   blocks: {};
   collections: {
     pages: Page;
-    posts: Post;
+    news: News;
     media: Media;
-    categories: Category;
+    'news-tags': NewsTag;
     users: User;
     members: Member;
     regions: Region;
@@ -96,9 +96,9 @@ export interface Config {
   };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
-    posts: PostsSelect<false> | PostsSelect<true>;
+    news: NewsSelect<false> | NewsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    'news-tags': NewsTagsSelect<false> | NewsTagsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     members: MembersSelect<false> | MembersSelect<true>;
     regions: RegionsSelect<false> | RegionsSelect<true>;
@@ -205,8 +205,8 @@ export interface Page {
                   value: number | Page;
                 } | null)
               | ({
-                  relationTo: 'posts';
-                  value: number | Post;
+                  relationTo: 'news';
+                  value: number | News;
                 } | null);
             url?: string | null;
             label: string;
@@ -241,9 +241,9 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
+ * via the `definition` "news".
  */
-export interface Post {
+export interface News {
   id: number;
   title: string;
   excerpt?: string | null;
@@ -263,8 +263,8 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  relatedPosts?: (number | Post)[] | null;
-  categories?: (number | Category)[] | null;
+  relatedNews?: (number | News)[] | null;
+  tags?: (number | NewsTag)[] | null;
   meta?: {
     title?: string | null;
     /**
@@ -416,9 +416,9 @@ export interface DocumentCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
+ * via the `definition` "news-tags".
  */
-export interface Category {
+export interface NewsTag {
   id: number;
   title: string;
   /**
@@ -426,10 +426,10 @@ export interface Category {
    */
   generateSlug?: boolean | null;
   slug: string;
-  parent?: (number | null) | Category;
+  parent?: (number | null) | NewsTag;
   breadcrumbs?:
     | {
-        doc?: (number | null) | Category;
+        doc?: (number | null) | NewsTag;
         url?: string | null;
         label?: string | null;
         id?: string | null;
@@ -495,8 +495,8 @@ export interface CallToActionBlock {
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'posts';
-                value: number | Post;
+                relationTo: 'news';
+                value: number | News;
               } | null);
           url?: string | null;
           label: string;
@@ -545,8 +545,8 @@ export interface ContentBlock {
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'posts';
-                value: number | Post;
+                relationTo: 'news';
+                value: number | News;
               } | null);
           url?: string | null;
           label: string;
@@ -593,13 +593,13 @@ export interface ArchiveBlock {
     [k: string]: unknown;
   } | null;
   populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'posts' | null;
-  categories?: (number | Category)[] | null;
+  relationTo?: 'news' | null;
+  tags?: (number | NewsTag)[] | null;
   limit?: number | null;
   selectedDocs?:
     | {
-        relationTo: 'posts';
-        value: number | Post;
+        relationTo: 'news';
+        value: number | News;
       }[]
     | null;
   id?: string | null;
@@ -898,8 +898,8 @@ export interface Redirect {
           value: number | Page;
         } | null)
       | ({
-          relationTo: 'posts';
-          value: number | Post;
+          relationTo: 'news';
+          value: number | News;
         } | null);
     url?: string | null;
   };
@@ -934,8 +934,8 @@ export interface Search {
   title?: string | null;
   priority?: number | null;
   doc: {
-    relationTo: 'posts';
-    value: number | Post;
+    relationTo: 'news';
+    value: number | News;
   };
   slug?: string | null;
   meta?: {
@@ -943,10 +943,10 @@ export interface Search {
     description?: string | null;
     image?: (number | null) | Media;
   };
-  categories?:
+  tags?:
     | {
         relationTo?: string | null;
-        categoryID?: string | null;
+        tagID?: string | null;
         title?: string | null;
         id?: string | null;
       }[]
@@ -1075,16 +1075,16 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
-        relationTo: 'posts';
-        value: number | Post;
+        relationTo: 'news';
+        value: number | News;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'categories';
-        value: number | Category;
+        relationTo: 'news-tags';
+        value: number | NewsTag;
       } | null)
     | ({
         relationTo: 'users';
@@ -1294,7 +1294,7 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
   introContent?: T;
   populateBy?: T;
   relationTo?: T;
-  categories?: T;
+  tags?: T;
   limit?: T;
   selectedDocs?: T;
   id?: T;
@@ -1313,15 +1313,15 @@ export interface FormBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
+ * via the `definition` "news_select".
  */
-export interface PostsSelect<T extends boolean = true> {
+export interface NewsSelect<T extends boolean = true> {
   title?: T;
   excerpt?: T;
   heroImage?: T;
   content?: T;
-  relatedPosts?: T;
-  categories?: T;
+  relatedNews?: T;
+  tags?: T;
   meta?:
     | T
     | {
@@ -1399,9 +1399,9 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories_select".
+ * via the `definition` "news-tags_select".
  */
-export interface CategoriesSelect<T extends boolean = true> {
+export interface NewsTagsSelect<T extends boolean = true> {
   title?: T;
   generateSlug?: T;
   slug?: T;
@@ -1708,11 +1708,11 @@ export interface SearchSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
-  categories?:
+  tags?:
     | T
     | {
         relationTo?: T;
-        categoryID?: T;
+        tagID?: T;
         title?: T;
         id?: T;
       };
@@ -1819,8 +1819,8 @@ export interface Header {
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'posts';
-                value: number | Post;
+                relationTo: 'news';
+                value: number | News;
               } | null);
           url?: string | null;
           label: string;
@@ -2122,8 +2122,8 @@ export interface TaskSchedulePublish {
           value: number | Page;
         } | null)
       | ({
-          relationTo: 'posts';
-          value: number | Post;
+          relationTo: 'news';
+          value: number | News;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

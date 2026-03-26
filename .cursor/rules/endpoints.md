@@ -24,7 +24,7 @@ export const protectedEndpoint: Endpoint = {
 
     // Use req.payload for database operations
     const data = await req.payload.find({
-      collection: 'posts',
+      collection: 'news',
       where: { author: { equals: req.user.id } },
     })
 
@@ -64,7 +64,7 @@ export const createEndpoint: Endpoint = {
     const data = await req.json()
 
     const result = await req.payload.create({
-      collection: 'posts',
+      collection: 'news',
       data,
     })
 
@@ -107,7 +107,7 @@ export const searchEndpoint: Endpoint = {
     const limit = parseInt(url.searchParams.get('limit') || '10')
 
     const results = await req.payload.find({
-      collection: 'posts',
+      collection: 'news',
       where: {
         title: {
           contains: query,

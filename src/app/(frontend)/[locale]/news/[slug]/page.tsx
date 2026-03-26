@@ -12,15 +12,15 @@ import Link from 'next/link'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
-  const posts = await payload.find({
-    collection: 'posts',
+  const newsResults = await payload.find({
+    collection: 'news',
     draft: false,
     limit: 1000,
     overrideAccess: false,
     pagination: false,
     select: { slug: true },
   })
-  return posts.docs.map(({ slug }) => ({ slug }))
+  return newsResults.docs.map(({ slug }) => ({ slug }))
 }
 
 import { getTranslations } from 'next-intl/server'
@@ -75,7 +75,7 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
   const result = await payload.find({
-    collection: 'posts',
+    collection: 'news',
     draft,
     limit: 1,
     overrideAccess: draft,

@@ -5,7 +5,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
     doc: { relationTo: collection },
   } = searchDoc
 
-  const { slug, id, categories, title, meta } = originalDoc
+  const { slug, id, tags, title, meta } = originalDoc
 
   const modifiedDoc: DocToSync = {
     ...searchDoc,
@@ -16,24 +16,24 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
       image: meta?.image?.id || meta?.image,
       description: meta?.description,
     },
-    categories: [],
+    tags: [],
   }
 
-  if (categories && Array.isArray(categories) && categories.length > 0) {
-    const populatedCategories: { id: string | number; title: string }[] = []
-    for (const category of categories) {
-      if (!category) {
+  if (tags && Array.isArray(tags) && tags.length > 0) {
+    const populatedTags: { id: string | number; title: string }[] = []
+    for (const tagItem of tags) {
+      if (!tagItem) {
         continue
       }
 
-      if (typeof category === 'object') {
-        populatedCategories.push(category)
+      if (typeof tagItem === 'object') {
+        populatedTags.push(tagItem)
         continue
       }
 
       const doc = await req.payload.findByID({
-        collection: 'categories',
-        id: category,
+        collection: 'news-tags',
+        id: tagItem,
         disableErrors: true,
         depth: 0,
         select: { title: true },
@@ -41,17 +41,17 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
       })
 
       if (doc !== null) {
-        populatedCategories.push(doc)
+        populatedTags.push(doc)
       } else {
         console.error(
-          `Failed. Category not found when syncing collection '${collection}' with id: '${id}' to search.`,
+          `Failed. Tag not found when syncing collection '${collection}' with id: '${id}' to search.`,
         )
       }
     }
 
-    modifiedDoc.categories = populatedCategories.map((each) => ({
-      relationTo: 'categories',
-      categoryID: String(each.id),
+    modifiedDoc.tags = populatedTags.map((each) => ({
+      relationTo: 'news-tags',
+      tagID: String(each.id),
       title: each.title,
     }))
   }

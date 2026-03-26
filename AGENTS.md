@@ -72,7 +72,7 @@ export default buildConfig({
 import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'author', 'status', 'createdAt'],
@@ -155,20 +155,20 @@ slugField({ fieldToUse: 'title' })
 ```typescript
 // ❌ SECURITY BUG: Access control bypassed
 await payload.find({
-  collection: 'posts',
+  collection: 'news',
   user: someUser, // Ignored! Operation runs with ADMIN privileges
 })
 
 // ✅ SECURE: Enforces user permissions
 await payload.find({
-  collection: 'posts',
+  collection: 'news',
   user: someUser,
   overrideAccess: false, // REQUIRED
 })
 
 // ✅ Administrative operation (intentional bypass)
 await payload.find({
-  collection: 'posts',
+  collection: 'news',
   // No user, overrideAccess defaults to true
 })
 ```
@@ -215,7 +215,7 @@ hooks: {
   afterChange: [
     async ({ doc, req }) => {
       await req.payload.update({
-        collection: 'posts',
+        collection: 'news',
         id: doc.id,
         data: { views: doc.views + 1 },
         req,
@@ -231,7 +231,7 @@ hooks: {
       if (context.skipHooks) return
 
       await req.payload.update({
-        collection: 'posts',
+        collection: 'news',
         id: doc.id,
         data: { views: doc.views + 1 },
         context: { skipHooks: true },
@@ -336,7 +336,7 @@ export const authenticatedOrPublished: Access = ({ req: { user } }) => {
 import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   hooks: {
     // Before validation - format data
     beforeValidate: [
@@ -400,7 +400,7 @@ export const Posts: CollectionConfig = {
 ```typescript
 // Find with complex query
 const posts = await payload.find({
-  collection: 'posts',
+  collection: 'news',
   where: {
     and: [{ status: { equals: 'published' } }, { 'author.name': { contains: 'john' } }],
   },
@@ -415,14 +415,14 @@ const posts = await payload.find({
 
 // Find by ID
 const post = await payload.findByID({
-  collection: 'posts',
+  collection: 'news',
   id: '123',
   depth: 2,
 })
 
 // Create
 const newPost = await payload.create({
-  collection: 'posts',
+  collection: 'news',
   data: {
     title: 'New Post',
     status: 'draft',
@@ -431,14 +431,14 @@ const newPost = await payload.create({
 
 // Update
 await payload.update({
-  collection: 'posts',
+  collection: 'news',
   id: '123',
   data: { status: 'published' },
 })
 
 // Delete
 await payload.delete({
-  collection: 'posts',
+  collection: 'news',
   id: '123',
 })
 ```
@@ -501,7 +501,7 @@ export async function GET() {
   const payload = await getPayload({ config })
 
   const posts = await payload.find({
-    collection: 'posts',
+    collection: 'news',
   })
 
   return Response.json(posts)
@@ -513,7 +513,7 @@ import config from '@payload-config'
 
 export default async function Page() {
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'posts' })
+  const { docs } = await payload.find({ collection: 'news' })
 
   return <div>{docs.map(post => <h1 key={post.id}>{post.title}</h1>)}</div>
 }
@@ -605,7 +605,7 @@ export default buildConfig({
 import type { Payload } from 'payload'
 
 async function MyServerComponent({ payload }: { payload: Payload }) {
-  const posts = await payload.find({ collection: 'posts' })
+  const posts = await payload.find({ collection: 'news' })
   return <div>{posts.totalDocs} posts</div>
 }
 
@@ -662,7 +662,7 @@ export function MyComponent() {
 
 ```typescript
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   admin: {
     components: {
       // Edit view
@@ -833,7 +833,7 @@ export const protectedEndpoint: Endpoint = {
 
     // Use req.payload for database operations
     const data = await req.payload.find({
-      collection: 'posts',
+      collection: 'news',
       where: { author: { equals: req.user.id } },
     })
 
@@ -943,7 +943,7 @@ import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 export default buildConfig({
   plugins: [
     seoPlugin({
-      collections: ['posts', 'pages'],
+      collections: ['news', 'pages'],
     }),
     redirectsPlugin({
       collections: ['pages'],

@@ -11,7 +11,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
   CREATE TYPE "public"."enum_pages_blocks_archive_populate_by" AS ENUM('collection', 'selection');
-  CREATE TYPE "public"."enum_pages_blocks_archive_relation_to" AS ENUM('posts');
+  CREATE TYPE "public"."enum_pages_blocks_archive_relation_to" AS ENUM('news');
   CREATE TYPE "public"."enum_pages_hero_type" AS ENUM('none', 'highImpact', 'mediumImpact', 'lowImpact');
   CREATE TYPE "public"."enum_pages_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum__pages_v_version_hero_links_link_type" AS ENUM('reference', 'custom');
@@ -22,7 +22,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
   CREATE TYPE "public"."enum__pages_v_blocks_archive_populate_by" AS ENUM('collection', 'selection');
-  CREATE TYPE "public"."enum__pages_v_blocks_archive_relation_to" AS ENUM('posts');
+  CREATE TYPE "public"."enum__pages_v_blocks_archive_relation_to" AS ENUM('news');
   CREATE TYPE "public"."enum__pages_v_version_hero_type" AS ENUM('none', 'highImpact', 'mediumImpact', 'lowImpact');
   CREATE TYPE "public"."enum__pages_v_version_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum__pages_v_published_locale" AS ENUM('ru', 'en', 'kk');
@@ -110,7 +110,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"id" varchar PRIMARY KEY NOT NULL,
   	"intro_content" jsonb,
   	"populate_by" "enum_pages_blocks_archive_populate_by" DEFAULT 'collection',
-  	"relation_to" "enum_pages_blocks_archive_relation_to" DEFAULT 'posts',
+  	"relation_to" "enum_pages_blocks_archive_relation_to" DEFAULT 'news',
   	"limit" numeric DEFAULT 10,
   	"block_name" varchar
   );
@@ -234,7 +234,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"id" serial PRIMARY KEY NOT NULL,
   	"intro_content" jsonb,
   	"populate_by" "enum__pages_v_blocks_archive_populate_by" DEFAULT 'collection',
-  	"relation_to" "enum__pages_v_blocks_archive_relation_to" DEFAULT 'posts',
+  	"relation_to" "enum__pages_v_blocks_archive_relation_to" DEFAULT 'news',
   	"limit" numeric DEFAULT 10,
   	"_uuid" varchar,
   	"block_name" varchar

@@ -26,9 +26,9 @@ export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {news.map((post, i) => (
+        {news.map((news, i) => (
           <Link
-            href={`/news/${post.slug}`}
+            href={`/news/${news.slug}`}
             className={`group bg-brand-white rounded-2xl overflow-hidden shadow-custom transition-all hover:-translate-y-1 ${i === 0 ? 'lg:col-span-2' : ''
               }`}
             key={i}
@@ -44,16 +44,16 @@ export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
             </div>
             <div className="p-6">
               <div className="text-xs text-brand-muted mb-2 font-bold">
-                {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString(locale) : ''}
+                {news.publishedAt ? new Date(news.publishedAt).toLocaleDateString(locale) : ''}
               </div>
               <h3
                 className={`font-serif text-navy leading-tight mb-3 group-hover:text-steel transition-colors ${i === 0 ? 'text-2xl' : 'text-lg'
                   }`}
               >
-                {post.title}
+                {news.title}
               </h3>
               <p className="text-brand-muted text-sm leading-relaxed line-clamp-3">
-                {post.excerpt || ''}
+                {news.excerpt || ''}
               </p>
             </div>
           </Link>

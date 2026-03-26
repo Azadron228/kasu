@@ -270,7 +270,7 @@ export function createTimeLimitedAccess(daysAccess: number): Access {
 
 ```typescript
 export const PublicAuthCollection: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   access: {
     // Only admins/editors can create
     create: ({ req: { user } }) => {
@@ -480,7 +480,7 @@ export const checkArgsAccess: Access = (args) => {
 ```typescript
 // In test/development
 const testAccess = await payload.find({
-  collection: 'posts',
+  collection: 'news',
   overrideAccess: false, // Enforce access control
   user: undefined, // Simulate no user
 })

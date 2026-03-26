@@ -4,8 +4,8 @@ import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { slugField } from 'payload'
 
-export const Categories: CollectionConfig = {
-  slug: 'categories',
+export const NewsTags: CollectionConfig = {
+  slug: 'news-tags',
   access: {
     create: authenticated,
     delete: authenticated,

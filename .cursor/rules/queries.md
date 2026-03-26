@@ -65,7 +65,7 @@ tags: [payload, queries, local-api, rest, graphql]
 ```typescript
 // Find documents
 const posts = await payload.find({
-  collection: 'posts',
+  collection: 'news',
   where: {
     status: { equals: 'published' },
     'author.name': { contains: 'john' },
@@ -83,14 +83,14 @@ const posts = await payload.find({
 
 // Find by ID
 const post = await payload.findByID({
-  collection: 'posts',
+  collection: 'news',
   id: '123',
   depth: 2,
 })
 
 // Create
 const post = await payload.create({
-  collection: 'posts',
+  collection: 'news',
   data: {
     title: 'New Post',
     status: 'draft',
@@ -99,7 +99,7 @@ const post = await payload.create({
 
 // Update
 await payload.update({
-  collection: 'posts',
+  collection: 'news',
   id: '123',
   data: {
     status: 'published',
@@ -108,13 +108,13 @@ await payload.update({
 
 // Delete
 await payload.delete({
-  collection: 'posts',
+  collection: 'news',
   id: '123',
 })
 
 // Count
 const count = await payload.count({
-  collection: 'posts',
+  collection: 'news',
   where: {
     status: { equals: 'published' },
   },
@@ -128,21 +128,21 @@ const count = await payload.count({
 ```typescript
 // ❌ WRONG: User is passed but access control is bypassed
 const posts = await payload.find({
-  collection: 'posts',
+  collection: 'news',
   user: currentUser,
   // Result: Operation runs with ADMIN privileges
 })
 
 // ✅ CORRECT: Respects user's access control permissions
 const posts = await payload.find({
-  collection: 'posts',
+  collection: 'news',
   user: currentUser,
   overrideAccess: false, // Required to enforce access control
 })
 
 // Administrative operation (intentionally bypass access control)
 const allPosts = await payload.find({
-  collection: 'posts',
+  collection: 'news',
   // No user parameter, overrideAccess defaults to true
 })
 ```

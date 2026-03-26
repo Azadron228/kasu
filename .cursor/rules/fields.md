@@ -83,7 +83,7 @@ import { HeadingFeature, LinkFeature } from '@payloadcms/richtext-lexical'
         enabledHeadingSizes: ['h1', 'h2', 'h3'],
       }),
       LinkFeature({
-        enabledCollections: ['posts', 'pages'],
+        enabledCollections: ['news', 'pages'],
       }),
     ],
   }),
@@ -117,7 +117,7 @@ import { HeadingFeature, LinkFeature } from '@payloadcms/richtext-lexical'
 {
   name: 'relatedContent',
   type: 'relationship',
-  relationTo: ['posts', 'pages'],
+  relationTo: ['news', 'pages'],
   hasMany: true,
 }
 ```

@@ -16,20 +16,20 @@ These are the three most critical security patterns that MUST be followed in eve
 ```typescript
 // ❌ SECURITY BUG: Passes user but ignores their permissions
 await payload.find({
-  collection: 'posts',
+  collection: 'news',
   user: someUser, // Access control is BYPASSED!
 })
 
 // ✅ SECURE: Actually enforces the user's permissions
 await payload.find({
-  collection: 'posts',
+  collection: 'news',
   user: someUser,
   overrideAccess: false, // REQUIRED for access control
 })
 
 // ✅ Administrative operation (intentional bypass)
 await payload.find({
-  collection: 'posts',
+  collection: 'news',
   // No user, overrideAccess defaults to true
 })
 ```
@@ -92,7 +92,7 @@ hooks: {
   afterChange: [
     async ({ doc, req }) => {
       await req.payload.update({
-        collection: 'posts',
+        collection: 'news',
         id: doc.id,
         data: { views: doc.views + 1 },
         req,
@@ -108,7 +108,7 @@ hooks: {
       if (context.skipHooks) return
 
       await req.payload.update({
-        collection: 'posts',
+        collection: 'news',
         id: doc.id,
         data: { views: doc.views + 1 },
         context: { skipHooks: true },

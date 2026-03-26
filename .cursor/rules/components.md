@@ -142,7 +142,7 @@ All Custom Components receive these props by default:
 ```tsx
 async function MyComponent({ payload, i18n, locale }) {
   const data = await payload.find({
-    collection: 'posts',
+    collection: 'news',
     locale,
   })
 
@@ -276,7 +276,7 @@ Collection Components are specific to a collection's views.
 import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   admin: {
     components: {
       // Edit view components
@@ -628,13 +628,13 @@ import type { Payload } from 'payload'
 
 async function RelatedPosts({ payload, id }: { payload: Payload; id: string }) {
   const post = await payload.findByID({
-    collection: 'posts',
+    collection: 'news',
     id,
     depth: 0,
   })
 
   const related = await payload.find({
-    collection: 'posts',
+    collection: 'news',
     where: {
       category: { equals: post.category },
       id: { not_equals: id },
@@ -700,7 +700,7 @@ export function MyComponent({ path }) {
 // ✅ GOOD: No JavaScript sent to client
 async function PostCount({ payload }) {
   const { totalDocs } = await payload.find({
-    collection: 'posts',
+    collection: 'news',
     limit: 0,
   })
 

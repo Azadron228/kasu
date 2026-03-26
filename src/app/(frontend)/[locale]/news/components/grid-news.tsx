@@ -1,19 +1,19 @@
 import React from 'react'
 import Link from 'next/link'
 
-type Category = {
-    id: number       
+type Tag = {
+    id: number
     title: string
     slug?: string
 }
 
-type Post = {
-    id: number        
+type News = {
+    id: number
     slug: string
     title: string
     excerpt?: string | null
     publishedAt?: string | null
-    categories?: (number | Category)[] | null   
+    tags?: (number | Tag)[] | null
     meta?: {
         description?: string | null
     } | null
@@ -38,13 +38,13 @@ const CATEGORY_STYLE: Record<string, { badge: string; dot: string }> = {
 }
 const DEFAULT_STYLE = { badge: 'bg-[#EAF2FA] text-[#4A6FA5]', dot: 'bg-[#A8B8CC]' }
 
-function getCategoryStyle(categories?: (number | Category)[] | null) {
-    const first = categories?.find((c): c is Category => typeof c !== 'number')
+function getTagStyle(tags?: (number | Tag)[] | null) {
+    const first = tags?.find((t): t is Tag => typeof t !== 'number')
     return CATEGORY_STYLE[first?.title?.toLowerCase() ?? ''] ?? DEFAULT_STYLE
 }
 
-export function NewsGrid({ posts }: { posts: Post[] }) {
-    if (!posts.length) {
+export function NewsGrid({ newsItems }: { newsItems: News[] }) {
+    if (!newsItems.length) {
         return (
             <div className="py-24 text-center">
                 <div className="mb-4 text-5xl opacity-30">📭</div>
@@ -55,22 +55,22 @@ export function NewsGrid({ posts }: { posts: Post[] }) {
 
     return (
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-            {posts.map((post, i) => {
+            {newsItems.map((news, i) => {
                 const span = BENTO_SPANS[i % BENTO_SPANS.length]
                 const isFeatured = span === 'md:col-span-2'
-                const style = getCategoryStyle(post.categories)
-                const description = post.excerpt || post.meta?.description || null
+                const style = getTagStyle(news.tags)
+                const description = news.excerpt || news.meta?.description || null
 
-                const formattedDate = post.publishedAt
-                    ? new Date(post.publishedAt).toLocaleDateString('ru-RU', {
+                const formattedDate = news.publishedAt
+                    ? new Date(news.publishedAt).toLocaleDateString('ru-RU', {
                         day: 'numeric', month: 'long', year: 'numeric',
                     })
                     : ''
 
                 return (
                     <Link
-                        key={post.id}
-                        href={`/news/${post.slug}`}
+                        key={news.id}
+                        href={`/news/${news.slug}`}
                         className={`
               group flex flex-col justify-between overflow-hidden rounded-[18px]
               border border-[#E4EBF3] bg-white p-6 transition-all duration-300
@@ -81,18 +81,18 @@ export function NewsGrid({ posts }: { posts: Post[] }) {
             `}
                     >
                         <div>
-                            {post.categories && post.categories.length > 0 && (
+                            {news.tags && news.tags.length > 0 && (
                                 <div className="mb-4 flex flex-wrap gap-1.5">
-                                    {post.categories.map((cat) => {
-                                        if (typeof cat === 'number') return null 
-                                        const s = CATEGORY_STYLE[cat.title?.toLowerCase()] ?? DEFAULT_STYLE
+                                    {news.tags.map((tagItem) => {
+                                        if (typeof tagItem === 'number') return null
+                                        const s = CATEGORY_STYLE[tagItem.title?.toLowerCase()] ?? DEFAULT_STYLE
                                         return (
                                             <span
-                                                key={cat.id}
+                                                key={tagItem.id}
                                                 className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest ${s.badge}`}
                                             >
                                                 <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
-                                                {cat.title}
+                                                {tagItem.title}
                                             </span>
                                         )
                                     })}
@@ -104,7 +104,7 @@ export function NewsGrid({ posts }: { posts: Post[] }) {
                 transition-colors group-hover:text-[#4A6FA5]
                 ${isFeatured ? 'text-[22px]' : 'text-[16px]'}
               `}>
-                                {post.title}
+                                {news.title}
                             </h3>
 
                             {description && (

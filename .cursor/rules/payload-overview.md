@@ -73,7 +73,7 @@ export async function GET() {
   const payload = await getPayload({ config })
 
   const posts = await payload.find({
-    collection: 'posts',
+    collection: 'news',
   })
 
   return Response.json(posts)
@@ -85,7 +85,7 @@ import config from '@payload-config'
 
 export default async function Page() {
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'posts' })
+  const { docs } = await payload.find({ collection: 'news' })
 
   return <div>{docs.map(post => <h1 key={post.id}>{post.title}</h1>)}</div>
 }

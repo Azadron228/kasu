@@ -4,10 +4,10 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
-import { Categories } from './collections/Categories'
+import { NewsTags } from './collections/NewsTags'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
+import { News } from './collections/News'
 import { Users } from './collections/Users'
 import { Footer } from './globals/Footer/config'
 import { Header } from './globals/Header/config'
@@ -75,7 +75,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Members, Regions, Directions, Programs, Documents, DocumentCategories],
+  collections: [Pages, News, Media, NewsTags, Users, Members, Regions, Directions, Programs, Documents, DocumentCategories],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Homepage, ProgramsPage, MembersPage, DocumentsPage, Settings],
   plugins,

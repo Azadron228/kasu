@@ -12,7 +12,7 @@ tags: [payload, collections, auth, upload, drafts]
 import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'author', 'status', 'createdAt'],
@@ -117,7 +117,7 @@ export const Pages: CollectionConfig = {
 ```typescript
 // Create draft
 await payload.create({
-  collection: 'posts',
+  collection: 'news',
   data: { title: 'Draft Post' },
   draft: true, // Skips required field validation
 })

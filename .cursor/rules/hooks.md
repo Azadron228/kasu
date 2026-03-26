@@ -10,7 +10,7 @@ tags: [payload, hooks, lifecycle, context]
 
 ```typescript
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   hooks: {
     // Before validation - format data
     beforeValidate: [
@@ -100,7 +100,7 @@ Share data between hooks or control hook behavior using request context:
 
 ```typescript
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   hooks: {
     beforeChange: [
       async ({ context }) => {

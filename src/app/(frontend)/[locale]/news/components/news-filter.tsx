@@ -4,7 +4,7 @@ import React, { useState, useTransition } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 
-type Category = {
+type Tag = {
     id: number
     title: string
     slug?: string | null
@@ -34,12 +34,12 @@ const DEFAULT_PILL = {
 }
 
 export function NewsFilter({
-    categories,
-    activeCategory,
+    tags,
+    activeTag,
     totalDocs,
 }: {
-    categories: Category[]
-    activeCategory?: string
+    tags: Tag[]
+    activeTag?: string
     totalDocs: number
 }) {
     const router = useRouter()
@@ -68,11 +68,11 @@ export function NewsFilter({
         applyParams({ query: value || null })
     }
 
-    function handleCategory(slug: string | null) {
-        applyParams({ category: slug })
+    function handleTag(slug: string | null) {
+        applyParams({ tag: slug })
     }
 
-    const hasFilters = !!activeCategory || !!query
+    const hasFilters = !!activeTag || !!query
 
     return (
         <div className="mb-8">
@@ -112,16 +112,16 @@ export function NewsFilter({
                     {t('categoryLabel')}
                 </span>
 
-                {categories.map((cat) => {
-                    const slug = cat.slug ?? ''
-                    const key = cat.title?.toLowerCase()
+                {tags.map((tagItem) => {
+                    const slug = tagItem.slug ?? ''
+                    const key = tagItem.title?.toLowerCase()
                     const style = PILL_STYLE[key] ?? DEFAULT_PILL
-                    const isActive = activeCategory === slug
+                    const isActive = activeTag === slug
 
                     return (
                         <button
-                            key={cat.id}
-                            onClick={() => handleCategory(isActive ? null : slug)}
+                            key={tagItem.id}
+                            onClick={() => handleTag(isActive ? null : slug)}
                             className={`
                 inline-flex items-center gap-1.5 rounded-full border px-4 py-2
                 text-[13px] font-bold transition-all duration-200
@@ -129,7 +129,7 @@ export function NewsFilter({
               `}
                         >
                             <span className="text-[14px] leading-none">{style.icon}</span>
-                            {cat.title}
+                            {tagItem.title}
                         </button>
                     )
                 })}
@@ -137,8 +137,8 @@ export function NewsFilter({
                     <button
                         onClick={() => {
                             setQuery('')
-                            handleCategory(null)
-                            applyParams({ query: null, category: null })
+                            handleTag(null)
+                            applyParams({ query: null, tag: null })
                         }}
                         className="
               rounded-full border border-dashed border-[#C8D8EC] px-4 py-2

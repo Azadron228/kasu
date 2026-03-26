@@ -19,9 +19,9 @@ const collectionLabels = {
     plural: 'Pages',
     singular: 'Page',
   },
-  posts: {
-    plural: 'Posts',
-    singular: 'Post',
+  news: {
+    plural: 'News',
+    singular: 'News',
   },
   projects: {
     plural: 'Projects',

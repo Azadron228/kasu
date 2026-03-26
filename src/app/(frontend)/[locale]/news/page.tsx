@@ -13,24 +13,24 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 type Args = {
-  searchParams: Promise<{ category?: string; page?: string }>
+  searchParams: Promise<{ tag?: string; page?: string }>
 }
 
 export default async function NewsPage({ searchParams }: Args) {
-  const { category, page } = await searchParams
+  const { tag, page } = await searchParams
   const currentPage = Number(page) || 1
   const t = await getTranslations('news')
 
   const payload = await getPayload({ config: configPromise })
 
-  const categoriesResult = await payload.find({
-    collection: 'categories',
+  const tagsResult = await payload.find({
+    collection: 'news-tags',
     limit: 100,
     pagination: false,
   })
 
-  const posts = await payload.find({
-    collection: 'posts',
+  const newsResult = await payload.find({
+    collection: 'news',
     depth: 1,
     limit: 12,
     page: currentPage,
@@ -40,13 +40,13 @@ export default async function NewsPage({ searchParams }: Args) {
       slug: true,
       excerpt: true,
       publishedAt: true,
-      categories: true,
+      tags: true,
       meta: { description: true },
     },
-    ...(category
+    ...(tag
       ? {
         where: {
-          'categories.slug': { equals: category },
+          'tags.slug': { equals: tag },
         },
       }
       : {}),
@@ -57,21 +57,21 @@ export default async function NewsPage({ searchParams }: Args) {
       <PageClient />
       <PageHeaderBlock
         title={t('listTitle')}
-        breadcrumbLabel={page?.title}
+        breadcrumbLabel={t('listTitle')}
         tag={t('archiveEvents')}
       />
       <div className="container py-16">
         <Suspense fallback={null}>
           <NewsFilter
-            categories={categoriesResult.docs}
-            activeCategory={category}
-            totalDocs={posts.totalDocs}
+            tags={tagsResult.docs as any}
+            activeTag={tag}
+            totalDocs={newsResult.totalDocs}
           />
         </Suspense>
-        <NewsGrid posts={posts.docs} />
-        {posts.totalPages > 1 && (
+        <NewsGrid newsItems={newsResult.docs as any} />
+        {newsResult.totalPages > 1 && (
           <div className="mt-12">
-            <Pagination page={posts.page!} totalPages={posts.totalPages} />
+            <Pagination page={newsResult.page!} totalPages={newsResult.totalPages} />
           </div>
         )}
       </div>

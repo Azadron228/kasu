@@ -749,7 +749,7 @@
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": false,
-          "default": "'posts'"
+          "default": "'news'"
         },
         "limit": {
           "name": "limit",
@@ -2260,7 +2260,7 @@
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": false,
-          "default": "'posts'"
+          "default": "'news'"
         },
         "limit": {
           "name": "limit",

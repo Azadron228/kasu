@@ -18,7 +18,7 @@ tags: [payload, access-control, security, permissions, rbac]
 import type { Access } from 'payload'
 
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   access: {
     // Boolean: Only authenticated users can create
     create: ({ req: { user } }) => Boolean(user),
@@ -171,7 +171,7 @@ const tenantAccess: Access = ({ req: { user } }) => {
 }
 
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: 'news',
   access: {
     create: tenantAccess,
     read: tenantAccess,
@@ -208,13 +208,13 @@ export const Posts: CollectionConfig = {
 ```typescript
 // ❌ WRONG: Passes user but bypasses access control
 await payload.find({
-  collection: 'posts',
+  collection: 'news',
   user: someUser,
 })
 
 // ✅ CORRECT: Respects the user's permissions
 await payload.find({
-  collection: 'posts',
+  collection: 'news',
   user: someUser,
   overrideAccess: false, // Required to enforce access control
 })
