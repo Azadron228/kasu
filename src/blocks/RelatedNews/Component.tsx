@@ -24,7 +24,7 @@ export const RelatedNews: React.FC<RelatedNewsProps> = (props) => {
         {docs?.map((doc, index) => {
           if (typeof doc === 'string') return null
 
-          return <Card key={index} doc={doc} relationTo="news" showCategories />
+          return <Card key={index} doc={doc} relationTo="news" showTags />
         })}
       </div>
     </div>

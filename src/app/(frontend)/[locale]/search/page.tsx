@@ -28,7 +28,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       <PageHeaderBlock
         title={t('title')}
         subtitle={query ? t('resultsFor', { query }) : t('initialText')}
-        breadcrumbLabel={page?.title ?? t('listTitle')}
+        breadcrumbLabel={t('listTitle')}
       />
       <PageClient />
 

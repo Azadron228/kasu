@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
@@ -35,12 +34,9 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
   const post = await queryPostBySlug({ slug: decodedSlug })
   const t = await getTranslations('news')
 
-  if (!post) return <PayloadRedirects url={url} />
-
   return (
     <article className="container py-16">
       <PageClient />
-      <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
 
       <div className="max-w-3xl mx-auto">
