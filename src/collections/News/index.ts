@@ -41,6 +41,7 @@ export const News: CollectionConfig<'news'> = {
     title: true,
     slug: true,
     tags: true,
+    heroImage: true,
     meta: {
       image: true,
       description: true,

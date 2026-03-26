@@ -39,6 +39,7 @@ export default async function NewsPage({ searchParams }: Args) {
       title: true,
       slug: true,
       excerpt: true,
+      heroImage: true,
       publishedAt: true,
       tags: true,
       meta: { description: true },

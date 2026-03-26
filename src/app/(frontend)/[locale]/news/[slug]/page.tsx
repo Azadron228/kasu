@@ -24,6 +24,8 @@ export async function generateStaticParams() {
 
 import { getTranslations } from 'next-intl/server'
 
+import { Media } from '@/components/Media'
+
 type Args = { params: Promise<{ slug?: string }> }
 
 export default async function NewsPost({ params: paramsPromise }: Args) {
@@ -32,6 +34,11 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
   const decodedSlug = decodeURIComponent(slug)
   const url = '/news/' + decodedSlug
   const post = await queryPostBySlug({ slug: decodedSlug })
+
+  if (!post) {
+    return null
+  }
+
   const t = await getTranslations('news')
 
   return (
@@ -48,10 +55,11 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
           <h1 className="text-4xl font-bold text-navy leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>{post.title}</h1>
         </div>
 
-        <div className="w-full h-[400px] bg-sky-pale rounded-2xl mb-12 flex items-center justify-center text-silver text-2xl font-bold">
-          {/* post.heroImage could be rendered here */}
-          {t('imageAlt')}
-        </div>
+        {post.heroImage && typeof post.heroImage !== 'string' && (
+          <div className="relative w-full h-[400px] mb-12 overflow-hidden rounded-2xl">
+            <Media resource={post.heroImage} fill imgClassName="object-cover" priority loading="eager" htmlElement={null} />
+          </div>
+        )}
         <div className="prose max-w-none text-muted leading-relaxed">
           <RichText data={post.content} enableGutter={false} />
         </div>

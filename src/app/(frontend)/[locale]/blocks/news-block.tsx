@@ -4,6 +4,8 @@ import { getTranslations } from 'next-intl/server'
 
 import { TypedLocale } from 'payload'
 
+import { Media } from '@/components/Media'
+
 export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
   const news = await getNews(locale)
   const t = await getTranslations('home')
@@ -41,10 +43,14 @@ export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
                 className={`relative bg-gradient-to-br from-navy to-navy-mid flex items-center justify-center text-4xl text-brand-white/20 ${i === 0 ? 'h-64 text-7xl' : 'h-48'
                   }`}
               >
-                <span className="absolute top-4 left-4 bg-steel text-brand-white text-[0.6rem] font-extrabold tracking-widest uppercase px-2.5 py-1 rounded">
+                {newsItem.heroImage && typeof newsItem.heroImage !== 'string' ? (
+                  <Media resource={newsItem.heroImage} fill imgClassName="object-cover transition-transform duration-500 group-hover:scale-110" htmlElement={null} />
+                ) : (
+                  <span>📰</span>
+                )}
+                <span className="absolute top-4 left-4 z-10 bg-steel text-brand-white text-[0.6rem] font-extrabold tracking-widest uppercase px-2.5 py-1 rounded">
                   {tagLabel}
                 </span>
-                📰
               </div>
             <div className="p-6">
               <div className="text-xs text-brand-muted mb-2 font-bold">

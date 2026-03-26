@@ -1,5 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
+import { Media } from '@/components/Media'
+import type { Media as MediaType } from '@/payload-types'
 
 type Tag = {
     id: number
@@ -11,6 +13,7 @@ type News = {
     id: number
     slug: string
     title: string
+    heroImage?: (number | null) | MediaType
     excerpt?: string | null
     publishedAt?: string | null
     tags?: (number | Tag)[] | null
@@ -77,10 +80,15 @@ export function NewsGrid({ newsItems }: { newsItems: News[] }) {
               hover:-translate-y-1.5 hover:border-[#B8D0E8]
               hover:shadow-[0_20px_48px_rgba(30,53,96,0.11)]
               ${span}
-              ${isFeatured ? 'min-h-[220px]' : 'min-h-[190px]'}
+              ${news.heroImage ? (isFeatured ? 'min-h-[420px]' : 'min-h-[360px]') : (isFeatured ? 'min-h-[220px]' : 'min-h-[190px]')}
             `}
                     >
                         <div>
+                            {news.heroImage && typeof news.heroImage !== 'string' && (
+                                <div className={`relative mb-6 -mx-6 -mt-6 overflow-hidden ${isFeatured ? 'h-56' : 'h-40'}`}>
+                                    <Media resource={news.heroImage} fill imgClassName="object-cover transition-transform duration-500 group-hover:scale-110" htmlElement={null} />
+                                </div>
+                            )}
                             {news.tags && news.tags.length > 0 && (
                                 <div className="mb-4 flex flex-wrap gap-1.5">
                                     {news.tags.map((tagItem) => {
