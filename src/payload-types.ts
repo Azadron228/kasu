@@ -1871,22 +1871,6 @@ export interface Footer {
    * Copyright line. Use {year} as a placeholder for the current year, e.g. "© {year} КАСУ. All rights reserved."
    */
   copyrightText?: string | null;
-  /**
-   * Label for the privacy-policy link
-   */
-  privacyPolicyLabel?: string | null;
-  /**
-   * URL for the privacy-policy page, e.g. /privacy
-   */
-  privacyPolicyUrl?: string | null;
-  /**
-   * Label for the terms-of-use link
-   */
-  termsLabel?: string | null;
-  /**
-   * URL for the terms page, e.g. /terms
-   */
-  termsUrl?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2033,10 +2017,6 @@ export interface FooterSelect<T extends boolean = true> {
         id?: T;
       };
   copyrightText?: T;
-  privacyPolicyLabel?: T;
-  privacyPolicyUrl?: T;
-  termsLabel?: T;
-  termsUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

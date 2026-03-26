@@ -21,7 +21,7 @@ export default async function DirectionsBlock({ locale }: { locale: TypedLocale 
   const directions = await getDirections(locale)
   const t = await getTranslations('home')
   return (
-    <section className="bg-sky-pale px-6 lg:px-16 py-20" id="activity">
+    <section className="bg-sky-pale px-6 lg:px-16 py-20" id="activities">
       <div className="max-w-xl mb-12">
         <div className="text-xs font-extrabold tracking-[0.3em] uppercase text-steel mb-3">
           {t('directions')}

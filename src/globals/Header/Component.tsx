@@ -11,7 +11,7 @@ export async function Header({ locale }: { locale: TypedLocale }) {
 
   const navLinks = [
     { href: '/#about', label: t('about') },
-    { href: '/activities', label: t('activities') },
+    { href: '/#activities', label: t('activities') },
     { href: '/news', label: t('news') },
     { href: '/members', label: t('members') },
     { href: '/documents', label: t('documents') },
