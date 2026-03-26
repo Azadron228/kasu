@@ -113,15 +113,15 @@ export function NewsFilter({
                 </span>
 
                 {tags.map((tagItem) => {
-                    const slug = tagItem.slug ?? ''
+                    const tagId = tagItem.id.toString()
                     const key = tagItem.title?.toLowerCase()
                     const style = PILL_STYLE[key] ?? DEFAULT_PILL
-                    const isActive = activeTag === slug
+                    const isActive = activeTag === tagId
 
                     return (
                         <button
                             key={tagItem.id}
-                            onClick={() => handleTag(isActive ? null : slug)}
+                            onClick={() => handleTag(isActive ? null : tagId)}
                             className={`
                 inline-flex items-center gap-1.5 rounded-full border px-4 py-2
                 text-[13px] font-bold transition-all duration-200

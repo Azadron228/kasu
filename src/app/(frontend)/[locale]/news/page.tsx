@@ -46,7 +46,7 @@ export default async function NewsPage({ searchParams }: Args) {
     ...(tag
       ? {
         where: {
-          'tags.slug': { equals: tag },
+          tags: { in: [tag] },
         },
       }
       : {}),

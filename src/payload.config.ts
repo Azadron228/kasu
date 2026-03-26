@@ -6,7 +6,6 @@ import { fileURLToPath } from 'url'
 
 import { NewsTags } from './collections/NewsTags'
 import { Media } from './collections/Media'
-import { Pages } from './collections/Pages'
 import { News } from './collections/News'
 import { Users } from './collections/Users'
 import { Footer } from './globals/Footer/config'
@@ -75,7 +74,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, News, Media, NewsTags, Users, Members, Regions, Directions, Programs, Documents, DocumentCategories],
+  collections: [News, Media, NewsTags, Users, Members, Regions, Directions, Programs, Documents, DocumentCategories],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Homepage, ProgramsPage, MembersPage, DocumentsPage, Settings],
   plugins,

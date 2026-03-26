@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import React from 'react'
-import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/globals/Footer/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
@@ -46,7 +45,6 @@ export default async function RootLayout({ children, params }: Args) {
       <body>
         <Providers>
           <NextIntlClientProvider messages={messages}>
-            <AdminBar adminBarProps={{ preview: isEnabled }} />
             <Header locale={locale} />
             <main>{children}</main>
             <Footer locale={locale} />

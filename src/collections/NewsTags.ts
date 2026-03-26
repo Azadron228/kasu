@@ -22,8 +22,5 @@ export const NewsTags: CollectionConfig = {
       localized: true,
       required: true,
     },
-    slugField({
-      position: undefined,
-    }),
   ],
 }
