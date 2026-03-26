@@ -3,7 +3,6 @@ import { anyone } from '@/access/anyone'
 
 export const Settings: GlobalConfig = {
     slug: 'settings',
-    admin: { group: 'Настройки' },
     access: { read: anyone },
     fields: [
         {

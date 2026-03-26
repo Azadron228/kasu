@@ -1837,26 +1837,56 @@ export interface Header {
  */
 export interface Footer {
   id: number;
-  navItems?:
+  /**
+   * Organisation name shown next to the logo
+   */
+  orgTitle?: string | null;
+  /**
+   * Short description under the org title
+   */
+  orgDesc?: string | null;
+  /**
+   * Up to 3 link columns displayed in the footer
+   */
+  columns?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        /**
+         * Column heading (shown in uppercase)
+         */
+        columnTitle: string;
+        links?:
+          | {
+              label: string;
+              /**
+               * Relative or absolute URL, e.g. /about or https://…
+               */
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Copyright line. Use {year} as a placeholder for the current year, e.g. "© {year} КАСУ. All rights reserved."
+   */
+  copyrightText?: string | null;
+  /**
+   * Label for the privacy-policy link
+   */
+  privacyPolicyLabel?: string | null;
+  /**
+   * URL for the privacy-policy page, e.g. /privacy
+   */
+  privacyPolicyUrl?: string | null;
+  /**
+   * Label for the terms-of-use link
+   */
+  termsLabel?: string | null;
+  /**
+   * URL for the terms page, e.g. /terms
+   */
+  termsUrl?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1987,20 +2017,26 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
-  navItems?:
+  orgTitle?: T;
+  orgDesc?: T;
+  columns?:
     | T
     | {
-        link?:
+        columnTitle?: T;
+        links?:
           | T
           | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
               label?: T;
+              url?: T;
+              id?: T;
             };
         id?: T;
       };
+  copyrightText?: T;
+  privacyPolicyLabel?: T;
+  privacyPolicyUrl?: T;
+  termsLabel?: T;
+  termsUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
