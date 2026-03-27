@@ -219,5 +219,17 @@
     "byte": "B",
     "kilobyte": "KB",
     "megabyte": "MB"
+  },
+  "join": {
+    "listTitle": "Join the Association",
+    "breadcrumb": "Join Us",
+    "tag": "Silver Universities · KASU",
+    "subtitle": "Become part of a professional community uniting silver universities of Kazakhstan.",
+    "metaTitle": "Join Us | KASU U3A",
+    "whyTitle": "Why join KASU?",
+    "successTitle": "Application submitted!",
+    "successMessage": "Thank you! We will contact you shortly.",
+    "errorMessage": "Something went wrong. Please try again.",
+    "submitting": "Sending..."
   }
 }

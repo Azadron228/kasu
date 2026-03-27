@@ -25,6 +25,7 @@ import { Documents } from './collections/Documents'
 import { DocumentCategories } from './collections/DocumentCategories'
 import { Settings } from './globals/Settings'
 import { DocumentsPage } from './globals/DocumentsPage'
+import { JoinPage } from './globals/JoinPage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -76,7 +77,7 @@ export default buildConfig({
   }),
   collections: [News, Media, NewsTags, Users, Members, Regions, Directions, Programs, Documents, DocumentCategories],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Homepage, ProgramsPage, MembersPage, DocumentsPage, Settings],
+  globals: [Header, Footer, Homepage, ProgramsPage, MembersPage, DocumentsPage, Settings, JoinPage],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

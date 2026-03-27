@@ -127,6 +127,7 @@ export interface Config {
     'members-page': MembersPage;
     'documents-page': DocumentsPage;
     settings: Setting;
+    'join-page': JoinPage;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -136,6 +137,7 @@ export interface Config {
     'members-page': MembersPageSelect<false> | MembersPageSelect<true>;
     'documents-page': DocumentsPageSelect<false> | DocumentsPageSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
+    'join-page': JoinPageSelect<false> | JoinPageSelect<true>;
   };
   locale: 'ru' | 'en' | 'kk';
   user: User;
@@ -1548,6 +1550,33 @@ export interface Setting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "join-page".
+ */
+export interface JoinPage {
+  id: number;
+  tag?: string | null;
+  title: string;
+  subtitle?: string | null;
+  /**
+   * Выберите форму, созданную в разделе "Forms". Если форма не выбрана — ничего не отображается.
+   */
+  form?: (number | null) | Form;
+  /**
+   * Иконка + заголовок + текст, которые показываются справа от формы
+   */
+  infoBoxes?:
+    | {
+        icon?: string | null;
+        title?: string | null;
+        body?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1675,6 +1704,27 @@ export interface SettingsSelect<T extends boolean = true> {
     | {
         platform?: T;
         url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "join-page_select".
+ */
+export interface JoinPageSelect<T extends boolean = true> {
+  tag?: T;
+  title?: T;
+  subtitle?: T;
+  form?: T;
+  infoBoxes?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        body?: T;
         id?: T;
       };
   updatedAt?: T;
