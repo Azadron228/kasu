@@ -60,7 +60,7 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
             <Media resource={post.heroImage} fill imgClassName="object-cover" priority loading="eager" htmlElement={null} />
           </div>
         )}
-        <div className="prose max-w-none text-muted leading-relaxed">
+        <div className="prose max-w-none text-black leading-relaxed">
           <RichText data={post.content} enableGutter={false} />
         </div>
       </div>

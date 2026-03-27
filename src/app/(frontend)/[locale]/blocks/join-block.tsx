@@ -25,7 +25,7 @@ export async function JoinBlock({ homepage }: { homepage: Homepage }) {
       <div className="relative z-10 flex flex-wrap justify-center gap-4">
         <Link
           href={PATHS.JOIN}
-          className="bg-gold text-navy-deep font-extrabold text-sm px-10 py-4 rounded-full shadow-lg hover:-translate-y-1 transition-all"
+          className="bg-gold text-navy-deep font-extrabold text-sm px-10 py-4 rounded-full shadow-lg hover:-translate-y-1 transition-all hover:shadow-[0_6px_20px_rgba(184,160,96,0.35)]"
         >
           {t('joinBtn')}
         </Link>

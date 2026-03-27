@@ -8,4 +8,5 @@ export const PATHS = {
   DOCUMENTS: '/documents',
   ABOUT: '/about',
   CONTACTS: '/contacts',
+  ASSOCIATION: '/join-association',
 } as const
