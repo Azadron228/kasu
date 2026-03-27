@@ -11,17 +11,17 @@ type Tag = {
 }
 
 const PILL_STYLE: Record<string, { active: string; idle: string; icon: string }> = {
-    событие: {
+    event: {
         icon: '📅',
         active: 'bg-[#1E3560] border-[#1E3560] text-white shadow-md',
         idle: 'bg-white border-[#C8D8EC] text-[#1E3560] hover:border-[#1E3560] hover:bg-[#EAF2FA]',
     },
-    соглашение: {
+    agreement: {
         icon: '🤝',
         active: 'bg-[#B8A060] border-[#B8A060] text-[#162848] shadow-md',
         idle: 'bg-white border-[#D4BC80] text-[#8a6e2a] hover:border-[#B8A060] hover:bg-[#F5F0E2]',
     },
-    проект: {
+    project: {
         icon: '🚀',
         active: 'bg-[#162848] border-[#162848] text-[#D4BC80] shadow-md',
         idle: 'bg-white border-[#C4CEDC] text-[#1E3560] hover:border-[#162848] hover:bg-[#E8EDF5]',

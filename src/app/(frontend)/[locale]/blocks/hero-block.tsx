@@ -24,7 +24,7 @@ export default async function HeroBlock({ homepage }: { homepage: Homepage }) {
         <div className="flex flex-wrap gap-3.5">
           <Link
             href="/join"
-            className="bg-gold text-navy-deep font-extrabold text-sm px-7 py-3.5 rounded-full shadow-[0_6px_20px_rgba(184,160,96,0.35)] hover:-translate-y-1 hover:shadow-xl transition-all flex items-center gap-2"
+            className="bg-gold text-navy-deep font-extrabold text-sm px-7 py-3.5 rounded-full shadow-[0_6px_20px_rgba(184,160,96,0.35)] hover:-translate-y-1  hover:shadow-[0_6px_20px_rgba(184,160,96,0.35)] transition-all flex items-center gap-2"
           >
             {t('joinBtn')}
           </Link>

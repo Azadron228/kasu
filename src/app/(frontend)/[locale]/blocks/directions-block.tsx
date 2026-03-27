@@ -33,7 +33,7 @@ export default async function DirectionsBlock({ locale }: { locale: TypedLocale 
           {t('directionsDesc')}
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {directions.map((dir, i) =>
           i === 0 ? (
             <Link
