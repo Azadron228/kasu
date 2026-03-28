@@ -18,8 +18,10 @@ function DirectionCard({ dir }: { dir: any }) {
 }
 
 export default async function DirectionsBlock({ locale }: { locale: TypedLocale }) {
-  const directions = await getDirections(locale)
-  const t = await getTranslations('home')
+  const [directions, t] = await Promise.all([
+    getDirections(locale),
+    getTranslations('home')
+  ])
   return (
     <section className="bg-sky-pale px-6 lg:px-16 py-20" id="activities">
       <div className="max-w-xl mb-12">
