@@ -7,8 +7,11 @@ import { TypedLocale } from 'payload'
 import { Media } from '@/components/Media'
 
 export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
-  const news = await getNews(locale)
-  const t = await getTranslations('home')
+  const [news, t] = await Promise.all([
+    getNews(locale),
+    getTranslations('home')
+  ])
+
   return (
     <section className="bg-sky-pale px-6 lg:px-16 py-20" id="news">
       <div className="flex justify-between items-end mb-12">
@@ -52,22 +55,23 @@ export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
                   {tagLabel}
                 </span>
               </div>
-            <div className="p-6">
-              <div className="text-xs text-brand-muted mb-2 font-bold">
-                {newsItem.publishedAt ? new Date(newsItem.publishedAt).toLocaleDateString(locale) : ''}
+              <div className="p-6">
+                <div className="text-xs text-brand-muted mb-2 font-bold">
+                  {newsItem.publishedAt ? new Date(newsItem.publishedAt).toLocaleDateString(locale) : ''}
+                </div>
+                <h3
+                  className={`font-serif text-navy leading-tight mb-3 group-hover:text-steel transition-colors ${i === 0 ? 'text-2xl' : 'text-lg'
+                    }`}
+                >
+                  {newsItem.title}
+                </h3>
+                <p className="text-brand-muted text-sm leading-relaxed line-clamp-3">
+                  {newsItem.excerpt || ''}
+                </p>
               </div>
-              <h3
-                className={`font-serif text-navy leading-tight mb-3 group-hover:text-steel transition-colors ${i === 0 ? 'text-2xl' : 'text-lg'
-                  }`}
-              >
-                {newsItem.title}
-              </h3>
-              <p className="text-brand-muted text-sm leading-relaxed line-clamp-3">
-                {newsItem.excerpt || ''}
-              </p>
-            </div>
-          </Link>
-        )})}
+            </Link>
+          )
+        })}
       </div>
     </section>
   )

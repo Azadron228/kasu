@@ -5,8 +5,11 @@ import { TypedLocale } from 'payload'
 import { Media } from '@/payload-types'
 
 export default async function MembersBlock({ locale }: { locale: TypedLocale }) {
-  const t = await getTranslations('home')
-  const members = await getMembers(locale)
+  const [t, members] = await Promise.all([
+    getTranslations('home'),
+    getMembers(locale)
+  ])
+
   return (
     <section className="px-6 lg:px-16 py-20 bg-brand-white" id="members">
       <div className="text-xs font-extrabold tracking-[0.3em] uppercase text-steel mb-3">

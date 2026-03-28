@@ -26,8 +26,11 @@ function getFileEmoji(mimeType?: string | null): string {
 }
 
 export default async function HomeFeaturedDocsBlock({ locale }: Props) {
-  const { categories, featured } = await getFeaturedDocuments(locale)
-  const t = await getTranslations('home')
+  const [data, t] = await Promise.all([
+    getFeaturedDocuments(locale),
+    getTranslations('home')
+  ])
+  const { categories, featured } = data
 
   if (!featured.length) return null
 

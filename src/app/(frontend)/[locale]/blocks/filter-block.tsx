@@ -3,8 +3,11 @@ import getRegions from '@/api/find/find-regions'
 import { getTranslations } from 'next-intl/server'
 
 export default async function FilterBlock() {
-  const t = await getTranslations('blocks.filter')
-  const regions = await getRegions()
+  const [t, regions] = await Promise.all([
+    getTranslations('blocks.filter'),
+    getRegions()
+  ])
+
 
   const filters: FilterGroup[] = [
     {
