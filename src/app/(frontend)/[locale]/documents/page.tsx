@@ -11,14 +11,18 @@ type Args = {
   params: Promise<{ locale: TypedLocale }>
 }
 
+
 export default async function DocumentsPage({ params }: Args) {
   const { locale } = await params
   setRequestLocale(locale)
-  const t = await getTranslations('documents')
 
-  const page = (await getCachedGlobal('documents-page', 1)()) as any
+  const [t, page, documentsData] = await Promise.all([
+    getTranslations('documents'),
+    getCachedGlobal('documents-page', 1)() as any,
+    getDocumentsData(locale)
+  ])
 
-  const { categories, documents, folders } = await getDocumentsData(locale)
+  const { categories, documents, folders } = documentsData
 
   return (
     <div className="min-h-screen bg-sky-pale">

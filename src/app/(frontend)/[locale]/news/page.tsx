@@ -17,9 +17,16 @@ type Args = {
 }
 
 export default async function NewsPage({ searchParams }: Args) {
-  const { tag, page } = await searchParams
+
+  const searchParamsPromise = searchParams
+  const translationsPromise = getTranslations<'news'>('news')
+
+  const [{ tag, page }, t] = await Promise.all([searchParamsPromise, translationsPromise])
+
+
+
   const currentPage = Number(page) || 1
-  const t = await getTranslations('news')
+
 
   const payload = await getPayload({ config: configPromise })
 

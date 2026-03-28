@@ -17,8 +17,12 @@ type Args = {
 export default async function MembersPage({ params, searchParams }: Args) {
   const { locale } = await params
   setRequestLocale(locale)
-  const queryParams = await searchParams
-  const t = await getTranslations('members')
+
+  // запускаем асинхронные операции параллельно
+  const [queryParams, t] = await Promise.all([
+    searchParams,
+    getTranslations<'members'>('members')
+  ])
   const page = (await getCachedGlobal('members-page', 1)()) as MembersPageType
 
   const status = typeof queryParams.status === 'string' ? queryParams.status : undefined
