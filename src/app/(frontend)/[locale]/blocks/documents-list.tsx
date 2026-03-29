@@ -151,10 +151,6 @@ export default function DocumentsContent({
                                                         {doc.description}
                                                     </p>
                                                 )}
-                                                {/* <div className="mt-auto flex items-center justify-between border-t border-[#E4EBF3] pt-3 text-[11px] font-semibold text-[#56647A]">
-                                                    <span>{doc.date ? formatDate(doc.date) : ''}</span>
-                                                    <span className="text-[#4A6FA5] group-hover:underline">⬇ Скачать</span>
-                                                </div> */}
                                             </a>
                                         )
                                     })}
@@ -166,12 +162,13 @@ export default function DocumentsContent({
                         {isRoot && groupedByCategory ? (
                             <>
                                 {categories.map((cat: any) => {
-                                    const docs = groupedByCategory[cat.slug]
+                                    // Grouping relies on ID strings now
+                                    const docs = groupedByCategory[String(cat.id)]
                                     if (!docs || docs.length === 0) return null
                                     return (
-                                        <section key={cat.id} id={`cat-${cat.slug}`} className="mb-10 scroll-mt-40">
+                                        <section key={cat.id} id={`cat-${cat.id}`} className="mb-10 scroll-mt-40">
                                             <div className="mb-4 flex items-center gap-2">
-                                                <span className="text-xl opacity-60">{cat.icon}</span>
+                                                <span className="text-xl opacity-60">📄</span>
                                                 <h2 className="text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
                                                     {cat.title}
                                                 </h2>
@@ -199,7 +196,6 @@ export default function DocumentsContent({
                             </>
                         )}
 
-
                         {/* Sub-folder grid */}
                         {viewData.subFolders.length > 0 && (
                             <section className="mb-8">
@@ -226,5 +222,3 @@ export default function DocumentsContent({
         </main>
     )
 }
-
-

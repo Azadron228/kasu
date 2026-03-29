@@ -181,10 +181,10 @@ export default function DocumentsSidebar({
                             {categories.map((cat: any) => (
                                 <li key={cat.id}>
                                     <a
-                                        href={`#cat-${cat.slug}`}
+                                        href={`#cat-${cat.id}`}
                                         className="flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] font-medium text-[#56647A] transition-colors hover:bg-[#1E3560]/[0.07] hover:text-[#1E3560]"
                                     >
-                                        <span className="shrink-0 text-sm">{cat.icon || '📄'}</span>
+                                        <span className="shrink-0 text-sm">📄</span>
                                         <span className="flex-1 truncate">{cat.title}</span>
                                     </a>
                                 </li>
@@ -192,7 +192,6 @@ export default function DocumentsSidebar({
                         </ul>
                     </>
                 )}
-
             </div>
         </aside>
     )
