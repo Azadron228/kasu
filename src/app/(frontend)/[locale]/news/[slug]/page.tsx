@@ -46,9 +46,9 @@ function renderContentSection(section: NonNullable<News['contentSections']>[numb
           key={index}
           {...section}
           enableGutter={false}
-          className="overflow-hidden rounded-[1.75rem] border border-silver-lt/80 bg-brand-white p-3 shadow-[0_18px_50px_rgba(30,53,96,.08)] md:p-4"
-          imgClassName="rounded-[1.2rem] border-0"
-          captionClassName="px-3 pb-2 md:px-4"
+          className=""
+          imgClassName=""
+          captionClassName=""
         />
       )
     case 'relatedNews':
