@@ -1,6 +1,6 @@
 const localization = {
   defaultLocale: 'ru',
-  // fallback: true,
+  fallback: true,
   locales: [
     {
       code: 'ru',

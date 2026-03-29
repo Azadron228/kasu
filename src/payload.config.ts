@@ -2,6 +2,8 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
+import { en } from '@payloadcms/translations/languages/en'
+import { ru } from '@payloadcms/translations/languages/ru'
 import { fileURLToPath } from 'url'
 
 import { NewsTags } from './collections/NewsTags'
@@ -32,6 +34,10 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   localization,
+  i18n: {
+    fallbackLanguage: 'ru',
+    supportedLanguages: { en, ru },
+  },
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
