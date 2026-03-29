@@ -6,7 +6,7 @@ export const DocumentCategories: CollectionConfig = {
     slug: 'document-categories',
     admin: {
         useAsTitle: 'title',
-        group: 'Документы',
+        group: 'Documents',
     },
     access: {
         create: authenticated,

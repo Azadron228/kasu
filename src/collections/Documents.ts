@@ -16,7 +16,7 @@ export const Documents: CollectionConfig = {
     admin: {
         useAsTitle: 'title',
         defaultColumns: ['title', 'category', 'fileFormat', 'date', 'isNew'],
-        group: 'Документы',
+        group: 'Documents',
     },
     access: {
         create: authenticated,
