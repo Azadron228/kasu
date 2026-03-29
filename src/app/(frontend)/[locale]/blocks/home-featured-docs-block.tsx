@@ -34,7 +34,7 @@ export default async function HomeFeaturedDocsBlock({ locale }: Props) {
 
   if (!featured.length) return null
 
-  // Group featured docs by category
+  // Group featured docs by category ID instead of slug
   const grouped: Record<
     string,
     {
@@ -45,10 +45,11 @@ export default async function HomeFeaturedDocsBlock({ locale }: Props) {
 
   for (const doc of featured) {
     const cat = typeof doc.category === 'object' ? doc.category : null
-    const key = cat?.slug ?? 'other'
+    const key = cat?.id ? String(cat.id) : 'other'
+
     if (!grouped[key]) {
       grouped[key] = {
-        category: cat ?? ({ id: 0, slug: 'other', title: t('docsFallback'), order: 999 } as any),
+        category: cat ?? ({ id: 'other', title: t('docsFallback'), order: 999 } as any),
         docs: [],
       }
     }
@@ -57,7 +58,9 @@ export default async function HomeFeaturedDocsBlock({ locale }: Props) {
 
   // Build ordered list: categories first (in their order), then 'other' at the end
   const orderedGroups = [
-    ...categories.filter((cat: any) => grouped[cat.slug]).map((cat: any) => grouped[cat.slug]),
+    ...categories
+      .filter((cat: any) => grouped[String(cat.id)])
+      .map((cat: any) => grouped[String(cat.id)]),
     ...(grouped['other'] ? [grouped['other']] : []),
   ]
 
@@ -84,7 +87,7 @@ export default async function HomeFeaturedDocsBlock({ locale }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {orderedGroups.map(({ category, docs }) => (
           <div
-            key={category.slug ?? category.id}
+            key={category.id}
             className="bg-brand-white rounded-2xl p-7 shadow-custom border border-silver-lt"
           >
             {/* Category icon */}

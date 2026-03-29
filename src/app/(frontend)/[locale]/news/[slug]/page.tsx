@@ -120,14 +120,6 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
               </div>
             )}
 
-            <section className="rounded-[2rem] border border-silver-lt/80 bg-brand-white px-6 py-8 shadow-[0_18px_50px_rgba(30,53,96,.08)] md:px-10 md:py-10">
-              <RichText
-                data={post.content}
-                enableGutter={false}
-                className="max-w-none text-brand-muted [&_h2]:mt-10 [&_h2]:text-[1.7rem] [&_h2]:leading-tight [&_h3]:mt-8 [&_h3]:text-[1.3rem] [&_p]:text-[0.98rem] [&_p]:leading-7 [&_ul]:my-5 [&_ol]:my-5 [&_li]:my-1.5 [&_li]:text-[0.98rem] [&_img]:rounded-[1.2rem]"
-              />
-            </section>
-
             {post.contentSections?.map((section, index) => renderContentSection(section, index))}
           </div>
         </div>
