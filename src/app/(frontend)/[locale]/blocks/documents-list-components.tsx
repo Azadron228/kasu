@@ -85,15 +85,7 @@ export function DocRow({ doc }: { doc: Document }) {
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 rounded-lg bg-[#1E3560] px-3 py-1.5 text-[11px] font-extrabold text-white transition-colors hover:bg-[#2A4A7F]"
                     >
-                        ⬇ Скачать
-                    </a>
-                    <a
-                        href={doc.url ?? '#'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center rounded-lg bg-[#EAF2FA] px-2.5 py-1.5 text-[12px] text-[#4A6FA5] transition-colors hover:bg-[#E4EBF3]"
-                    >
-                        👁
+                        Скачать
                     </a>
                 </div>
             </td>

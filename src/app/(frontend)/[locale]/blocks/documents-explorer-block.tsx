@@ -134,14 +134,18 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
     }, [currentFolderId, folderRoots, folderMap, documents])
 
     // Group unfoldered docs by category (for root view)
+    // Group unfoldered docs by category (for root view)
     const groupedByCategory = useMemo(() => {
         if (!viewData.isRoot) return null
         const res: Record<string, Document[]> = {}
+
         for (const doc of viewData.documents) {
             const cat = typeof doc.category === 'object' ? doc.category : null
-            const slug = cat?.slug ?? 'other'
-            if (!res[slug]) res[slug] = []
-            res[slug].push(doc)
+            // Group by ID instead of slug, fallback to 'other'
+            const groupKey = cat?.id ? String(cat.id) : 'other'
+
+            if (!res[groupKey]) res[groupKey] = []
+            res[groupKey].push(doc)
         }
         return res
     }, [viewData])

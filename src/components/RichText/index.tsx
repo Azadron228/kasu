@@ -68,7 +68,7 @@ export default function RichText(props: Props) {
         {
           container: enableGutter,
           'max-w-none': !enableGutter,
-          'mx-auto prose md:prose-md dark:prose-invert': enableProse,
+          'mx-auto prose prose-slate prose-headings:text-navy prose-headings:font-semibold prose-a:text-steel prose-a:decoration-steel/30 prose-a:underline-offset-4 hover:prose-a:text-navy prose-strong:text-navy prose-li:marker:text-steel prose-blockquote:border-l-steel prose-blockquote:text-brand-muted prose-hr:border-silver md:prose-md': enableProse,
         },
         className,
       )}

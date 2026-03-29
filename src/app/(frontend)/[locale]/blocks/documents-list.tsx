@@ -141,13 +141,6 @@ export default function DocumentsContent({
                                                     >
                                                         {doc.category?.title ?? ''}
                                                     </span>
-                                                    <span className="text-xs font-semibold text-[#A8B8CC]">
-                                                        {doc.mimeType?.includes('pdf')
-                                                            ? 'PDF'
-                                                            : doc.mimeType?.includes('sheet')
-                                                                ? 'XLSX'
-                                                                : 'DOC'}
-                                                    </span>
                                                 </div>
                                                 <div className="mb-3 text-3xl">{fileIcon.emoji}</div>
                                                 <h3 className="mb-2 text-[15px] font-bold leading-snug text-[#1E3560] group-hover:text-[#2A4A7F]">
@@ -158,10 +151,10 @@ export default function DocumentsContent({
                                                         {doc.description}
                                                     </p>
                                                 )}
-                                                <div className="mt-auto flex items-center justify-between border-t border-[#E4EBF3] pt-3 text-[11px] font-semibold text-[#56647A]">
+                                                {/* <div className="mt-auto flex items-center justify-between border-t border-[#E4EBF3] pt-3 text-[11px] font-semibold text-[#56647A]">
                                                     <span>{doc.date ? formatDate(doc.date) : ''}</span>
                                                     <span className="text-[#4A6FA5] group-hover:underline">⬇ Скачать</span>
-                                                </div>
+                                                </div> */}
                                             </a>
                                         )
                                     })}

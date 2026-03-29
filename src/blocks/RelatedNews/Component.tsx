@@ -9,8 +9,8 @@ import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 export type RelatedNewsProps = {
   className?: string
-  docs?: News[]
-  introContent?: DefaultTypedEditorState
+  docs?: (News | number)[]
+  introContent?: DefaultTypedEditorState | null
 }
 
 export const RelatedNews: React.FC<RelatedNewsProps> = (props) => {
@@ -22,7 +22,7 @@ export const RelatedNews: React.FC<RelatedNewsProps> = (props) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-stretch">
         {docs?.map((doc, index) => {
-          if (typeof doc === 'string') return null
+          if (typeof doc !== 'object') return null
 
           return <Card key={index} doc={doc} relationTo="news" showTags />
         })}

@@ -14,6 +14,8 @@ import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { RelatedNewsBlock } from '../../blocks/RelatedNews/config'
+import { RichTextSectionBlock } from '../../blocks/RichTextSection/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidateNews } from './hooks/revalidateNews'
 
@@ -88,23 +90,10 @@ export const News: CollectionConfig<'news'> = {
               relationTo: 'media',
             },
             {
-              name: 'content',
-              type: 'richText',
-              editor: lexicalEditor({
-                features: ({ rootFeatures }) => {
-                  return [
-                    ...rootFeatures,
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
-                    FixedToolbarFeature(),
-                    InlineToolbarFeature(),
-                    HorizontalRuleFeature(),
-                  ]
-                },
-              }),
-              label: false,
+              name: 'contentSections',
+              type: 'blocks',
+              blocks: [RichTextSectionBlock, MediaBlock, Banner, Code, RelatedNewsBlock],
               localized: true,
-              required: true,
             },
           ],
           label: 'Content',
