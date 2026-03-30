@@ -4,6 +4,16 @@ import { authenticated } from '../access/authenticated'
 
 export const DocumentCategories: CollectionConfig = {
     slug: 'document-categories',
+    labels: {
+        singular: {
+            en: 'Document Category',
+            ru: 'Категория документа',
+        },
+        plural: {
+            en: 'Document Categories',
+            ru: 'Категории документов',
+        },
+    },
     admin: {
         useAsTitle: 'title',
         group: 'Documents',
@@ -20,7 +30,10 @@ export const DocumentCategories: CollectionConfig = {
             type: 'text',
             localized: true,
             required: true,
-            label: 'Название категории',
+            label: {
+                en: 'Title',
+                ru: 'Название категории',
+            },
         },
     ],
 }

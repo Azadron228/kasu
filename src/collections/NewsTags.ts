@@ -6,6 +6,16 @@ import { slugField } from 'payload'
 
 export const NewsTags: CollectionConfig = {
   slug: 'news-tags',
+  labels: {
+    singular: {
+      en: 'News Tag',
+      ru: 'Тег новостей',
+    },
+    plural: {
+      en: 'News Tags',
+      ru: 'Теги новостей',
+    },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -19,6 +29,10 @@ export const NewsTags: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      label: {
+        en: 'Title',
+        ru: 'Заголовок',
+      },
       localized: true,
       required: true,
     },

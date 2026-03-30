@@ -30,6 +30,16 @@ import { slugField } from 'payload'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
+  labels: {
+    singular: {
+      en: 'News',
+      ru: 'Новость',
+    },
+    plural: {
+      en: 'News',
+      ru: 'Новости',
+    },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -71,12 +81,20 @@ export const News: CollectionConfig<'news'> = {
     {
       name: 'title',
       type: 'text',
+      label: {
+        en: 'Title',
+        ru: 'Заголовок',
+      },
       localized: true,
       required: true,
     },
     {
       name: 'excerpt',
       type: 'textarea',
+      label: {
+        en: 'Excerpt',
+        ru: 'Краткое описание',
+      },
       localized: true,
     },
     {
@@ -88,15 +106,26 @@ export const News: CollectionConfig<'news'> = {
               name: 'heroImage',
               type: 'upload',
               relationTo: 'media',
+              label: {
+                en: 'Hero Image',
+                ru: 'Главное изображение',
+              },
             },
             {
               name: 'contentSections',
               type: 'blocks',
               blocks: [RichTextSectionBlock, MediaBlock, Banner, Code, RelatedNewsBlock],
               localized: true,
+              label: {
+                en: 'Content Sections',
+                ru: 'Разделы контента',
+              },
             },
           ],
-          label: 'Content',
+          label: {
+            en: 'Content',
+            ru: 'Контент',
+          },
         },
         {
           fields: [
@@ -115,13 +144,23 @@ export const News: CollectionConfig<'news'> = {
               },
               hasMany: true,
               relationTo: 'news',
+              label: {
+                en: 'Related News',
+                ru: 'Похожие новости',
+              },
             },
           ],
-          label: 'Meta',
+          label: {
+            en: 'Meta',
+            ru: 'Мета',
+          },
         },
         {
           name: 'meta',
-          label: 'SEO',
+          label: {
+            en: 'SEO',
+            ru: 'SEO',
+          },
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -151,6 +190,10 @@ export const News: CollectionConfig<'news'> = {
     {
       name: 'publishedAt',
       type: 'date',
+      label: {
+        en: 'Published At',
+        ru: 'Дата публикации',
+      },
       admin: {
         date: {
           pickerAppearance: 'dayAndTime',
@@ -171,6 +214,10 @@ export const News: CollectionConfig<'news'> = {
     {
       name: 'tags',
       type: 'relationship',
+      label: {
+        en: 'Tags',
+        ru: 'Теги',
+      },
       admin: {
         position: 'sidebar',
       },

@@ -4,6 +4,16 @@ import { authenticated } from '../access/authenticated'
 
 export const Programs: CollectionConfig = {
   slug: 'programs',
+  labels: {
+    singular: {
+      en: 'Program',
+      ru: 'Программа',
+    },
+    plural: {
+      en: 'Programs',
+      ru: 'Программы',
+    },
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'direction', 'format', 'member', 'free'],
@@ -20,35 +30,44 @@ export const Programs: CollectionConfig = {
       type: 'text',
       localized: true,
       required: true,
-      label: 'Название программы',
+      label: {
+        en: 'Program Name',
+        ru: 'Название программы',
+      },
     },
     {
       name: 'direction',
       type: 'select',
       required: true,
-      label: 'Направление',
+      label: {
+        en: 'Direction',
+        ru: 'Направление',
+      },
       options: [
-        { label: 'Финансы', value: 'finance' },
-        { label: 'IT и технологии', value: 'it' },
-        { label: 'Гуманитарные науки', value: 'humanities' },
-        { label: 'Здоровый образ жизни', value: 'health' },
-        { label: 'Психология', value: 'psychology' },
-        { label: 'Языки', value: 'languages' },
-        { label: 'Искусство', value: 'art' },
-        { label: 'Природа и экология', value: 'nature' },
-        { label: 'Интеллектуальные игры', value: 'games' },
-        { label: 'Педагогика', value: 'pedagogy' },
+        { label: { en: 'Finance', ru: 'Финансы' }, value: 'finance' },
+        { label: { en: 'IT and Technologies', ru: 'IT и технологии' }, value: 'it' },
+        { label: { en: 'Humanities', ru: 'Гуманитарные науки' }, value: 'humanities' },
+        { label: { en: 'Healthy Lifestyle', ru: 'Здоровый образ жизни' }, value: 'health' },
+        { label: { en: 'Psychology', ru: 'Психология' }, value: 'psychology' },
+        { label: { en: 'Languages', ru: 'Языки' }, value: 'languages' },
+        { label: { en: 'Art', ru: 'Искусство' }, value: 'art' },
+        { label: { en: 'Nature and Ecology', ru: 'Природа и экология' }, value: 'nature' },
+        { label: { en: 'Intellectual Games', ru: 'Интеллектуальные игры' }, value: 'games' },
+        { label: { en: 'Pedagogy', ru: 'Педагогика' }, value: 'pedagogy' },
       ],
     },
     {
       name: 'format',
       type: 'select',
       required: true,
-      label: 'Формат обучения',
+      label: {
+        en: 'Study Format',
+        ru: 'Формат обучения',
+      },
       options: [
-        { label: 'Онлайн', value: 'online' },
-        { label: 'Очно', value: 'offline' },
-        { label: 'Смешанный', value: 'blended' },
+        { label: { en: 'Online', ru: 'Онлайн' }, value: 'online' },
+        { label: { en: 'In-person', ru: 'Очно' }, value: 'offline' },
+        { label: { en: 'Blended', ru: 'Смешанный' }, value: 'blended' },
       ],
     },
     {
@@ -56,14 +75,25 @@ export const Programs: CollectionConfig = {
       type: 'text',
       localized: true,
       required: true,
-      label: 'Длительность',
-      admin: { description: 'e.g. 2 месяца, 6 недель, Постоянно' },
+      label: {
+        en: 'Duration',
+        ru: 'Длительность',
+      },
+      admin: {
+        description: {
+          en: 'e.g. 2 months, 6 weeks, Ongoing',
+          ru: 'напр. 2 месяца, 6 недель, Постоянно',
+        },
+      },
     },
     {
       name: 'description',
       type: 'textarea',
       localized: true,
-      label: 'Описание программы',
+      label: {
+        en: 'Program Description',
+        ru: 'Описание программы',
+      },
     },
     {
       name: 'member',
@@ -71,7 +101,10 @@ export const Programs: CollectionConfig = {
       relationTo: 'members',
       required: true,
       hasMany: false,
-      label: 'Университет',
+      label: {
+        en: 'University',
+        ru: 'Университет',
+      },
     },
   ],
 }

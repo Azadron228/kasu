@@ -9,6 +9,16 @@ const dirname = path.dirname(filename)
 
 export const Documents: CollectionConfig = {
     slug: 'documents',
+    labels: {
+        singular: {
+            en: 'Document',
+            ru: 'Документ',
+        },
+        plural: {
+            en: 'Documents',
+            ru: 'Документы',
+        },
+    },
     folders: true,
     upload: {
         staticDir: path.resolve(dirname, '../../public/media'),
@@ -30,13 +40,19 @@ export const Documents: CollectionConfig = {
             type: 'text',
             localized: true,
             required: true,
-            label: 'Название документа',
+            label: {
+                en: 'Title',
+                ru: 'Название документа',
+            },
         },
         {
             name: 'description',
             type: 'textarea',
             localized: true,
-            label: 'Описание',
+            label: {
+                en: 'Description',
+                ru: 'Описание',
+            },
         },
         {
             name: 'category',
@@ -44,13 +60,19 @@ export const Documents: CollectionConfig = {
             relationTo: 'document-categories',
             required: true,
             hasMany: false,
-            label: 'Категория',
+            label: {
+                en: 'Category',
+                ru: 'Категория',
+            },
         },
         {
             name: 'date',
             type: 'date',
             required: true,
-            label: 'Дата документа',
+            label: {
+                en: 'Date',
+                ru: 'Дата документа',
+            },
             admin: {
                 date: { pickerAppearance: 'dayOnly', displayFormat: 'dd.MM.yyyy' },
             },
@@ -58,7 +80,10 @@ export const Documents: CollectionConfig = {
         {
             name: 'isFeatured',
             type: 'checkbox',
-            label: 'Показывать как избранный',
+            label: {
+                en: 'Featured',
+                ru: 'Показывать как избранный',
+            },
             defaultValue: false,
         },
     ],
