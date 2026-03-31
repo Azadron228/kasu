@@ -4,7 +4,7 @@ import type { GlobalConfig } from 'payload'
 
 export const MembersPage: GlobalConfig = {
   slug: 'members-page',
-  admin: { group: 'Страницы' },
+  admin: { group: 'Pages' },
   access: {
     read: anyone,
     update: authenticated,
@@ -23,7 +23,7 @@ export const MembersPage: GlobalConfig = {
       type: 'text',
       localized: true,
       required: true,
-      label: 'Заголовок страницы',
+      label: 'Заголовок Pages',
       defaultValue: 'Участники ассоциации',
     },
     {

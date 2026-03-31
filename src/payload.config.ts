@@ -29,6 +29,7 @@ import { Settings } from './globals/Settings'
 import { DocumentsPage } from './globals/DocumentsPage'
 import { JoinPage } from './globals/JoinPage'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { Pages } from './collections/Pages'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -93,7 +94,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [News, Media, NewsTags, Users, Members, Regions, Directions, Programs, Documents, DocumentCategories],
+  collections: [Pages, News, Media, NewsTags, Users, Members, Regions, Directions, Programs, Documents, DocumentCategories],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Homepage, ProgramsPage, MembersPage, DocumentsPage, Settings, JoinPage],
   plugins,

@@ -4,7 +4,7 @@ import type { GlobalConfig } from 'payload'
 
 export const JoinPage: GlobalConfig = {
   slug: 'join-page',
-  admin: { group: 'Страницы' },
+  admin: { group: 'Pages' },
   access: {
     read: anyone,
     update: authenticated,
@@ -22,7 +22,7 @@ export const JoinPage: GlobalConfig = {
       type: 'text',
       localized: true,
       required: true,
-      label: 'Заголовок страницы',
+      label: 'Заголовок Pages',
       defaultValue: 'Вступить в Ассоциацию',
     },
     {
@@ -51,10 +51,10 @@ export const JoinPage: GlobalConfig = {
         description: 'Иконка + заголовок + текст, которые показываются справа от формы',
       },
       fields: [
-        { 
-          name: 'icon', 
-          type: 'text', 
-          label: 'Иконка (Lucide или Emoji)', 
+        {
+          name: 'icon',
+          type: 'text',
+          label: 'Иконка (Lucide или Emoji)',
           defaultValue: 'GraduationCap',
           admin: {
             description: 'Название иконки Lucide (напр. GraduationCap, Handshake, ScrollText) или Emoji'

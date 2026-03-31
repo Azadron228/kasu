@@ -10,7 +10,7 @@ import {
 
 export const Homepage: GlobalConfig = {
   slug: 'homepage',
-  admin: { group: 'Страницы' },
+  admin: { group: 'Pages' },
   access: { read: anyone },
   fields: [
     {

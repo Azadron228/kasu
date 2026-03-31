@@ -13,6 +13,10 @@ import { CodeBlock } from '@/blocks/Code/Component'
 import { MediaBlock as MediaContentBlock } from '@/blocks/MediaBlock/Component'
 import { RelatedNews } from '@/blocks/RelatedNews/Component'
 import { RichTextSection } from '@/blocks/RichTextSection/Component'
+import { getTranslations } from 'next-intl/server'
+import { Media } from '@/collections/Media/components/Media'
+import type { News, NewsTag } from '@/payload-types'
+import { ChevronLeft, Calendar, Tag as TagIcon, Clock, Share2, Facebook, Twitter, Link as LinkIcon } from 'lucide-react'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -27,41 +31,41 @@ export async function generateStaticParams() {
   return newsResults.docs.map(({ slug }) => ({ slug }))
 }
 
-import { getTranslations } from 'next-intl/server'
-
-import { Media } from '@/collections/Media/components/Media'
-import type { News } from '@/payload-types'
-
 type Args = { params: Promise<{ slug?: string }> }
 
 function renderContentSection(section: NonNullable<News['contentSections']>[number], index: number) {
   switch (section.blockType) {
     case 'banner':
-      return <BannerBlock key={index} {...section} />
+      return <div key={index} className="my-8"><BannerBlock {...section} /></div>
     case 'code':
-      return <CodeBlock key={index} {...section} />
+      return <div key={index} className="my-8"><CodeBlock {...section} /></div>
     case 'mediaBlock':
       return (
         <MediaContentBlock
           key={index}
           {...section}
           enableGutter={false}
-          className=""
-          imgClassName=""
-          captionClassName=""
+          className="my-10 md:my-16"
+          imgClassName="rounded-3xl shadow-xl border border-silver-lt/50"
+          captionClassName="text-center text-sm font-medium text-brand-muted mt-5 italic"
         />
       )
     case 'relatedNews':
       return (
-        <RelatedNews
-          key={index}
-          {...section}
-          introContent={section.introContent || undefined}
-          className="w-full"
-        />
+        <div key={index} className="border-t border-silver-lt pt-16 mt-20">
+          <RelatedNews
+            {...section}
+            introContent={section.introContent || undefined}
+            className="w-full"
+          />
+        </div>
       )
     case 'richTextSection':
-      return <RichTextSection key={index} {...section} />
+      return (
+        <div key={index} className="prose prose-lg max-w-none prose-headings:text-navy prose-a:text-steel hover:prose-a:text-navy prose-strong:text-navy prose-img:rounded-2xl prose-img:shadow-md">
+          <RichTextSection {...section} className="px-0 py-0 md:px-0 md:py-0 rounded-none shadow-none" />
+        </div>
+      )
     default:
       return null
   }
@@ -79,52 +83,96 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
 
   const t = await getTranslations('news')
 
+  const tags = post.tags?.filter((tag): tag is NewsTag => typeof tag === 'object') || []
+
   return (
-    <article className="bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_28%,#f7f9fc_100%)] py-12 md:py-16">
+    <div className="bg-white min-h-screen pb-24">
       <PageClient />
       {draft && <LivePreviewListener />}
 
-      <div className="container">
-        <div className="mx-auto max-w-5xl">
+      {/* ── TOP NAVIGATION ── */}
+      <div className="bg-brand-white border-b border-silver-lt/50 py-5 mb-12 sticky top-20 z-40 backdrop-blur-md bg-white/80">
+        <div className="container max-w-5xl mx-auto px-6 flex justify-between items-center">
           <Link
             href="/news"
-            className="mb-8 inline-block text-sm font-bold text-steel transition-colors hover:text-navy"
+            className="group inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#4A6FA5] hover:text-[#1E3560] transition-colors"
           >
+            <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
             {t('backToList')}
           </Link>
-          <header className="mb-8 rounded-[2rem] border border-silver-lt/80 bg-brand-white px-6 py-8 shadow-[0_18px_50px_rgba(30,53,96,.08)] md:mb-10 md:px-10 md:py-10">
-            <div className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-steel">
-              {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}
-            </div>
-            <h1
-              className="max-w-7xl text-3xl font-bold leading-tight text-navy md:text-[2.65rem]"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              {post.title}
-            </h1>
-          </header>
+        </div>
+      </div>
 
-          <div className="space-y-8 md:space-y-10">
-            {post.heroImage && typeof post.heroImage !== 'string' && (
-              <div className="relative overflow-hidden rounded-[2rem] border border-silver-lt/80 bg-brand-white p-3 shadow-[0_18px_50px_rgba(30,53,96,.08)] md:p-4">
-                <div className="relative h-[260px] overflow-hidden rounded-[1.4rem] md:h-[440px]">
-                  <Media
-                    resource={post.heroImage}
-                    fill
-                    imgClassName="object-cover"
-                    priority
-                    loading="eager"
-                    htmlElement={null}
-                  />
-                </div>
+      <article className="container max-w-5xl mx-auto px-6">
+        {/* ── HEADER ── */}
+        <header className="mb-12">
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-8">
+              {tags.map((tag) => (
+                <span
+                  key={tag.id}
+                  className="bg-sky-pale text-navy px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-[0.15em] border border-sky/30 shadow-sm"
+                >
+                  {tag.title}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <h1
+            className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-navy leading-[1.05] tracking-tight mb-10"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            {post.title}
+          </h1>
+
+          <div className="flex flex-wrap items-center gap-8 text-brand-muted text-[13px] font-bold border-y border-silver-lt/50 py-6">
+            {post.publishedAt && (
+              <div className="flex items-center gap-2.5">
+                <Calendar size={18} className="text-gold" />
+                <time dateTime={post.publishedAt} className="text-navy/80 uppercase tracking-wider">
+                  {new Date(post.publishedAt).toLocaleDateString('ru-RU', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </time>
               </div>
             )}
+          </div>
+        </header>
 
+        {/* ── HERO IMAGE ── */}
+        {post.heroImage && typeof post.heroImage !== 'string' && (
+          <div className="relative mb-16 md:mb-24">
+            <div className="aspect-[21/9] relative overflow-hidden rounded-[2.5rem] shadow-2xl shadow-navy/15 border border-silver-lt/50 bg-sky-pale group">
+              <Media
+                resource={post.heroImage}
+                fill
+                imgClassName="object-cover transition-transform duration-700 group-hover:scale-105"
+                priority
+                loading="eager"
+                htmlElement={null}
+              />
+            </div>
+            {post.heroImage.caption && (
+              <div className="mt-6 flex justify-center">
+                <span className="inline-block px-6 py-2 bg-brand-white rounded-full text-xs font-medium text-brand-muted italic border border-silver-lt/50 shadow-sm">
+                  {post.heroImage.caption}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── CONTENT ── */}
+        <div className="mx-auto">
+          <div className="news-post-content space-y-4">
             {post.contentSections?.map((section, index) => renderContentSection(section, index))}
           </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </div>
   )
 }
 
@@ -148,3 +196,4 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
   })
   return result.docs?.[0] || null
 })
+

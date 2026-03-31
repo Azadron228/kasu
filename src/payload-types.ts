@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    pages: Page;
     news: News;
     media: Media;
     'news-tags': NewsTag;
@@ -94,6 +95,7 @@ export interface Config {
     };
   };
   collectionsSelect: {
+    pages: PagesSelect<false> | PagesSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'news-tags': NewsTagsSelect<false> | NewsTagsSelect<true>;
@@ -172,15 +174,12 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "news".
+ * via the `definition` "pages".
  */
-export interface News {
+export interface Page {
   id: number;
   title: string;
-  excerpt?: string | null;
-  heroImage?: (number | null) | Media;
-  contentSections?: (RichTextSectionBlock | MediaBlock | BannerBlock | CodeBlock | RelatedNewsBlock)[] | null;
-  relatedNews?: (number | News)[] | null;
+  layout: MediaBlock[];
   meta?: {
     title?: string | null;
     /**
@@ -190,7 +189,6 @@ export interface News {
     description?: string | null;
   };
   publishedAt?: string | null;
-  tags?: (number | NewsTag)[] | null;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
@@ -199,6 +197,16 @@ export interface News {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock".
+ */
+export interface MediaBlock {
+  media: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'mediaBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -313,6 +321,36 @@ export interface DocumentCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news".
+ */
+export interface News {
+  id: number;
+  title: string;
+  excerpt?: string | null;
+  heroImage?: (number | null) | Media;
+  contentSections?: (RichTextSectionBlock | MediaBlock | BannerBlock | CodeBlock | RelatedNewsBlock)[] | null;
+  relatedNews?: (number | News)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  tags?: (number | NewsTag)[] | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "RichTextSectionBlock".
  */
 export interface RichTextSectionBlock {
@@ -334,16 +372,6 @@ export interface RichTextSectionBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'richTextSection';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock".
- */
-export interface MediaBlock {
-  media: number | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'mediaBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -866,6 +894,10 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
         relationTo: 'news';
         value: number | News;
       } | null)
@@ -969,6 +1001,40 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  layout?:
+    | T
+    | {
+        mediaBlock?: T | MediaBlockSelect<T>;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock_select".
+ */
+export interface MediaBlockSelect<T extends boolean = true> {
+  media?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news_select".
  */
 export interface NewsSelect<T extends boolean = true> {
@@ -1006,15 +1072,6 @@ export interface NewsSelect<T extends boolean = true> {
  */
 export interface RichTextSectionBlockSelect<T extends boolean = true> {
   content?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock_select".
- */
-export interface MediaBlockSelect<T extends boolean = true> {
-  media?: T;
   id?: T;
   blockName?: T;
 }
@@ -1852,10 +1909,15 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?: {
-      relationTo: 'news';
-      value: number | News;
-    } | null;
+    doc?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'news';
+          value: number | News;
+        } | null);
     global?: string | null;
     user?: (number | null) | User;
   };
