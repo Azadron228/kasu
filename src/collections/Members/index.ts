@@ -1,9 +1,14 @@
 import type { CollectionConfig } from 'payload'
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import { revalidateCollectionCount } from '@/hooks/revalidateCounts'
 
 export const Members: CollectionConfig = {
   slug: 'members',
+  hooks: {
+    afterChange: [revalidateCollectionCount('members')],
+    afterDelete: [revalidateCollectionCount('members')],
+  },
   labels: {
     singular: {
       en: 'Member',

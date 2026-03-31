@@ -1,9 +1,14 @@
 import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateCollectionCount } from '@/hooks/revalidateCounts'
 
 export const Directions: CollectionConfig = {
   slug: 'directions',
+  hooks: {
+    afterChange: [revalidateCollectionCount('directions')],
+    afterDelete: [revalidateCollectionCount('directions')],
+  },
   // Localize the Collection Name in the Sidebar
   labels: {
     singular: {

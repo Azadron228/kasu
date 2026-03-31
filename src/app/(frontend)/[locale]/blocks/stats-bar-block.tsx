@@ -1,29 +1,36 @@
 import { getTranslations } from 'next-intl/server'
+import { getCachedCollectionCount } from '@/utilities/getCounts'
 
 type Props = {
   stats?: {
     universitiesCount?: number | null
     programsCount?: number | null
     directionsCount?: number | null
-    freeNote?: string | null
   }
 }
 
 export default async function StatsBarBlock({ stats }: Props) {
   const t = await getTranslations('blocks.stats')
+
+  // Fetch actual counts if not provided by global
+  const [realUniversitiesCount, realProgramsCount, realDirectionsCount] = await Promise.all([
+    getCachedCollectionCount('members')(),
+    getCachedCollectionCount('programs')(),
+    getCachedCollectionCount('directions')(),
+  ])
+
   const cells = [
-    { value: stats?.universitiesCount ?? 14, label: t('universities') },
-    { value: stats?.programsCount ?? 68, label: t('programs') },
-    { value: stats?.directionsCount ?? 12, label: t('directions') },
-    { value: t('free'), label: stats?.freeNote ?? t('defaultFreeNote') },
+    { value: stats?.universitiesCount ?? realUniversitiesCount, label: t('universities') },
+    { value: stats?.programsCount ?? realProgramsCount, label: t('programs') },
+    { value: stats?.directionsCount ?? realDirectionsCount, label: t('directions') },
   ]
 
   return (
-    <div className="grid grid-cols-4 bg-navy">
+    <div className="grid grid-cols-1 md:grid-cols-3 bg-navy">
       {cells.map((cell, i) => (
         <div
           key={i}
-          className="border-r border-white/[0.07] px-3 py-[18px] text-center last:border-r-0"
+          className="border-b md:border-b-0 md:border-r border-white/[0.07] px-3 py-[18px] text-center last:border-b-0 md:last:border-r-0"
         >
           <span className="block font-serif text-[28px] font-extrabold leading-none text-sky">
             {cell.value}

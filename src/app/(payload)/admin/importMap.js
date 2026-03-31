@@ -23,8 +23,8 @@ import { FolderTypeField as FolderTypeField_2b8867833a34864a02ddf429b0728a40 } f
 import { RowLabel as RowLabel_17c6ef4bfe47bfa29d923fb5718170b7 } from '@/globals/Header/RowLabel'
 import { OrderedListFeatureClient as OrderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { UnorderedListFeatureClient as UnorderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { default as default_1a7510af427896d367a49dbf838d2de6 } from '@/app/(payload)/admin/components/BeforeDashboard'
-import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/app/(payload)/admin/components/BeforeLogin'
+import { default as default_9699389782c63a8a11d513c09c83d78b } from '@/app/(payload)/admin/components/BeforeDashboard'
+import { default as default_bbd1c902ca0ebef6d95ff0abcbe2aa36 } from '@/app/(payload)/admin/components/BeforeLogin'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
@@ -53,7 +53,7 @@ export const importMap = {
   "@/globals/Header/RowLabel#RowLabel": RowLabel_17c6ef4bfe47bfa29d923fb5718170b7,
   "@payloadcms/richtext-lexical/client#OrderedListFeatureClient": OrderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#UnorderedListFeatureClient": UnorderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/app/(payload)/admin/components/BeforeDashboard#default": default_1a7510af427896d367a49dbf838d2de6,
-  "@/app/(payload)/admin/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
+  "@/app/(payload)/admin/components/BeforeDashboard#default": default_9699389782c63a8a11d513c09c83d78b,
+  "@/app/(payload)/admin/components/BeforeLogin#default": default_bbd1c902ca0ebef6d95ff0abcbe2aa36,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

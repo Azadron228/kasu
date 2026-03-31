@@ -41,20 +41,17 @@ export const ProgramsPage: GlobalConfig = {
         {
           name: 'universitiesCount',
           type: 'number',
-          label: 'Кол-во университетов',
-          defaultValue: 14,
+          label: 'Кол-во университетов (оставьте пустым для автоподсчета)',
         },
         {
           name: 'programsCount',
           type: 'number',
-          label: 'Кол-во программ',
-          defaultValue: 68,
+          label: 'Кол-во программ (оставьте пустым для автоподсчета)',
         },
         {
           name: 'directionsCount',
           type: 'number',
-          label: 'Кол-во направлений',
-          defaultValue: 12,
+          label: 'Кол-во направлений (оставьте пустым для автоподсчета)',
         },
         {
           name: 'freeNote',
