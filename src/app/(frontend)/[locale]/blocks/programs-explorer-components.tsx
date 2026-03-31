@@ -1,18 +1,5 @@
-import { Program } from '@/payload-types'
+import { Program, Direction } from '@/payload-types'
 import { useTranslations } from 'next-intl'
-
-export const DIRECTION_ICONS: Record<string, string> = {
-    finance: '💰',
-    it: '💻',
-    humanities: '📜',
-    health: '🏃',
-    psychology: '🧠',
-    languages: '🗣',
-    art: '🎨',
-    nature: '🌿',
-    games: '♟',
-    pedagogy: '👨‍🏫',
-}
 
 export const FORMAT_STYLES: Record<string, string> = {
     online: 'bg-emerald-50 text-emerald-800 border-emerald-200',
@@ -34,8 +21,9 @@ type ProgramCardProps = {
 
 export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
     const t = useTranslations('blocks.programsExplorer')
-    const dirIcon = DIRECTION_ICONS[prog.direction ?? ''] ?? '📖'
-    const dirLabel = prog.direction ? t(prog.direction as any) : ''
+    const direction = prog.direction as Direction
+    const dirIcon = direction?.icon ?? '📖'
+    const dirLabel = direction?.title ?? ''
     const fmtLabel = prog.format ? t(prog.format as any) : ''
     const fmtIcon = FORMAT_ICONS[prog.format ?? ''] ?? ''
     const fmtStyle = FORMAT_STYLES[prog.format ?? ''] ?? FORMAT_STYLES['blended']

@@ -12,7 +12,7 @@ export default async function getMembersWithPrograms(locale: TypedLocale) {
   const { docs: programs } = await payload.find({
     collection: 'programs',
     limit: 500,
-    depth: 0,
+    depth: 1,
     locale,
   })
 

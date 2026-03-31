@@ -37,24 +37,13 @@ export const Programs: CollectionConfig = {
     },
     {
       name: 'direction',
-      type: 'select',
+      type: 'relationship',
+      relationTo: 'directions',
       required: true,
       label: {
         en: 'Direction',
         ru: 'Направление',
       },
-      options: [
-        { label: { en: 'Finance', ru: 'Финансы' }, value: 'finance' },
-        { label: { en: 'IT and Technologies', ru: 'IT и технологии' }, value: 'it' },
-        { label: { en: 'Humanities', ru: 'Гуманитарные науки' }, value: 'humanities' },
-        { label: { en: 'Healthy Lifestyle', ru: 'Здоровый образ жизни' }, value: 'health' },
-        { label: { en: 'Psychology', ru: 'Психология' }, value: 'psychology' },
-        { label: { en: 'Languages', ru: 'Языки' }, value: 'languages' },
-        { label: { en: 'Art', ru: 'Искусство' }, value: 'art' },
-        { label: { en: 'Nature and Ecology', ru: 'Природа и экология' }, value: 'nature' },
-        { label: { en: 'Intellectual Games', ru: 'Интеллектуальные игры' }, value: 'games' },
-        { label: { en: 'Pedagogy', ru: 'Педагогика' }, value: 'pedagogy' },
-      ],
     },
     {
       name: 'format',
