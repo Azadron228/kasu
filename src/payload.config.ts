@@ -28,7 +28,7 @@ import { DocumentCategories } from './collections/DocumentCategories'
 import { Settings } from './globals/Settings'
 import { DocumentsPage } from './globals/DocumentsPage'
 import { JoinPage } from './globals/JoinPage'
-
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -38,6 +38,18 @@ export default buildConfig({
     fallbackLanguage: 'ru',
     supportedLanguages: { en, ru },
   },
+  email: nodemailerAdapter({
+    defaultFromAddress: 'noreply@example.com',
+    defaultFromName: 'KASU',
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      port: 587,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    },
+  }),
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.

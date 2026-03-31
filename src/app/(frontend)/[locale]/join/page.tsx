@@ -57,58 +57,6 @@ export default async function JoinPage({ params }: Args) {
               </div>
             )}
           </div>
-
-          {/* ── Info sidebar ── */}
-          <aside className="flex flex-col gap-5">
-            {infoBoxes.length > 0 ? (
-              infoBoxes.map((box, i) => (
-                <div
-                  key={i}
-                  className="group bg-white rounded-2xl border border-silver-lt/60 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-sky-pale flex items-center justify-center text-[#1E3560] mb-4 shadow-inner">
-                    <LucideIcon name={box.icon ?? 'GraduationCap'} size={24} />
-                  </div>
-                  {box.title && (
-                    <h3 className="font-serif text-navy text-lg font-bold mb-2">{box.title}</h3>
-                  )}
-                  {box.body && (
-                    <p className="text-brand-muted text-sm leading-relaxed">{box.body}</p>
-                  )}
-                </div>
-              ))
-            ) : (
-              /* Default info boxes when CMS has none */
-              <>
-                <DefaultInfoBox
-                  icon={<GraduationCap className="w-6 h-6" />}
-                  title="Кто может вступить?"
-                  body="Любая образовательная организация Казахстана, реализующая программы для людей третьего возраста."
-                />
-                <DefaultInfoBox
-                  icon={<Handshake className="w-6 h-6" />}
-                  title="Как проходит вступление?"
-                  body="Заполните форму → мы свяжемся с вами → подписание соглашения → добро пожаловать в КАСУ!"
-                />
-                <DefaultInfoBox
-                  icon={<ScrollText className="w-6 h-6" />}
-                  title="Что вы получите?"
-                  body="Членство в профессиональном сообществе, доступ к методическим материалам и международным контактам."
-                />
-              </>
-            )}
-
-            {/* Helpline banner */}
-            <div className="bg-gradient-to-br from-navy-deep to-navy rounded-2xl p-6 text-white mt-1 shadow-xl">
-              <Phone className="w-8 h-8 text-sky mb-3" />
-              <p className="text-xs font-bold tracking-[0.2em] uppercase text-sky/80 mb-1">
-                Остались вопросы?
-              </p>
-              <p className="text-sm text-white/80 leading-relaxed">
-                Свяжитесь с нами по вопросам членства в КАСУ.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
     </div>
