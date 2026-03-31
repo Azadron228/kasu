@@ -4,7 +4,7 @@ import { getTranslations } from 'next-intl/server'
 
 import { TypedLocale } from 'payload'
 
-import { Media } from '@/components/Media'
+import { Media } from '@/collections/Media/components/Media'
 
 export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
   const [news, t] = await Promise.all([

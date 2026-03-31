@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import React from 'react'
-import RichText from '@/components/RichText'
+import RichText from '@/fields/RichText'
 
 import type { News } from '@/payload-types'
 
-import { Card } from '../../components/Card'
+import { Card } from '@/collections/News/components/Card'
 import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 export type RelatedNewsProps = {

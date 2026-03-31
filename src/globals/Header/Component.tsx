@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { LangSwitcher } from './LangSwitcher'
 import { getTranslations } from 'next-intl/server'
 import { TypedLocale } from 'payload'
-import { Logo } from '@/components/Logo/Logo'
+import { Logo } from '@/globals/Header/components/Logo/Logo'
 import { MobileMenu } from './MobileMenu'
 
 export async function Header({ locale }: { locale: TypedLocale }) {

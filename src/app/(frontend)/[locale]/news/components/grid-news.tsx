@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Media } from '@/components/Media'
+import { Media } from '@/collections/Media/components/Media'
 import type { Media as MediaType } from '@/payload-types'
 
 type Tag = {

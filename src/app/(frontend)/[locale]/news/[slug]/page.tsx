@@ -3,10 +3,10 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import RichText from '@/components/RichText'
+import RichText from '@/fields/RichText'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
-import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { LivePreviewListener } from '@/app/(frontend)/[locale]/components/LivePreviewListener'
 import Link from 'next/link'
 import { BannerBlock } from '@/blocks/Banner/Component'
 import { CodeBlock } from '@/blocks/Code/Component'
@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 
 import { getTranslations } from 'next-intl/server'
 
-import { Media } from '@/components/Media'
+import { Media } from '@/collections/Media/components/Media'
 import type { News } from '@/payload-types'
 
 type Args = { params: Promise<{ slug?: string }> }

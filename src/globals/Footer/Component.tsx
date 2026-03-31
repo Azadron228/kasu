@@ -3,7 +3,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import { unstable_cache } from 'next/cache'
 import config from '@payload-config'
-import { Logo } from '@/components/Logo/Logo'
+import { Logo } from '@/globals/Header/components/Logo/Logo'
 
 async function getFooterData(locale: string) {
   const payload = await getPayload({ config })

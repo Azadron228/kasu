@@ -1,6 +1,6 @@
 import React from 'react'
 
-import RichText from '@/components/RichText'
+import RichText from '@/fields/RichText'
 import type { RichTextSectionBlock as RichTextSectionBlockProps } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 

@@ -3,7 +3,7 @@ import React from 'react'
 import { draftMode } from 'next/headers'
 
 import PageClient from './page.client'
-import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { LivePreviewListener } from '@/app/(frontend)/[locale]/components/LivePreviewListener'
 import { generateMeta } from '@/utilities/generateMeta'
 
 type Args = {

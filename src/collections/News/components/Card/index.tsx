@@ -6,7 +6,7 @@ import React, { Fragment } from 'react'
 
 import type { News } from '@/payload-types'
 
-import { Media } from '@/components/Media'
+import { Media } from '@/collections/Media/components/Media'
 
 export type CardPostData = Pick<News, 'slug' | 'tags' | 'meta' | 'title' | 'heroImage'>
 

@@ -1,4 +1,4 @@
-import { Logo } from '@/components/Logo/Logo'
+import { Logo } from '@/globals/Header/components/Logo/Logo'
 import { PATHS } from '@/config/paths'
 import { Link } from '@/i18n/routing'
 import { Homepage } from '@/payload-types'

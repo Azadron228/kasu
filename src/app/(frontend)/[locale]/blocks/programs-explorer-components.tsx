@@ -1,17 +1,13 @@
 import { Program, Direction } from '@/payload-types'
 import { useTranslations } from 'next-intl'
-
-export const FORMAT_STYLES: Record<string, string> = {
-    online: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    offline: 'bg-sky-50 text-sky-800 border-sky-200',
-    blended: 'bg-amber-50 text-amber-800 border-amber-200',
-}
-
-export const FORMAT_ICONS: Record<string, string> = {
-    online: '🖥',
-    offline: '🏛',
-    blended: '↔',
-}
+import {
+    Monitor,
+    Building,
+    ArrowLeftRight,
+    BookOpen,
+    Calendar,
+    ChevronDown
+} from 'lucide-react'
 
 type ProgramCardProps = {
     prog: Program
@@ -19,14 +15,39 @@ type ProgramCardProps = {
     toggleProgram: (id: number) => void
 }
 
+// Helper to determine styles and icons based on the format
+const getFormatDetails = (format: string | null | undefined) => {
+    switch (format) {
+        case 'online':
+            return {
+                icon: <Monitor className="h-4 w-4" />,
+                style: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+            }
+        case 'offline':
+            return {
+                icon: <Building className="h-4 w-4" />,
+                style: 'bg-sky-50 text-sky-800 border-sky-200',
+            }
+        case 'blended':
+        default:
+            return {
+                icon: <ArrowLeftRight className="h-4 w-4" />,
+                style: 'bg-amber-50 text-amber-800 border-amber-200',
+            }
+    }
+}
+
 export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
     const t = useTranslations('blocks.programsExplorer')
-    const direction = prog.direction as Direction
-    const dirIcon = direction?.icon ?? '📖'
+
+    // Fix: Safely cast to Direction by checking if it's an object, or casting through unknown
+    const direction = (typeof prog.direction === 'object' ? prog.direction : null) as Direction | null
+
+    const dirIcon = direction?.icon ?? <BookOpen className="h-5 w-5" />
     const dirLabel = direction?.title ?? ''
+
     const fmtLabel = prog.format ? t(prog.format as any) : ''
-    const fmtIcon = FORMAT_ICONS[prog.format ?? ''] ?? ''
-    const fmtStyle = FORMAT_STYLES[prog.format ?? ''] ?? FORMAT_STYLES['blended']
+    const formatDetails = getFormatDetails(prog.format)
 
     return (
         <div
@@ -43,10 +64,10 @@ export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
                 className="flex cursor-pointer select-none items-center gap-4 px-5 py-4"
             >
                 <div className={[
-                    'flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-xl text-xl transition-colors',
-                    isOpen ? 'bg-[#1E3560]' : 'bg-[#EAF2FA]',
+                    'flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-xl transition-colors',
+                    isOpen ? 'bg-[#1E3560] text-white' : 'bg-[#EAF2FA] text-[#1E3560]',
                 ].join(' ')}>
-                    {dirIcon}
+                    {typeof dirIcon === 'string' ? <span>{dirIcon}</span> : dirIcon}
                 </div>
 
                 <div className="min-w-0 flex-1">
@@ -60,18 +81,18 @@ export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
                         {prog.name}
                     </p>
                     <div className="mt-1.5 flex flex-wrap gap-1.5">
-                        <span className={`rounded-xl border px-2 py-0.5 text-[10px] font-bold ${fmtStyle}`}>
+                        <span className={`rounded-xl border px-2 py-0.5 text-[10px] font-bold ${formatDetails.style}`}>
                             {fmtLabel}
                         </span>
                     </div>
                 </div>
 
-                <span className={[
-                    'shrink-0 text-lg transition-transform duration-200',
-                    isOpen ? 'rotate-180 text-[#1E3560]' : 'text-[#A8B8CC]',
-                ].join(' ')}>
-                    ▾
-                </span>
+                <ChevronDown
+                    className={[
+                        'h-5 w-5 shrink-0 transition-transform duration-200',
+                        isOpen ? 'rotate-180 text-[#1E3560]' : 'text-[#A8B8CC]',
+                    ].join(' ')}
+                />
             </div>
 
             {/* accordion body */}
@@ -85,15 +106,16 @@ export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
 
                     <div className="mb-4 grid grid-cols-2 gap-x-7 gap-y-3.5">
                         {[
-                            { label: t('durationLabel'), value: `📅 ${prog.duration}` },
-                            { label: t('formatStudyLabel'), value: `${fmtIcon} ${fmtLabel}` },
-                            { label: t('directionLabel'), value: `${dirIcon} ${dirLabel}` },
-                        ].map(({ label, value }) => (
+                            { label: t('durationLabel'), icon: <Calendar className="h-4 w-4" />, value: prog.duration },
+                            { label: t('formatStudyLabel'), icon: formatDetails.icon, value: fmtLabel },
+                            { label: t('directionLabel'), icon: typeof dirIcon === 'string' ? <span>{dirIcon}</span> : <BookOpen className="h-4 w-4" />, value: dirLabel },
+                        ].map(({ label, icon, value }) => (
                             <div key={label} className="flex flex-col gap-1">
                                 <span className="text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A]">
                                     {label}
                                 </span>
-                                <span className="text-[14px] font-semibold text-[#1A2438]">
+                                <span className="flex items-center gap-1.5 text-[14px] font-semibold text-[#1A2438]">
+                                    {icon}
                                     {value}
                                 </span>
                             </div>

@@ -1,4 +1,4 @@
-import { FilterToolbar, FilterGroup } from '@/components/FilterToolbar'
+import { FilterToolbar, FilterGroup } from '@/collections/News/components/FilterToolbar'
 import getRegions from '@/api/find/find-regions'
 import { getTranslations } from 'next-intl/server'
 

@@ -3,17 +3,37 @@
 import { useState, useMemo } from 'react'
 import { Member, Program } from '@/payload-types'
 import { useTranslations } from 'next-intl'
-
 import {
-  ProgramCard,
-  FORMAT_ICONS
-} from './programs-explorer-components'
+  Search,
+  MapPin,
+  Library,
+  Monitor,
+  Building,
+  ArrowLeftRight
+} from 'lucide-react'
+
+import { ProgramCard } from './programs-explorer-components'
 
 // ── types ────────────────────────────────────────────────────────────────────
 
 type Props = {
   members: Member[]
   programs: Program[]
+}
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+
+const getFormatIcon = (format: string) => {
+  switch (format) {
+    case 'online':
+      return <Monitor className="h-3.5 w-3.5" />
+    case 'offline':
+      return <Building className="h-3.5 w-3.5" />
+    case 'blended':
+      return <ArrowLeftRight className="h-3.5 w-3.5" />
+    default:
+      return null
+  }
 }
 
 // ── component ────────────────────────────────────────────────────────────────
@@ -99,7 +119,7 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
             {t('sidebarTitle')}
           </p>
           <div className="flex items-center gap-2 rounded-xl border-[1.5px] border-[#E4EBF3] bg-[#EAF2FA] px-3 py-2">
-            <span className="shrink-0 text-sm text-[#A8B8CC]">🔍</span>
+            <Search className="h-4 w-4 shrink-0 text-[#A8B8CC]" />
             <input
               type="text"
               placeholder={t('sidebarSearchPlaceholder')}
@@ -145,7 +165,9 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                   <p className="truncate text-[13px] font-bold leading-snug text-[#1A2438]">
                     {member.shortName}
                   </p>
-                  <p className="mt-0.5 text-[11px] text-[#56647A]">📍 {member.city}</p>
+                  <p className="mt-0.5 flex items-center gap-1 text-[11px] text-[#56647A]">
+                    <MapPin className="h-3 w-3" /> {member.city}
+                  </p>
                 </div>
 
                 <span className={[
@@ -166,8 +188,8 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
         {/* Welcome screen */}
         {!selectedMember && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="mb-7 flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-[#EAF2FA] to-[#F5F0E2] text-5xl shadow-[0_8px_36px_rgba(30,53,96,0.1)]">
-              📚
+            <div className="mb-7 flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-[#EAF2FA] to-[#F5F0E2] shadow-[0_8px_36px_rgba(30,53,96,0.1)]">
+              <Library className="h-12 w-12 text-[#1E3560]" />
             </div>
             <h2 className="mb-3 font-serif text-[26px] font-bold text-[#1E3560]">
               {t('welcomeTitle')}
@@ -215,15 +237,16 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2.5">
                   {[
-                    `📍 ${selectedMember.city}`,
-                    selectedMember.status === 'founder' ? t('statusFounder') : t('statusMember'),
-                    t('programCount', { count: memberPrograms.length }),
-                  ].map((chip) => (
+                    { icon: <MapPin className="h-3 w-3 mr-1 inline-block" />, text: selectedMember.city },
+                    { text: selectedMember.status === 'founder' ? t('statusFounder') : t('statusMember') },
+                    { text: t('programCount', { count: memberPrograms.length }) },
+                  ].map((chip, idx) => (
                     <span
-                      key={chip}
-                      className="rounded-full border border-[#E4EBF3] bg-[#EAF2FA] px-2.5 py-1 text-[11px] font-bold text-[#1E3560]"
+                      key={idx}
+                      className="flex items-center rounded-full border border-[#E4EBF3] bg-[#EAF2FA] px-2.5 py-1 text-[11px] font-bold text-[#1E3560]"
                     >
-                      {chip}
+                      {chip.icon}
+                      {chip.text}
                     </span>
                   ))}
                 </div>
@@ -264,15 +287,20 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
                     key={key}
                     onClick={() => setFormatFilter(key)}
                     className={[
-                      'rounded-full border-[1.5px] px-3.5 py-1 text-[11px] font-bold transition-all',
+                      'flex items-center gap-1.5 rounded-full border-[1.5px] px-3.5 py-1 text-[11px] font-bold transition-all',
                       formatFilter === key
                         ? 'border-[#1E3560] bg-[#1E3560] text-white'
                         : 'border-[#E4EBF3] text-[#56647A] hover:border-[#1E3560] hover:bg-[#1E3560] hover:text-white',
                     ].join(' ')}
                   >
-                    {key === 'all'
-                      ? t('allFormats')
-                      : `${FORMAT_ICONS[key]} ${t(key as any)}`}
+                    {key === 'all' ? (
+                      t('allFormats')
+                    ) : (
+                      <>
+                        {getFormatIcon(key)}
+                        {t(key as any)}
+                      </>
+                    )}
                   </button>
                 ))}
               </div>
@@ -286,7 +314,7 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
             {/* ── Programs list ── */}
             {visiblePrograms.length === 0 ? (
               <div className="py-20 text-center">
-                <div className="mb-5 text-5xl opacity-40">🔍</div>
+                <Search className="mx-auto mb-5 h-12 w-12 text-[#A8B8CC] opacity-40" />
                 <h3 className="mb-2 font-serif text-[22px] font-bold text-[#1E3560]">
                   {t('notFoundTitle')}
                 </h3>

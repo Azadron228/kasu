@@ -1,6 +1,6 @@
 import { Homepage } from '@/payload-types'
-import RichText from '@/components/RichText'
-import { Logo } from '@/components/Logo/Logo'
+import RichText from '@/fields/RichText'
+import { Logo } from '@/globals/Header/components/Logo/Logo'
 import { getTranslations } from 'next-intl/server'
 
 export default async function AboutBlock({ homepage }: { homepage: Homepage }) {

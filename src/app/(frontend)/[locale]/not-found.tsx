@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/app/(frontend)/[locale]/components/ui/button'
 import { getTranslations } from 'next-intl/server'
 
 export default async function NotFound() {

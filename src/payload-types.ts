@@ -495,20 +495,10 @@ export interface Direction {
 export interface Program {
   id: number;
   name: string;
-  direction:
-    | 'finance'
-    | 'it'
-    | 'humanities'
-    | 'health'
-    | 'psychology'
-    | 'languages'
-    | 'art'
-    | 'nature'
-    | 'games'
-    | 'pedagogy';
+  direction: number | Direction;
   format: 'online' | 'offline' | 'blended';
   /**
-   * e.g. 2 месяца, 6 недель, Постоянно
+   * e.g. 2 months, 6 weeks, Ongoing
    */
   duration: string;
   description?: string | null;
