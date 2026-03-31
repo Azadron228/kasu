@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Media } from '@/collections/Media/components/Media'
 import type { Media as MediaType } from '@/payload-types'
+import { Inbox, ArrowRight } from 'lucide-react'
 
 type Tag = {
     id: number
@@ -50,7 +51,9 @@ export function NewsGrid({ newsItems }: { newsItems: News[] }) {
     if (!newsItems.length) {
         return (
             <div className="py-24 text-center">
-                <div className="mb-4 text-5xl opacity-30">📭</div>
+                <div className="mb-4 flex justify-center opacity-30">
+                    <Inbox size={48} />
+                </div>
                 <p className="font-playfair text-xl text-[#1E3560]">Новостей пока нет</p>
             </div>
         )
@@ -139,7 +142,7 @@ export function NewsGrid({ newsItems }: { newsItems: News[] }) {
                 group-hover:-translate-y-0.5 group-hover:translate-x-0.5
                 group-hover:bg-[#1E3560] group-hover:text-white
               ">
-                                →
+                                <ArrowRight size={16} />
                             </span>
                         </div>
                     </Link>

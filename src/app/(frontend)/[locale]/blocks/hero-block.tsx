@@ -1,6 +1,7 @@
 import { Homepage } from '@/payload-types'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { GraduationCap } from 'lucide-react'
 
 export default async function HeroBlock({ homepage }: { homepage: Homepage }) {
   const t = await getTranslations('blocks.hero')
@@ -40,8 +41,8 @@ export default async function HeroBlock({ homepage }: { homepage: Homepage }) {
       <div className="hidden lg:flex relative z-10 flex-col gap-5 items-end">
         <div className="bg-brand-white/10 backdrop-blur-3xl border border-brand-white/10 p-7 rounded-3xl w-80">
           <div className="flex items-center gap-3.5 mb-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold to-gold-lt flex items-center justify-center text-xl shrink-0">
-              🎓
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold to-gold-lt flex items-center justify-center text-navy shrink-0">
+              <GraduationCap size={24} />
             </div>
             <div>
               <div className="font-serif text-brand-white text-base font-semibold leading-tight">

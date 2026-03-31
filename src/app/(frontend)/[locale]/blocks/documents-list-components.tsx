@@ -1,6 +1,7 @@
 import React from 'react'
 import { Document } from '@/payload-types'
 import { FolderNode } from './documents-explorer-block'
+import { FileText, FileEdit, BarChart, Folder, Inbox } from 'lucide-react'
 
 // ── UTILS ──
 
@@ -21,13 +22,13 @@ export function formatFilesize(bytes?: number | null): string {
 }
 
 export function getFileIcon(mimeType?: string | null) {
-    if (!mimeType) return { emoji: '📄', bg: 'bg-red-50', text: 'text-red-500' }
-    if (mimeType.includes('pdf')) return { emoji: '📄', bg: 'bg-red-50', text: 'text-red-500' }
+    if (!mimeType) return { icon: <FileText size={20} />, bg: 'bg-red-50', text: 'text-red-500' }
+    if (mimeType.includes('pdf')) return { icon: <FileText size={20} />, bg: 'bg-red-50', text: 'text-red-500' }
     if (mimeType.includes('word') || mimeType.includes('document'))
-        return { emoji: '📝', bg: 'bg-blue-50', text: 'text-blue-600' }
+        return { icon: <FileEdit size={20} />, bg: 'bg-blue-50', text: 'text-blue-600' }
     if (mimeType.includes('sheet') || mimeType.includes('excel'))
-        return { emoji: '📊', bg: 'bg-green-50', text: 'text-green-600' }
-    return { emoji: '📄', bg: 'bg-slate-50', text: 'text-slate-500' }
+        return { icon: <BarChart size={20} />, bg: 'bg-green-50', text: 'text-green-600' }
+    return { icon: <FileText size={20} />, bg: 'bg-slate-50', text: 'text-slate-500' }
 }
 
 // ── DOC ROW ──
@@ -41,9 +42,9 @@ export function DocRow({ doc }: { doc: Document }) {
             <td className="px-4 py-3.5">
                 <div className="flex items-center gap-3">
                     <div
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-base ${fileIcon.bg} ${fileIcon.text}`}
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${fileIcon.bg} ${fileIcon.text}`}
                     >
-                        {fileIcon.emoji}
+                        {fileIcon.icon}
                     </div>
                     <div className="min-w-0">
                         <a
@@ -140,7 +141,7 @@ export function FolderCard({
             onClick={onClick}
             className="group relative flex flex-col items-center overflow-hidden rounded-2xl border-[1.5px] border-[#E4EBF3] bg-white p-5 text-center transition-all duration-200 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:bg-gradient-to-r before:from-[#1E3560] before:to-[#4A6FA5] before:opacity-0 before:transition-opacity before:duration-200 hover:-translate-y-1 hover:border-[#B8D0E8] hover:shadow-[0_12px_36px_rgba(30,53,96,0.12)] hover:before:opacity-100"
         >
-            <span className="mb-2.5 text-4xl drop-shadow-sm">📁</span>
+            <Folder size={40} className="mb-2.5 text-[#A8B8CC] transition-colors group-hover:text-[#4A6FA5]" />
             <p className="mb-1 text-[13px] font-bold leading-tight text-[#1E3560]">{folder.name}</p>
             <p className="text-[11px] text-[#56647A]">
                 {folder.children.length > 0 ? `${folder.children.length} папок` : 'Открыть'}
@@ -154,7 +155,9 @@ export function FolderCard({
 export function EmptyState({ title, desc }: { title: string; desc: string }) {
     return (
         <div className="rounded-2xl border border-[#E4EBF3] bg-white py-20 text-center">
-            <div className="mb-4 text-5xl">📭</div>
+            <div className="mb-4 flex justify-center opacity-30">
+                <Inbox size={48} />
+            </div>
             <h3 className="mb-2 font-serif text-xl font-bold text-[#1E3560]">{title}</h3>
             <p className="text-[13.5px] text-[#56647A]">{desc}</p>
         </div>

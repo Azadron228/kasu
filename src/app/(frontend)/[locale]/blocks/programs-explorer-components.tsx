@@ -4,10 +4,10 @@ import {
     Monitor,
     Building,
     ArrowLeftRight,
-    BookOpen,
     Calendar,
     ChevronDown
 } from 'lucide-react'
+import { LucideIcon } from '../components/ui/lucide-icon'
 
 type ProgramCardProps = {
     prog: Program
@@ -43,7 +43,7 @@ export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
     // Fix: Safely cast to Direction by checking if it's an object, or casting through unknown
     const direction = (typeof prog.direction === 'object' ? prog.direction : null) as Direction | null
 
-    const dirIcon = direction?.icon ?? <BookOpen className="h-5 w-5" />
+    const dirIcon = direction?.icon ?? 'BookOpen'
     const dirLabel = direction?.title ?? ''
 
     const fmtLabel = prog.format ? t(prog.format as any) : ''
@@ -67,7 +67,7 @@ export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
                     'flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-xl transition-colors',
                     isOpen ? 'bg-[#1E3560] text-white' : 'bg-[#EAF2FA] text-[#1E3560]',
                 ].join(' ')}>
-                    {typeof dirIcon === 'string' ? <span>{dirIcon}</span> : dirIcon}
+                    <LucideIcon name={dirIcon} size={20} />
                 </div>
 
                 <div className="min-w-0 flex-1">
@@ -108,7 +108,7 @@ export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
                         {[
                             { label: t('durationLabel'), icon: <Calendar className="h-4 w-4" />, value: prog.duration },
                             { label: t('formatStudyLabel'), icon: formatDetails.icon, value: fmtLabel },
-                            { label: t('directionLabel'), icon: typeof dirIcon === 'string' ? <span>{dirIcon}</span> : <BookOpen className="h-4 w-4" />, value: dirLabel },
+                            { label: t('directionLabel'), icon: <LucideIcon name={dirIcon} size={16} />, value: dirLabel },
                         ].map(({ label, icon, value }) => (
                             <div key={label} className="flex flex-col gap-1">
                                 <span className="text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A]">

@@ -51,8 +51,17 @@ export const JoinPage: GlobalConfig = {
         description: 'Иконка + заголовок + текст, которые показываются справа от формы',
       },
       fields: [
-        { name: 'icon', type: 'text', label: 'Иконка (emoji или текст)', defaultValue: '🎓' },
+        { 
+          name: 'icon', 
+          type: 'text', 
+          label: 'Иконка (Lucide или Emoji)', 
+          defaultValue: 'GraduationCap',
+          admin: {
+            description: 'Название иконки Lucide (напр. GraduationCap, Handshake, ScrollText) или Emoji'
+          }
+        },
         { name: 'title', type: 'text', localized: true, label: 'Заголовок блока' },
+
         { name: 'body', type: 'textarea', localized: true, label: 'Текст блока' },
       ],
     },

@@ -2,6 +2,7 @@
 import React from 'react'
 import { Link } from '@/i18n/routing'
 import { useTranslations } from 'next-intl'
+import { GraduationCap, ChevronRight } from 'lucide-react'
 
 type Props = {
   tag?: string
@@ -20,7 +21,7 @@ export default function PageHeaderBlock({ tag, title, subtitle, breadcrumbLabel 
           <Link href="/" className="text-sky/60 hover:text-white transition-colors">
             {t('home')}
           </Link>
-          <span className="text-sky/30 text-[10px]">›</span>
+          <ChevronRight size={12} className="text-sky/30" />
           <span className="text-white/90">{breadcrumbLabel}</span>
         </div>
       )}
@@ -30,8 +31,8 @@ export default function PageHeaderBlock({ tag, title, subtitle, breadcrumbLabel 
       <div className="pointer-events-none absolute -bottom-16 left-[30%] h-[300px] w-[300px] rounded-full bg-[radial-gradient(circle,rgba(184,160,96,0.07)_0%,transparent_70%)]" />
 
       <div className="relative z-10 flex items-center gap-7">
-        <div className="flex font-sans h-20 w-20 shrink-0 items-center justify-center rounded-full bg-navy-mid text-[34px] shadow-[0_0_0_3px_rgba(184,208,232,0.25),0_8px_36px_rgba(0,0,0,0.3)]">
-          🎓
+        <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-navy-mid text-sky shadow-[0_0_0_3px_rgba(184,208,232,0.25),0_8px_36px_rgba(0,0,0,0.3)]">
+          <GraduationCap size={40} />
         </div>
 
         <div>

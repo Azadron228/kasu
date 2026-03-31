@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import type { Form as FormType } from '@/payload-types'
 import { useTranslations } from 'next-intl'
+import { CheckCircle2 } from 'lucide-react'
 
 type Field = NonNullable<FormType['fields']>[number]
 
@@ -144,8 +145,8 @@ export default function JoinFormBlock({ form }: Props) {
   if (status === 'success') {
     return (
       <div className="flex flex-col items-center justify-center text-center py-16 px-6 gap-5">
-        <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center text-4xl shadow-lg">
-          ✅
+        <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 shadow-lg">
+          <CheckCircle2 size={48} strokeWidth={2.5} />
         </div>
         <h3 className="font-serif text-2xl text-navy font-bold">{t('successTitle')}</h3>
         <p className="text-brand-muted text-base max-w-sm">{t('successMessage')}</p>

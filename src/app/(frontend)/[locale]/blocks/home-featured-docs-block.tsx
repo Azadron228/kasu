@@ -3,6 +3,7 @@ import { Link } from '@/i18n/routing'
 import { TypedLocale } from 'payload'
 import { getFeaturedDocuments } from '@/api/find/find-documents'
 import { getTranslations } from 'next-intl/server'
+import { FileText, FileEdit, BarChart, Folder, ArrowRight } from 'lucide-react'
 
 type Props = {
   locale: TypedLocale
@@ -17,12 +18,12 @@ function formatDate(dateStr: string, locale: string): string {
   })
 }
 
-function getFileEmoji(mimeType?: string | null): string {
-  if (!mimeType) return '📄'
-  if (mimeType.includes('pdf')) return '📄'
-  if (mimeType.includes('word') || mimeType.includes('document')) return '📝'
-  if (mimeType.includes('sheet') || mimeType.includes('excel')) return '📊'
-  return '📄'
+function getFileIcon(mimeType?: string | null): React.ReactNode {
+  if (!mimeType) return <FileText size={16} />
+  if (mimeType.includes('pdf')) return <FileText size={16} />
+  if (mimeType.includes('word') || mimeType.includes('document')) return <FileEdit size={16} />
+  if (mimeType.includes('sheet') || mimeType.includes('excel')) return <BarChart size={16} />
+  return <FileText size={16} />
 }
 
 export default async function HomeFeaturedDocsBlock({ locale }: Props) {
@@ -77,9 +78,9 @@ export default async function HomeFeaturedDocsBlock({ locale }: Props) {
         </div>
         <Link
           href="/documents"
-          className="shrink-0 bg-brand-white/10 border border-navy/20 text-navy font-bold text-sm px-6 py-2.5 rounded-full hover:bg-navy hover:text-brand-white transition-all"
+          className="shrink-0 bg-brand-white/10 border border-navy/20 text-navy font-bold text-sm px-6 py-2.5 rounded-full hover:bg-navy hover:text-brand-white transition-all flex items-center gap-2"
         >
-          {t('docsAll')} →
+          {t('docsAll')} <ArrowRight size={16} />
         </Link>
       </div>
 
@@ -91,7 +92,9 @@ export default async function HomeFeaturedDocsBlock({ locale }: Props) {
             className="bg-brand-white rounded-2xl p-7 shadow-custom border border-silver-lt"
           >
             {/* Category icon */}
-            <div className="text-3xl mb-3.5">{(category as any).icon ?? '📁'}</div>
+            <div className="text-3xl mb-3.5 text-[#A8B8CC]">
+              {(category as any).icon && typeof (category as any).icon === 'string' ? (category as any).icon : <Folder size={32} />}
+            </div>
 
             {/* Category title */}
             <h3 className="font-serif text-navy text-[17px] font-bold mb-3">{category.title}</h3>
@@ -106,7 +109,7 @@ export default async function HomeFeaturedDocsBlock({ locale }: Props) {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 py-1.5 text-steel text-[12.5px] font-bold no-underline transition-colors hover:text-navy"
                   >
-                    <span className="shrink-0 text-sm">{getFileEmoji(doc.mimeType)}</span>
+                    <span className="shrink-0 text-[#A8B8CC]">{getFileIcon(doc.mimeType)}</span>
                     <span className="flex-1 leading-tight">{doc.title}</span>
                     {doc.date && (
                       <span className="shrink-0 text-[10.5px] font-semibold text-silver ml-1">

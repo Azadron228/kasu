@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Document, DocumentCategory, FolderInterface } from '@/payload-types'
 import { BreadcrumbItem, FolderNode } from './documents-explorer-block'
+import { ChevronRight, Search, FileText } from 'lucide-react'
 
 type Props = {
     categories: DocumentCategory[]
@@ -60,7 +61,7 @@ export default function DocumentsContent({
                         const isLast = i === breadcrumbs.length - 1
                         return (
                             <React.Fragment key={String(bc.id)}>
-                                {i > 0 && <span className="text-[#A8B8CC]">›</span>}
+                                {i > 0 && <ChevronRight size={12} className="text-[#A8B8CC]" />}
                                 <button
                                     onClick={() => !isLast && onBreadcrumb(i)}
                                     className={[
@@ -79,18 +80,11 @@ export default function DocumentsContent({
 
                 {/* Search box */}
                 <div className="relative">
-                    <svg
+                    <Search
                         className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A8B8CC]"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                    >
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                    </svg>
+                        size={14}
+                        strokeWidth={2.5}
+                    />
                     <input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -142,7 +136,7 @@ export default function DocumentsContent({
                                                         {doc.category?.title ?? ''}
                                                     </span>
                                                 </div>
-                                                <div className="mb-3 text-3xl">{fileIcon.emoji}</div>
+                                                <div className="mb-3 text-[#A8B8CC]">{fileIcon.icon}</div>
                                                 <h3 className="mb-2 text-[15px] font-bold leading-snug text-[#1E3560] group-hover:text-[#2A4A7F]">
                                                     {doc.title}
                                                 </h3>
@@ -168,7 +162,7 @@ export default function DocumentsContent({
                                     return (
                                         <section key={cat.id} id={`cat-${cat.id}`} className="mb-10 scroll-mt-40">
                                             <div className="mb-4 flex items-center gap-2">
-                                                <span className="text-xl opacity-60">📄</span>
+                                                <FileText size={18} className="text-[#A8B8CC]" />
                                                 <h2 className="text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
                                                     {cat.title}
                                                 </h2>

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { Star, MapPin, Map, Globe, GraduationCap, Plus, ArrowRight } from 'lucide-react'
 
 // ─────────────────────────────────────────────
 // Types that mirror the Payload Members collection
@@ -29,8 +30,12 @@ export interface MemberCardProps {
 // Helpers
 // ─────────────────────────────────────────────
 
-const STATUS_LABEL: Record<MemberCardProps['status'], string> = {
-  founder: '★ Учредитель',
+const STATUS_LABEL: Record<MemberCardProps['status'], React.ReactNode> = {
+  founder: (
+    <span className="flex items-center gap-1">
+      <Star size={10} fill="currentColor" /> Учредитель
+    </span>
+  ),
   member: 'Член',
 }
 
@@ -92,7 +97,7 @@ export function MemberCard({
             {shortName}
           </h3>
           <p className="text-[12px] font-bold text-brand-muted flex items-center gap-1">
-            <span className="text-[11px]">📍</span>
+            <MapPin size={11} className="text-sky" />
             {city}
           </p>
         </div>
@@ -114,8 +119,8 @@ export function MemberCard({
 
       {/* ── Region tag ── */}
       <div className="px-5 pb-3">
-        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-brand-muted bg-sky-pale rounded-full px-3 py-1">
-          🗺️ {region.name}
+        <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-brand-muted bg-sky-pale rounded-full px-3 py-1">
+          <Map size={10} className="text-sky" /> {region.name}
         </span>
       </div>
 
@@ -126,9 +131,9 @@ export function MemberCard({
             href={main_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 inline-flex items-center justify-center gap-[5px] bg-navy hover:bg-navy-mid text-white text-[11.5px] font-bold px-4 py-2 rounded-[18px] transition-all duration-200 hover:-translate-y-px"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 bg-navy hover:bg-navy-mid text-white text-[11.5px] font-bold px-4 py-2 rounded-[18px] transition-all duration-200 hover:-translate-y-px"
           >
-            🌐 Сайт
+            <Globe size={13} /> Сайт
           </a>
         ) : null}
         {silver_url ? (
@@ -136,9 +141,9 @@ export function MemberCard({
             href={silver_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 inline-flex items-center justify-center gap-[5px] bg-transparent hover:bg-brand-muted text-brand-muted hover:text-white border-[1.5px] border-brand-muted text-[11.5px] font-bold px-[14px] py-2 rounded-[18px] transition-all duration-200 hover:-translate-y-px"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 bg-transparent hover:bg-brand-muted text-brand-muted hover:text-white border-[1.5px] border-brand-muted text-[11.5px] font-bold px-[14px] py-2 rounded-[18px] transition-all duration-200 hover:-translate-y-px"
           >
-            🎓 Серебр. ун-т
+            <GraduationCap size={13} /> Серебр. ун-т
           </a>
         ) : null}
       </div>
@@ -156,16 +161,18 @@ export function MemberJoinCard() {
       {/* decorative glow */}
       <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-sky/10 pointer-events-none" />
 
-      <div className="text-[44px] leading-none text-white/20 mb-3 select-none">＋</div>
+      <div className="text-[44px] leading-none text-white/20 mb-3 select-none">
+        <Plus size={48} />
+      </div>
       <h3 className="font-serif text-xl text-white leading-snug mb-2">Вступите в Ассоциацию</h3>
       <p className="text-[12.5px] text-white/60 leading-relaxed max-w-[220px] mb-6">
         Если ваш университет реализует программу серебряного обучения — присоединяйтесь к КАСУ
       </p>
       <a
         href="#"
-        className="bg-gold hover:bg-gold-lt text-navy-deep font-black text-[13px] px-6 py-3 rounded-full transition-all duration-200 hover:-translate-y-0.5 shadow-[0_4px_16px_rgba(184,160,96,.35)] hover:shadow-[0_8px_28px_rgba(184,160,96,.5)]"
+        className="bg-gold hover:bg-gold-lt text-navy-deep font-black text-[13px] px-6 py-3 rounded-full transition-all duration-200 hover:-translate-y-0.5 shadow-[0_4px_16px_rgba(184,160,96,.35)] hover:shadow-[0_8px_28px_rgba(184,160,96,.5)] flex items-center justify-center gap-2"
       >
-        Подать заявку →
+        Подать заявку <ArrowRight size={16} />
       </a>
     </article>
   )

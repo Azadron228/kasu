@@ -3,6 +3,7 @@
 import React from 'react'
 import { DocumentCategory } from '@/payload-types'
 import { BreadcrumbItem, FolderNode } from './documents-explorer-block'
+import { FolderOpen, Folder, Folders, FileText, ChevronRight } from 'lucide-react'
 
 type Props = {
     categories: DocumentCategory[]
@@ -66,18 +67,12 @@ function FolderTreeNode({
                         isExpanded ? 'rotate-90' : '',
                     ].join(' ')}
                 >
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                        <path
-                            d="M3.5 2L6.5 5L3.5 8"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
+                    <ChevronRight size={14} strokeWidth={2.5} />
                 </span>
 
-                <span className="shrink-0 text-sm">{isExpanded ? '📂' : '📁'}</span>
+                <span className="shrink-0 text-[#A8B8CC] group-hover:text-[#4A6FA5] transition-colors">
+                    {isExpanded ? <FolderOpen size={16} /> : <Folder size={16} />}
+                </span>
 
                 <span
                     className={`flex-1 truncate text-[13px] font-semibold ${isActive ? 'text-white' : 'text-[#1A2438]'}`}
@@ -140,7 +135,9 @@ export default function DocumentsSidebar({
                             >
                                 {/* spacer for chevron column */}
                                 <span className="h-4 w-4 shrink-0" />
-                                <span className="shrink-0 text-sm">🗂️</span>
+                                <span className="shrink-0 text-[#A8B8CC] group-hover:text-[#4A6FA5] transition-colors">
+                                    <Folders size={16} />
+                                </span>
                                 <span
                                     className={`flex-1 truncate text-[13px] font-semibold ${isRoot ? 'text-white' : 'text-[#1A2438]'}`}
                                 >
@@ -182,9 +179,11 @@ export default function DocumentsSidebar({
                                 <li key={cat.id}>
                                     <a
                                         href={`#cat-${cat.id}`}
-                                        className="flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] font-medium text-[#56647A] transition-colors hover:bg-[#1E3560]/[0.07] hover:text-[#1E3560]"
+                                        className="group flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] font-medium text-[#56647A] transition-colors hover:bg-[#1E3560]/[0.07] hover:text-[#1E3560]"
                                     >
-                                        <span className="shrink-0 text-sm">📄</span>
+                                        <span className="shrink-0 text-[#A8B8CC] group-hover:text-[#4A6FA5] transition-colors">
+                                            <FileText size={16} />
+                                        </span>
                                         <span className="flex-1 truncate">{cat.title}</span>
                                     </a>
                                 </li>

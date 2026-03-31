@@ -3,6 +3,7 @@
 import React, { useState, useTransition } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { Calendar, Handshake, Rocket, FileText, Search, X } from 'lucide-react'
 
 type Tag = {
     id: number
@@ -10,25 +11,25 @@ type Tag = {
     slug?: string | null
 }
 
-const PILL_STYLE: Record<string, { active: string; idle: string; icon: string }> = {
+const PILL_STYLE: Record<string, { active: string; idle: string; icon: React.ReactNode }> = {
     event: {
-        icon: '📅',
+        icon: <Calendar size={14} />,
         active: 'bg-[#1E3560] border-[#1E3560] text-white shadow-md',
         idle: 'bg-white border-[#C8D8EC] text-[#1E3560] hover:border-[#1E3560] hover:bg-[#EAF2FA]',
     },
     agreement: {
-        icon: '🤝',
+        icon: <Handshake size={14} />,
         active: 'bg-[#B8A060] border-[#B8A060] text-[#162848] shadow-md',
         idle: 'bg-white border-[#D4BC80] text-[#8a6e2a] hover:border-[#B8A060] hover:bg-[#F5F0E2]',
     },
     project: {
-        icon: '🚀',
+        icon: <Rocket size={14} />,
         active: 'bg-[#162848] border-[#162848] text-[#D4BC80] shadow-md',
         idle: 'bg-white border-[#C4CEDC] text-[#1E3560] hover:border-[#162848] hover:bg-[#E8EDF5]',
     },
 }
 const DEFAULT_PILL = {
-    icon: '📰',
+    icon: <FileText size={14} />,
     active: 'bg-[#4A6FA5] border-[#4A6FA5] text-white shadow-md',
     idle: 'bg-white border-[#C8D8EC] text-[#56647A] hover:bg-[#EAF2FA]',
 }
@@ -84,15 +85,11 @@ export function NewsFilter({
             <div className="flex flex-wrap items-center gap-3">
 
                 <div className="relative min-w-[240px]">
-                    <svg
+                    <Search
                         className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A8B8CC]"
-                        width="15" height="15" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" strokeWidth="2.2"
-                        strokeLinecap="round" strokeLinejoin="round"
-                    >
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                    </svg>
+                        size={15}
+                        strokeWidth={2.2}
+                    />
                     <input
                         type="text"
                         value={query}

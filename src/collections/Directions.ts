@@ -58,9 +58,9 @@ export const Directions: CollectionConfig = {
       required: true,
       admin: {
         description: {
-          en: 'Emoji or short string',
-          ru: 'Эмодзи или короткая строка',
-          kk: 'Эмодзи немесе қысқа жол',
+          en: 'Lucide icon name (e.g. BookOpen, Heart) or Emoji',
+          ru: 'Название иконки Lucide (напр. BookOpen, Heart) или Emoji',
+          kk: 'Lucide белгішесінің атауы (мысалы, BookOpen, Heart) немесе Emoji',
         }
       }
     },

@@ -3,6 +3,7 @@ import { Link } from '@/i18n/routing'
 import { getTranslations } from 'next-intl/server'
 import { TypedLocale } from 'payload'
 import { Media } from '@/payload-types'
+import { Building2, Plus, ArrowRight } from 'lucide-react'
 
 export default async function MembersBlock({ locale }: { locale: TypedLocale }) {
   const [t, members] = await Promise.all([
@@ -34,7 +35,7 @@ export default async function MembersBlock({ locale }: { locale: TypedLocale }) 
                 {logo?.url ? (
                   <img src={logo.url} alt={member.shortName} className="w-full h-full object-contain" />
                 ) : (
-                  <span className="text-brand-muted">🏛️</span>
+                  <Building2 className="text-[#A8B8CC]" size={32} />
                 )}
               </div>
               <h4 className="font-serif text-lg text-brand-text mb-2 line-clamp-2 min-h-[3.5rem]">
@@ -50,7 +51,7 @@ export default async function MembersBlock({ locale }: { locale: TypedLocale }) 
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {t('membersSite')} →
+                  {t('membersSite')} <ArrowRight size={14} />
                 </a>
               )}
             </div>
@@ -59,7 +60,9 @@ export default async function MembersBlock({ locale }: { locale: TypedLocale }) 
 
         {/* Join Card */}
         <div className="bg-sky-pale rounded-2xl p-8 border-2 border-dashed border-silver flex flex-col items-center justify-center text-center shadow-none min-h-[16rem]">
-          <div className="text-3xl mb-4 text-brand-muted font-light">＋</div>
+          <div className="text-3xl mb-4 text-[#A8B8CC] font-light">
+            <Plus size={32} />
+          </div>
           <h4 className="text-brand-muted font-serif text-lg mb-4 whitespace-pre">
             {t('membersJoin').replace(' в Ассоциацию', '\nв Ассоциацию')}
           </h4>
@@ -67,7 +70,7 @@ export default async function MembersBlock({ locale }: { locale: TypedLocale }) 
             href="/join"
             className="text-gold font-extrabold text-sm flex items-center gap-1 hover:text-gold-lt"
           >
-            {t('membersJoinBtn')} →
+            {t('membersJoinBtn')} <ArrowRight size={14} />
           </Link>
         </div>
       </div>

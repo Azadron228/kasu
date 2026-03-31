@@ -481,7 +481,7 @@ export interface Direction {
   title: string;
   description: string;
   /**
-   * Emoji or short string
+   * Lucide icon name (e.g. BookOpen, Heart) or Emoji
    */
   icon: string;
   order: number;
@@ -1676,6 +1676,9 @@ export interface JoinPage {
    */
   infoBoxes?:
     | {
+        /**
+         * Название иконки Lucide (напр. GraduationCap, Handshake, ScrollText) или Emoji
+         */
         icon?: string | null;
         title?: string | null;
         body?: string | null;

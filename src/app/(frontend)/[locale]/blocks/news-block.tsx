@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { TypedLocale } from 'payload'
 
 import { Media } from '@/collections/Media/components/Media'
+import { FileText } from 'lucide-react'
 
 export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
   const [news, t] = await Promise.all([
@@ -49,7 +50,7 @@ export default async function NewsBlock({ locale }: { locale: TypedLocale }) {
                 {newsItem.heroImage && typeof newsItem.heroImage !== 'string' ? (
                   <Media resource={newsItem.heroImage} fill imgClassName="object-cover transition-transform duration-500 group-hover:scale-110" htmlElement={null} />
                 ) : (
-                  <span>📰</span>
+                  <FileText size={i === 0 ? 80 : 48} />
                 )}
                 <span className="absolute top-4 left-4 z-10 bg-steel text-brand-white text-[0.6rem] font-extrabold tracking-widest uppercase px-2.5 py-1 rounded">
                   {tagLabel}

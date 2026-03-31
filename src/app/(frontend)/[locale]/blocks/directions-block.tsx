@@ -4,12 +4,13 @@ import { Link } from '@/i18n/routing'
 import { getTranslations } from 'next-intl/server'
 
 import { TypedLocale } from 'payload'
+import { LucideIcon } from '../components/ui/lucide-icon'
 
 function DirectionCard({ dir }: { dir: any }) {
   return (
     <>
       <div className="w-12 h-12 bg-sky-pale rounded-xl flex items-center justify-center text-2xl mb-5">
-        {dir.icon}
+        <LucideIcon name={dir.icon} className="w-6 h-6" />
       </div>
       <h3 className="font-serif text-xl font-bold text-navy mb-2.5">{dir.title}</h3>
       <p className="text-brand-muted text-sm leading-relaxed">{dir.description}</p>

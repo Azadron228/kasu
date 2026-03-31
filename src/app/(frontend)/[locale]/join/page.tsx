@@ -7,6 +7,8 @@ import type { JoinPage as JoinPageType, Form as FormType } from '@/payload-types
 import PageHeaderBlock from '../blocks/page-header-block'
 import JoinFormBlock from '../blocks/join-form-block'
 import type { Metadata } from 'next'
+import { ClipboardList, GraduationCap, Handshake, ScrollText, Phone } from 'lucide-react'
+import { LucideIcon } from '../components/ui/lucide-icon'
 
 type Args = {
   params: Promise<{ locale: TypedLocale }>
@@ -50,7 +52,7 @@ export default async function JoinPage({ params }: Args) {
               <JoinFormBlock form={form} />
             ) : (
               <div className="text-center py-16 text-brand-muted">
-                <div className="text-5xl mb-4">📋</div>
+                <ClipboardList className="w-16 h-16 mx-auto mb-4 opacity-20" />
                 <p className="text-sm">Форма заявки ещё не настроена в CMS.</p>
               </div>
             )}
@@ -64,8 +66,8 @@ export default async function JoinPage({ params }: Args) {
                   key={i}
                   className="group bg-white rounded-2xl border border-silver-lt/60 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-sky-pale flex items-center justify-center text-2xl mb-4 shadow-inner">
-                    {box.icon}
+                  <div className="w-12 h-12 rounded-xl bg-sky-pale flex items-center justify-center text-[#1E3560] mb-4 shadow-inner">
+                    <LucideIcon name={box.icon ?? 'GraduationCap'} size={24} />
                   </div>
                   {box.title && (
                     <h3 className="font-serif text-navy text-lg font-bold mb-2">{box.title}</h3>
@@ -79,17 +81,17 @@ export default async function JoinPage({ params }: Args) {
               /* Default info boxes when CMS has none */
               <>
                 <DefaultInfoBox
-                  icon="🎓"
+                  icon={<GraduationCap className="w-6 h-6" />}
                   title="Кто может вступить?"
                   body="Любая образовательная организация Казахстана, реализующая программы для людей третьего возраста."
                 />
                 <DefaultInfoBox
-                  icon="🤝"
+                  icon={<Handshake className="w-6 h-6" />}
                   title="Как проходит вступление?"
                   body="Заполните форму → мы свяжемся с вами → подписание соглашения → добро пожаловать в КАСУ!"
                 />
                 <DefaultInfoBox
-                  icon="📜"
+                  icon={<ScrollText className="w-6 h-6" />}
                   title="Что вы получите?"
                   body="Членство в профессиональном сообществе, доступ к методическим материалам и международным контактам."
                 />
@@ -98,7 +100,7 @@ export default async function JoinPage({ params }: Args) {
 
             {/* Helpline banner */}
             <div className="bg-gradient-to-br from-navy-deep to-navy rounded-2xl p-6 text-white mt-1 shadow-xl">
-              <div className="text-2xl mb-3">📞</div>
+              <Phone className="w-8 h-8 text-sky mb-3" />
               <p className="text-xs font-bold tracking-[0.2em] uppercase text-sky/80 mb-1">
                 Остались вопросы?
               </p>
@@ -118,13 +120,13 @@ function DefaultInfoBox({
   title,
   body,
 }: {
-  icon: string
+  icon: React.ReactNode
   title: string
   body: string
 }) {
   return (
     <div className="bg-white rounded-2xl border border-silver-lt/60 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-      <div className="w-12 h-12 rounded-xl bg-sky-pale flex items-center justify-center text-2xl mb-4 shadow-inner">
+      <div className="w-12 h-12 rounded-xl bg-sky-pale flex items-center justify-center text-[#1E3560] mb-4 shadow-inner">
         {icon}
       </div>
       <h3 className="font-serif text-navy text-lg font-bold mb-2">{title}</h3>
