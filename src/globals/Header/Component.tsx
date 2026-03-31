@@ -14,6 +14,7 @@ export async function Header({ locale }: { locale: TypedLocale }) {
     { href: '/#activities', label: t('activities') },
     { href: '/news', label: t('news') },
     { href: '/members', label: t('members') },
+    { href: '/programs', label: t('programs') },
     { href: '/documents', label: t('documents') },
     { href: '/#contacts', label: t('contacts') },
   ]
