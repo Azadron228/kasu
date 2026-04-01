@@ -11,11 +11,13 @@ import Link from 'next/link'
 import { BannerBlock } from '@/blocks/Banner/Component'
 import { CodeBlock } from '@/blocks/Code/Component'
 import { MediaBlock as MediaContentBlock } from '@/blocks/MediaBlock/Component'
+import { GallerySliderBlock } from '@/blocks/GallerySliderBlock/Component'
 import { RelatedNews } from '@/blocks/RelatedNews/Component'
 import { RichTextSection } from '@/blocks/RichTextSection/Component'
 import { getTranslations } from 'next-intl/server'
 import { Media } from '@/collections/Media/components/Media'
 import type { News, NewsTag } from '@/payload-types'
+import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { ChevronLeft, Calendar, Tag as TagIcon, Clock, Share2, Facebook, Twitter, Link as LinkIcon } from 'lucide-react'
 
 export async function generateStaticParams() {
@@ -39,6 +41,8 @@ function renderContentSection(section: NonNullable<News['contentSections']>[numb
       return <div key={index} className="my-8"><BannerBlock {...section} /></div>
     case 'code':
       return <div key={index} className="my-8"><CodeBlock {...section} /></div>
+    case 'gallerySlider':
+      return <div key={index} className="my-12"><GallerySliderBlock {...section} /></div>
     case 'mediaBlock':
       return (
         <MediaContentBlock
@@ -167,8 +171,8 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
 
         {/* ── CONTENT ── */}
         <div className="mx-auto">
-          <div className="news-post-content space-y-4">
-            {post.contentSections?.map((section, index) => renderContentSection(section, index))}
+          <div className="news-post-content">
+            <RenderBlocks blocks={post.contentSections || []} />
           </div>
         </div>
       </article>

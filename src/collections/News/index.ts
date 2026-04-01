@@ -14,6 +14,7 @@ import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { GallerySliderBlock } from '../../blocks/GallerySliderBlock/config'
 import { RelatedNewsBlock } from '../../blocks/RelatedNews/config'
 import { RichTextSectionBlock } from '../../blocks/RichTextSection/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -114,7 +115,7 @@ export const News: CollectionConfig<'news'> = {
             {
               name: 'contentSections',
               type: 'blocks',
-              blocks: [RichTextSectionBlock, MediaBlock, Banner, Code, RelatedNewsBlock],
+              blocks: [RichTextSectionBlock, MediaBlock, GallerySliderBlock, Banner, Code, RelatedNewsBlock],
               localized: true,
               label: {
                 en: 'Content Sections',

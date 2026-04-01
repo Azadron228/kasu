@@ -179,7 +179,7 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
-  layout: MediaBlock[];
+  layout: (MediaBlock | GallerySliderBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -321,6 +321,19 @@ export interface DocumentCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GallerySliderBlock".
+ */
+export interface GallerySliderBlock {
+  images: {
+    image: number | Media;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'gallerySlider';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
  */
 export interface News {
@@ -328,7 +341,9 @@ export interface News {
   title: string;
   excerpt?: string | null;
   heroImage?: (number | null) | Media;
-  contentSections?: (RichTextSectionBlock | MediaBlock | BannerBlock | CodeBlock | RelatedNewsBlock)[] | null;
+  contentSections?:
+    | (RichTextSectionBlock | MediaBlock | GallerySliderBlock | BannerBlock | CodeBlock | RelatedNewsBlock)[]
+    | null;
   relatedNews?: (number | News)[] | null;
   meta?: {
     title?: string | null;
@@ -1009,6 +1024,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         mediaBlock?: T | MediaBlockSelect<T>;
+        gallerySlider?: T | GallerySliderBlockSelect<T>;
       };
   meta?:
     | T
@@ -1035,6 +1051,20 @@ export interface MediaBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GallerySliderBlock_select".
+ */
+export interface GallerySliderBlockSelect<T extends boolean = true> {
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news_select".
  */
 export interface NewsSelect<T extends boolean = true> {
@@ -1046,6 +1076,7 @@ export interface NewsSelect<T extends boolean = true> {
     | {
         richTextSection?: T | RichTextSectionBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
+        gallerySlider?: T | GallerySliderBlockSelect<T>;
         banner?: T | BannerBlockSelect<T>;
         code?: T | CodeBlockSelect<T>;
         relatedNews?: T | RelatedNewsBlockSelect<T>;
