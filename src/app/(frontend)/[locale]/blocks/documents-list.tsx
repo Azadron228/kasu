@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Document, DocumentCategory, FolderInterface } from '@/payload-types'
 import { BreadcrumbItem, FolderNode } from './documents-explorer-block'
-import { ChevronRight, Search, FileText, FileEdit } from 'lucide-react'
+import { ChevronRight, Search, FileText, FileEdit, Menu } from 'lucide-react'
 
 type Props = {
     categories: DocumentCategory[]
@@ -20,6 +20,7 @@ type Props = {
     onNavigate: (id: number | 'root', name: string, parentChain?: BreadcrumbItem[]) => void
     onBreadcrumb: (index: number) => void
     folderMap: Map<number, FolderNode>
+    onOpenSidebar: () => void
 }
 
 import {
@@ -38,6 +39,7 @@ export default function DocumentsContent({
     currentFolderId,
     onNavigate,
     onBreadcrumb,
+    onOpenSidebar,
 }: Props) {
     const [search, setSearch] = useState('')
 
@@ -55,42 +57,73 @@ export default function DocumentsContent({
     return (
         <main className="flex-1 min-w-0">
             {/* Toolbar: breadcrumbs + search */}
-            <div className="flex flex-wrap items-center gap-3 border-b border-[#E4EBF3] bg-white px-6 py-3.5 lg:px-10">
-                <nav className="flex flex-1 flex-wrap items-center gap-1.5 text-[13px]">
-                    {breadcrumbs.map((bc, i) => {
-                        const isLast = i === breadcrumbs.length - 1
-                        return (
-                            <React.Fragment key={String(bc.id)}>
-                                {i > 0 && <ChevronRight size={12} className="text-[#A8B8CC]" />}
-                                <button
-                                    onClick={() => !isLast && onBreadcrumb(i)}
-                                    className={[
-                                        'rounded-md px-2 py-1 font-bold transition-colors',
-                                        isLast
-                                            ? 'cursor-default text-[#1E3560]'
-                                            : 'text-[#56647A] hover:bg-[#EAF2FA] hover:text-[#1E3560]',
-                                    ].join(' ')}
-                                >
-                                    {bc.name}
-                                </button>
-                            </React.Fragment>
-                        )
-                    })}
-                </nav>
+            <div className="border-b border-[#E4EBF3] bg-white sticky top-20 z-10 backdrop-blur-md bg-white/80">
+                <div className="flex flex-col gap-3 px-4 py-3.5 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                        <button
+                            onClick={onOpenSidebar}
+                            className="flex lg:hidden shrink-0 items-center gap-2 rounded-xl bg-[#EAF2FA] px-3 py-2 text-[12px] font-bold text-[#1E3560] transition-colors hover:bg-[#1E3560]/10"
+                        >
+                            <Menu size={16} /> <span className="hidden xs:inline">Меню</span>
+                        </button>
 
-                {/* Search box */}
-                <div className="relative">
-                    <Search
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A8B8CC]"
-                        size={14}
-                        strokeWidth={2.5}
-                    />
-                    <input
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Поиск документов…"
-                        className="w-48 rounded-xl border-[1.5px] border-[#E4EBF3] bg-[#EAF2FA] py-2 pl-9 pr-3 text-[13px] text-[#1A2438] outline-none transition-all placeholder:text-[#A8B8CC] focus:w-60 focus:border-[#4A6FA5] focus:bg-white"
-                    />
+                        <nav className="flex items-center gap-1 text-[13px] overflow-hidden">
+                            {/* Desktop Breadcrumbs: full path */}
+                            <div className="hidden sm:flex items-center gap-1">
+                                {breadcrumbs.map((bc, i) => {
+                                    const isLast = i === breadcrumbs.length - 1
+                                    return (
+                                        <React.Fragment key={String(bc.id)}>
+                                            {i > 0 && <ChevronRight size={12} className="text-[#A8B8CC]" />}
+                                            <button
+                                                onClick={() => !isLast && onBreadcrumb(i)}
+                                                className={[
+                                                    'truncate max-w-[120px] rounded-md px-2 py-1 font-bold transition-colors',
+                                                    isLast
+                                                        ? 'cursor-default text-[#1E3560]'
+                                                        : 'text-[#56647A] hover:bg-[#EAF2FA] hover:text-[#1E3560]',
+                                                ].join(' ')}
+                                            >
+                                                {bc.name}
+                                            </button>
+                                        </React.Fragment>
+                                    )
+                                })}
+                            </div>
+
+                            {/* Mobile Breadcrumbs: "Parent > Current" or just "Current" */}
+                            <div className="flex sm:hidden items-center gap-1 overflow-hidden">
+                                {breadcrumbs.length > 1 && (
+                                    <button
+                                        onClick={() => onBreadcrumb(breadcrumbs.length - 2)}
+                                        className="flex items-center gap-1 text-[#56647A] font-bold"
+                                    >
+                                        <ChevronRight size={12} className="rotate-180" />
+                                        <span className="truncate max-w-[80px] opacity-60">{breadcrumbs[breadcrumbs.length - 2].name}</span>
+                                    </button>
+                                )}
+                                {breadcrumbs.length > 1 && <ChevronRight size={12} className="text-[#A8B8CC] shrink-0" />}
+                                <span className="font-bold text-[#1E3560] truncate max-w-[150px]">
+                                    {breadcrumbs[breadcrumbs.length - 1].name}
+                                </span>
+                            </div>
+                        </nav>
+                    </div>
+
+                    {/* Search box */}
+                    <div className="relative w-full lg:w-auto">
+                        <Search
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A8B8CC]"
+                            size={14}
+                            strokeWidth={2.5}
+                        />
+                        <input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Поиск документов…"
+                            className="w-full lg:w-48 xl:w-60 rounded-xl border-[1.5px] border-[#E4EBF3] bg-[#EAF2FA] py-2 pl-9 pr-3 text-[13px] text-[#1A2438] outline-none transition-all placeholder:text-[#A8B8CC] focus:border-[#4A6FA5] focus:bg-white"
+                        />
+                    </div>
                 </div>
             </div>
 

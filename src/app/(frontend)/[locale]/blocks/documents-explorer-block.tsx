@@ -72,11 +72,13 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
         { id: 'root', name: 'Все документы' },
     ])
     const [expandedFolders, setExpandedFolders] = useState<Set<number>>(new Set())
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
     const navigateTo = useCallback(
         (folderId: number | 'root', folderName: string, parentChain?: BreadcrumbItem[]) => {
             setCurrentFolderId(folderId)
             setSelectedCategoryId(null)
+            setIsSidebarOpen(false)
             if (folderId === 'root') {
                 setBreadcrumbs([{ id: 'root', name: 'Все документы' }])
             } else if (parentChain) {
@@ -155,7 +157,7 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
     const featured = useMemo(() => documents.filter((d) => d.isFeatured), [documents])
 
     return (
-        <div className="flex min-h-[calc(100vh-220px)]">
+        <div className="flex min-h-[calc(100vh-220px)] relative">
             <DocumentsSidebar
                 categories={categories}
                 folderRoots={folderRoots}
@@ -163,11 +165,16 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
                 currentFolderId={currentFolderId}
                 selectedCategoryId={selectedCategoryId}
                 onNavigate={navigateTo}
-                onFilterCategory={setSelectedCategoryId}
+                onFilterCategory={(id) => {
+                    setSelectedCategoryId(id)
+                    setIsSidebarOpen(false)
+                }}
                 onToggle={toggleFolder}
                 folderMap={folderMap}
                 totalDocs={documents.length}
                 hasOther={!!(groupedByCategory && groupedByCategory['other'] && groupedByCategory['other'].length > 0)}
+                isOpen={isSidebarOpen}
+                onClose={() => setIsSidebarOpen(false)}
             />
             <DocumentsContent
                 categories={categories}
@@ -180,6 +187,7 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
                 onNavigate={navigateTo}
                 onBreadcrumb={navigateToBreadcrumb}
                 folderMap={folderMap}
+                onOpenSidebar={() => setIsSidebarOpen(true)}
             />
         </div>
     )

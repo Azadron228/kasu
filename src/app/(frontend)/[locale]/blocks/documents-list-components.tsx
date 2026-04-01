@@ -18,25 +18,32 @@ export function DocRow({ doc }: { doc: Document }) {
 
     return (
         <tr className="group border-b border-[#E4EBF3] transition-colors last:border-0 hover:bg-[#EAF2FA]">
-            <td className="px-4 py-3.5">
-                <div className="flex items-center gap-3">
+            <td className="px-3 py-3.5 sm:px-4">
+                <div className="flex items-center gap-2 sm:gap-3">
                     <div
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600`}
+                        className={`flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600`}
                     >
-                        <FileEdit size={20} />
+                        <FileEdit size={18} className="sm:size-5" />
                     </div>
                     <div className="min-w-0">
                         <a
                             href={doc.url ?? '#'}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block text-[13.5px] font-bold text-[#1E3560] hover:underline"
+                            className="block text-[13px] sm:text-[13.5px] font-bold text-[#1E3560] hover:underline"
                         >
                             {doc.title}
                         </a>
-                        {doc.description && (
-                            <p className="mt-0.5 truncate text-[11px] text-[#56647A]">{doc.description}</p>
-                        )}
+                        <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                            {doc.description && (
+                                <p className="truncate text-[10px] sm:text-[11px] text-[#56647A]">{doc.description}</p>
+                            )}
+                            {cat && (
+                                <span className="md:hidden inline-block rounded-md px-1.5 py-0.5 text-[9px] font-bold bg-[#E8F0FA] text-[#1E3560]">
+                                    {cat.title}
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </div>
             </td>
@@ -49,23 +56,24 @@ export function DocRow({ doc }: { doc: Document }) {
                 )}
             </td>
 
-            <td className="px-4 py-3.5 text-right text-[12.5px] text-[#56647A]">
+            <td className="hidden sm:table-cell px-4 py-3.5 text-right text-[12.5px] text-[#56647A]">
                 {doc.date ? format(doc.date, 'dd.MM.yyyy', { locale: ru }) : '—'}
             </td>
 
-            <td className="hidden px-4 py-3.5 text-right text-[12px] text-[#56647A] md:table-cell">
+            <td className="hidden lg:table-cell px-4 py-3.5 text-right text-[12px] text-[#56647A]">
                 {formatFilesize(doc.filesize)}
             </td>
 
-            <td className="px-4 py-3.5">
+            <td className="px-3 py-3.5 sm:px-4">
                 <div className="flex items-center justify-end gap-1.5">
                     <a
                         href={doc.url ?? '#'}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 rounded-lg bg-[#1E3560] px-3 py-1.5 text-[11px] font-extrabold text-white transition-colors hover:bg-[#2A4A7F]"
+                        className="flex items-center gap-1 rounded-lg bg-[#1E3560] px-2.5 py-1.5 sm:px-3 text-[10px] sm:text-[11px] font-extrabold text-white transition-colors hover:bg-[#2A4A7F]"
                     >
-                        Скачать
+                        <span className="hidden xs:inline">Скачать</span>
+                        <span className="xs:hidden">⬇</span>
                     </a>
                 </div>
             </td>
@@ -77,23 +85,23 @@ export function DocRow({ doc }: { doc: Document }) {
 
 export function FileTableWrapper({ docs }: { docs: Document[] }) {
     return (
-        <div className="overflow-hidden rounded-2xl border border-[#E4EBF3] bg-white">
+        <div className="overflow-hidden rounded-2xl border border-[#E4EBF3] bg-white shadow-sm">
             <table className="w-full border-collapse text-left">
                 <thead>
                     <tr className="bg-[#EAF2FA]">
-                        <th className="px-4 py-3 text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A]">
+                        <th className="px-3 py-3 text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A] sm:px-4">
                             Название
                         </th>
                         <th className="hidden px-4 py-3 text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A] md:table-cell">
                             Тип
                         </th>
-                        <th className="px-4 py-3 text-right text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A]">
+                        <th className="hidden sm:table-cell px-4 py-3 text-right text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A]">
                             Дата
                         </th>
-                        <th className="hidden px-4 py-3 text-right text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A] md:table-cell">
+                        <th className="hidden lg:table-cell px-4 py-3 text-right text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A]">
                             Размер
                         </th>
-                        <th className="px-4 py-3 text-right text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A]" />
+                        <th className="px-3 py-3 text-right text-[10px] font-extrabold uppercase tracking-[1.5px] text-[#56647A] sm:px-4" />
                     </tr>
                 </thead>
                 <tbody>

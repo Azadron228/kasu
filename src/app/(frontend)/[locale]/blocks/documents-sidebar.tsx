@@ -3,7 +3,7 @@
 import React from 'react'
 import { DocumentCategory } from '@/payload-types'
 import { BreadcrumbItem, FolderNode } from './documents-explorer-block'
-import { FolderOpen, Folder, Folders, FileText, ChevronRight } from 'lucide-react'
+import { FolderOpen, Folder, Folders, FileText, ChevronRight, X } from 'lucide-react'
 
 type Props = {
     categories: DocumentCategory[]
@@ -17,6 +17,8 @@ type Props = {
     folderMap: Map<number, FolderNode>
     totalDocs: number
     hasOther?: boolean
+    isOpen?: boolean
+    onClose?: () => void
 }
 
 function FolderTreeNode({
@@ -115,16 +117,45 @@ export default function DocumentsSidebar({
     onToggle,
     totalDocs,
     hasOther,
+    isOpen,
+    onClose,
 }: Props) {
     const isRoot = currentFolderId === 'root'
 
     return (
-        <aside className="hidden w-64 shrink-0 border-r border-[#E4EBF3] bg-[#EAF2FA] lg:flex flex-col">
-            <div className="sticky top-36 max-h-[calc(100vh-144px)] overflow-y-auto px-4 py-6">
-                {/* Title */}
-                <p className="mb-3 px-2 text-[10px] font-extrabold uppercase tracking-[2.5px] text-[#56647A]">
-                    Архив документов
-                </p>
+        <>
+            {/* Mobile overlay */}
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 z-[100] bg-navy/40 backdrop-blur-sm lg:hidden"
+                    onClick={onClose}
+                />
+            )}
+
+            <aside 
+                className={[
+                    'fixed inset-y-0 left-0 z-[101] w-72 shrink-0 border-r border-[#E4EBF3] bg-[#EAF2FA] transition-transform duration-300 lg:static lg:z-0 lg:flex lg:w-64 lg:translate-x-0 flex-col',
+                    isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
+                ].join(' ')}
+            >
+                <div className="sticky top-0 lg:top-36 h-full max-h-screen lg:max-h-[calc(100vh-144px)] overflow-y-auto px-4 py-6">
+                    {/* Mobile header */}
+                    <div className="flex items-center justify-between mb-6 lg:hidden">
+                        <p className="text-[10px] font-extrabold uppercase tracking-[2.5px] text-[#56647A]">
+                            Навигация
+                        </p>
+                        <button 
+                            onClick={onClose}
+                            className="p-2 rounded-lg bg-white/50 text-[#56647A] hover:bg-white"
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
+
+                    {/* Title (Desktop) */}
+                    <p className="hidden lg:block mb-3 px-2 text-[10px] font-extrabold uppercase tracking-[2.5px] text-[#56647A]">
+                        Архив документов
+                    </p>
 
                 <nav>
                     <ul className="space-y-0.5">
@@ -239,5 +270,6 @@ export default function DocumentsSidebar({
                 )}
             </div>
         </aside>
-    )
+    </>
+)
 }
