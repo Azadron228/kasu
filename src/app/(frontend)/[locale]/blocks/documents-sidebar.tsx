@@ -10,10 +10,13 @@ type Props = {
     folderRoots: FolderNode[]
     expandedFolders: Set<number>
     currentFolderId: number | 'root'
+    selectedCategoryId: number | 'other' | null
     onNavigate: (id: number | 'root', name: string, parentChain?: BreadcrumbItem[]) => void
+    onFilterCategory: (id: number | 'other' | null) => void
     onToggle: (id: number) => void
     folderMap: Map<number, FolderNode>
     totalDocs: number
+    hasOther?: boolean
 }
 
 function FolderTreeNode({
@@ -106,9 +109,12 @@ export default function DocumentsSidebar({
     folderRoots,
     expandedFolders,
     currentFolderId,
+    selectedCategoryId,
     onNavigate,
+    onFilterCategory,
     onToggle,
     totalDocs,
+    hasOther,
 }: Props) {
     const isRoot = currentFolderId === 'root'
 
@@ -175,19 +181,59 @@ export default function DocumentsSidebar({
                             Категории
                         </p>
                         <ul className="space-y-0.5">
-                            {categories.map((cat: any) => (
-                                <li key={cat.id}>
-                                    <a
-                                        href={`#cat-${cat.id}`}
-                                        className="group flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] font-medium text-[#56647A] transition-colors hover:bg-[#1E3560]/[0.07] hover:text-[#1E3560]"
+                            {categories.map((cat: any) => {
+                                const isActive = selectedCategoryId === cat.id
+                                return (
+                                    <li key={cat.id}>
+                                        <button
+                                            onClick={() => onFilterCategory(isActive ? null : cat.id)}
+                                            className={[
+                                                'group flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-[13px] font-medium transition-colors',
+                                                isActive
+                                                    ? 'bg-[#1E3560] text-white'
+                                                    : 'text-[#56647A] hover:bg-[#1E3560]/[0.07] hover:text-[#1E3560]',
+                                            ].join(' ')}
+                                        >
+                                            <span
+                                                className={[
+                                                    'shrink-0 transition-colors',
+                                                    isActive ? 'text-white/70' : 'text-[#A8B8CC] group-hover:text-[#4A6FA5]',
+                                                ].join(' ')}
+                                            >
+                                                <FileText size={16} />
+                                            </span>
+                                            <span className="flex-1 truncate">{cat.title}</span>
+                                        </button>
+                                    </li>
+                                )
+                            })}
+                            {hasOther && (
+                                <li>
+                                    <button
+                                        onClick={() =>
+                                            onFilterCategory(selectedCategoryId === 'other' ? null : 'other')
+                                        }
+                                        className={[
+                                            'group flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-[13px] font-medium transition-colors',
+                                            selectedCategoryId === 'other'
+                                                ? 'bg-[#1E3560] text-white'
+                                                : 'text-[#56647A] hover:bg-[#1E3560]/[0.07] hover:text-[#1E3560]',
+                                        ].join(' ')}
                                     >
-                                        <span className="shrink-0 text-[#A8B8CC] group-hover:text-[#4A6FA5] transition-colors">
+                                        <span
+                                            className={[
+                                                'shrink-0 transition-colors',
+                                                selectedCategoryId === 'other'
+                                                    ? 'text-white/70'
+                                                    : 'text-[#A8B8CC] group-hover:text-[#4A6FA5]',
+                                            ].join(' ')}
+                                        >
                                             <FileText size={16} />
                                         </span>
-                                        <span className="flex-1 truncate">{cat.title}</span>
-                                    </a>
+                                        <span className="flex-1 truncate">Прочее</span>
+                                    </button>
                                 </li>
-                            ))}
+                            )}
                         </ul>
                     </>
                 )}

@@ -1,18 +1,9 @@
 import React from 'react'
 import { Document } from '@/payload-types'
 import { FolderNode } from './documents-explorer-block'
-import { FileText, FileEdit, BarChart, Folder, Inbox } from 'lucide-react'
-
-// ── UTILS ──
-
-export function formatDate(dateStr: string): string {
-    const d = new Date(dateStr)
-    return d.toLocaleDateString('ru-RU', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-    })
-}
+import { FileEdit, Folder, Inbox } from 'lucide-react'
+import { format } from 'date-fns'
+import { ru } from 'date-fns/locale'
 
 export function formatFilesize(bytes?: number | null): string {
     if (!bytes) return '—'
@@ -21,20 +12,8 @@ export function formatFilesize(bytes?: number | null): string {
     return `${(bytes / (1024 * 1024)).toFixed(1)} МБ`
 }
 
-export function getFileIcon(mimeType?: string | null) {
-    if (!mimeType) return { icon: <FileText size={20} />, bg: 'bg-red-50', text: 'text-red-500' }
-    if (mimeType.includes('pdf')) return { icon: <FileText size={20} />, bg: 'bg-red-50', text: 'text-red-500' }
-    if (mimeType.includes('word') || mimeType.includes('document'))
-        return { icon: <FileEdit size={20} />, bg: 'bg-blue-50', text: 'text-blue-600' }
-    if (mimeType.includes('sheet') || mimeType.includes('excel'))
-        return { icon: <BarChart size={20} />, bg: 'bg-green-50', text: 'text-green-600' }
-    return { icon: <FileText size={20} />, bg: 'bg-slate-50', text: 'text-slate-500' }
-}
-
-// ── DOC ROW ──
 
 export function DocRow({ doc }: { doc: Document }) {
-    const fileIcon = getFileIcon(doc.mimeType)
     const cat = typeof doc.category === 'object' ? doc.category : null
 
     return (
@@ -42,9 +21,9 @@ export function DocRow({ doc }: { doc: Document }) {
             <td className="px-4 py-3.5">
                 <div className="flex items-center gap-3">
                     <div
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${fileIcon.bg} ${fileIcon.text}`}
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600`}
                     >
-                        {fileIcon.icon}
+                        <FileEdit size={20} />
                     </div>
                     <div className="min-w-0">
                         <a
@@ -71,7 +50,7 @@ export function DocRow({ doc }: { doc: Document }) {
             </td>
 
             <td className="px-4 py-3.5 text-right text-[12.5px] text-[#56647A]">
-                {doc.date ? formatDate(doc.date) : '—'}
+                {doc.date ? format(doc.date, 'dd.MM.yyyy', { locale: ru }) : '—'}
             </td>
 
             <td className="hidden px-4 py-3.5 text-right text-[12px] text-[#56647A] md:table-cell">

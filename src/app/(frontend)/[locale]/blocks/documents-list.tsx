@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Document, DocumentCategory, FolderInterface } from '@/payload-types'
 import { BreadcrumbItem, FolderNode } from './documents-explorer-block'
-import { ChevronRight, Search, FileText } from 'lucide-react'
+import { ChevronRight, Search, FileText, FileEdit } from 'lucide-react'
 
 type Props = {
     categories: DocumentCategory[]
@@ -13,6 +13,7 @@ type Props = {
         isRoot: boolean
     }
     groupedByCategory: Record<string, Document[]> | null
+    selectedCategoryId: number | 'other' | null
     featured: Document[]
     breadcrumbs: BreadcrumbItem[]
     currentFolderId: number | 'root'
@@ -22,8 +23,6 @@ type Props = {
 }
 
 import {
-    formatDate,
-    getFileIcon,
     FileTableWrapper,
     FolderCard,
     EmptyState,
@@ -33,6 +32,7 @@ export default function DocumentsContent({
     categories,
     viewData,
     groupedByCategory,
+    selectedCategoryId,
     featured,
     breadcrumbs,
     currentFolderId,
@@ -112,15 +112,14 @@ export default function DocumentsContent({
                 {/* ── NORMAL VIEW (not searching) ── */}
                 {!isSearching && (
                     <>
-                        {/* Featured (root only) */}
-                        {isRoot && featured.length > 0 && (
+                        {/* Featured (root only) — only show when no category filter is active */}
+                        {isRoot && featured.length > 0 && !selectedCategoryId && (
                             <section className="mb-10">
                                 <h2 className="mb-4 text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
                                     Избранные документы
                                 </h2>
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     {featured.map((doc: any) => {
-                                        const fileIcon = getFileIcon(doc.mimeType)
                                         return (
                                             <a
                                                 key={doc.id}
@@ -131,12 +130,14 @@ export default function DocumentsContent({
                                             >
                                                 <div className="mb-3 flex items-start justify-between">
                                                     <span
-                                                        className={`inline-block rounded px-2.5 py-1 text-[10px] font-extrabold tracking-wide ${fileIcon.bg} ${fileIcon.text}`}
+                                                        className={`inline-block rounded px-2.5 py-1 text-[10px] font-extrabold tracking-wide bg-blue-50 text-blue-600`}
                                                     >
                                                         {doc.category?.title ?? ''}
                                                     </span>
                                                 </div>
-                                                <div className="mb-3 text-[#A8B8CC]">{fileIcon.icon}</div>
+                                                <div className="mb-3 text-[#A8B8CC]">
+                                                    <FileEdit size={20} />
+                                                </div>
                                                 <h3 className="mb-2 text-[15px] font-bold leading-snug text-[#1E3560] group-hover:text-[#2A4A7F]">
                                                     {doc.title}
                                                 </h3>
@@ -156,6 +157,9 @@ export default function DocumentsContent({
                         {isRoot && groupedByCategory ? (
                             <>
                                 {categories.map((cat: any) => {
+                                    // Filter by category if selected
+                                    if (selectedCategoryId && selectedCategoryId !== cat.id) return null
+
                                     // Grouping relies on ID strings now
                                     const docs = groupedByCategory[String(cat.id)]
                                     if (!docs || docs.length === 0) return null
@@ -171,6 +175,22 @@ export default function DocumentsContent({
                                         </section>
                                     )
                                 })}
+
+                                {/* Other documents (no category or unrecognized) */}
+                                {groupedByCategory['other'] &&
+                                    groupedByCategory['other'].length > 0 &&
+                                    (!selectedCategoryId || selectedCategoryId === 'other') && (
+                                        <section id="cat-other" className="mb-10 scroll-mt-40">
+                                            <div className="mb-4 flex items-center gap-2">
+                                                <FileText size={18} className="text-[#A8B8CC]" />
+                                                <h2 className="text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
+                                                    {/* Fallback to localized 'Documents' if 'documents:docsFallback' is available, or use a default */}
+                                                    Прочее
+                                                </h2>
+                                            </div>
+                                            <FileTableWrapper docs={groupedByCategory['other']} />
+                                        </section>
+                                    )}
                             </>
                         ) : (
                             <>
@@ -190,8 +210,8 @@ export default function DocumentsContent({
                             </>
                         )}
 
-                        {/* Sub-folder grid */}
-                        {viewData.subFolders.length > 0 && (
+                        {/* Sub-folder grid — only show when no category filter is active */}
+                        {viewData.subFolders.length > 0 && !selectedCategoryId && (
                             <section className="mb-8">
                                 <h2 className="mb-4 text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
                                     Папки

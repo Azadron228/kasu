@@ -67,6 +67,7 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
     )
 
     const [currentFolderId, setCurrentFolderId] = useState<number | 'root'>('root')
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number | 'other' | null>(null)
     const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([
         { id: 'root', name: 'Все документы' },
     ])
@@ -75,6 +76,7 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
     const navigateTo = useCallback(
         (folderId: number | 'root', folderName: string, parentChain?: BreadcrumbItem[]) => {
             setCurrentFolderId(folderId)
+            setSelectedCategoryId(null)
             if (folderId === 'root') {
                 setBreadcrumbs([{ id: 'root', name: 'Все документы' }])
             } else if (parentChain) {
@@ -159,15 +161,19 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
                 folderRoots={folderRoots}
                 expandedFolders={expandedFolders}
                 currentFolderId={currentFolderId}
+                selectedCategoryId={selectedCategoryId}
                 onNavigate={navigateTo}
+                onFilterCategory={setSelectedCategoryId}
                 onToggle={toggleFolder}
                 folderMap={folderMap}
                 totalDocs={documents.length}
+                hasOther={!!(groupedByCategory && groupedByCategory['other'] && groupedByCategory['other'].length > 0)}
             />
             <DocumentsContent
                 categories={categories}
                 viewData={viewData}
                 groupedByCategory={groupedByCategory}
+                selectedCategoryId={selectedCategoryId}
                 featured={featured}
                 breadcrumbs={breadcrumbs}
                 currentFolderId={currentFolderId}
