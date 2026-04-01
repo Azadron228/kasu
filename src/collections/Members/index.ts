@@ -99,6 +99,15 @@ export const Members: CollectionConfig = {
         en: 'Main URL',
         ru: 'Основной URL',
       },
+      validate: (value?: string | null) => {
+        if (!value) return true
+        try {
+          new URL(value)
+          return true
+        } catch {
+          return 'Please enter a valid URL (e.g., https://example.com)'
+        }
+      },
     },
     {
       name: 'silver_url',
@@ -106,6 +115,15 @@ export const Members: CollectionConfig = {
       label: {
         en: 'Silver University URL',
         ru: 'URL Серебряного университета',
+      },
+      validate: (value?: string | null) => {
+        if (!value) return true
+        try {
+          new URL(value)
+          return true
+        } catch {
+          return 'Please enter a valid URL (e.g., https://example.com)'
+        }
       },
     },
   ],

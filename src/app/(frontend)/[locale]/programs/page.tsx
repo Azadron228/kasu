@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { TypedLocale } from 'payload'
@@ -31,7 +31,9 @@ export default async function ProgramsPage({ params }: Args) {
       <StatsBarBlock stats={page?.stats} />
 
       {/* ── EXPLORER (sidebar + programs) ── */}
-      <ProgramsExplorerBlock locale={locale} />
+      <Suspense fallback={<div className="min-h-[400px] flex items-center justify-center">Loading explorer...</div>}>
+        <ProgramsExplorerBlock locale={locale} />
+      </Suspense>
     </div>
   )
 }

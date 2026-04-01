@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Member, Program } from '@/payload-types'
 import { useTranslations } from 'next-intl'
+import { useSearchParams } from 'next/navigation'
 import {
   Search,
   MapPin,
@@ -40,10 +41,23 @@ const getFormatIcon = (format: string) => {
 
 export default function ProgramsExplorerClient({ members, programs }: Props) {
   const t = useTranslations('blocks.programsExplorer')
+  const searchParams = useSearchParams()
+  const memberIdParam = searchParams.get('member')
+
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [search, setSearch] = useState('')
   const [formatFilter, setFormatFilter] = useState<string>('all')
   const [openIds, setOpenIds] = useState<Set<number>>(new Set())
+
+  // handle initial or changed memberId from URL
+  useEffect(() => {
+    if (memberIdParam) {
+      const id = Number(memberIdParam)
+      if (!isNaN(id)) {
+        setSelectedId(id)
+      }
+    }
+  }, [memberIdParam])
 
   // filtered sidebar list
   const filteredMembers = useMemo(
@@ -89,7 +103,11 @@ export default function ProgramsExplorerClient({ members, programs }: Props) {
   function toggleProgram(id: number) {
     setOpenIds((prev) => {
       const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
       return next
     })
   }

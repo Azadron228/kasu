@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import { Star, MapPin, Map, Globe, GraduationCap, Plus, ArrowRight } from 'lucide-react'
+import { Link } from '@/i18n/routing'
+import { Star, MapPin, Map, Globe, GraduationCap, Plus, ArrowRight, Library } from 'lucide-react'
 
 // ─────────────────────────────────────────────
 // Types that mirror the Payload Members collection
@@ -58,7 +59,6 @@ export function MemberCard({
   accentColor = '#1E3560',
 }: MemberCardProps) {
   const isFounder = status === 'founder'
-  const num = index !== undefined ? String(index + 1).padStart(2, '0') : null
 
   return (
     <article className="relative flex flex-col rounded-2xl bg-brand-white border-[1.5px] border-silver-lt overflow-hidden shadow-[0_6px_32px_rgba(30,53,96,.10)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_22px_60px_rgba(30,53,96,.16)] hover:border-steel group">
@@ -81,13 +81,13 @@ export function MemberCard({
       {/* ── Main info ── */}
       <div className="flex items-start gap-4 px-5 pt-6 pb-4">
         {/* Logo */}
-        <div className="relative flex-shrink-0 w-20 h-20 rounded-full overflow-hidden shadow-[0_4px_18px_rgba(30,53,96,.2)]">
+        <div className="relative flex-shrink-0 w-20 h-20 rounded-full overflow-hidden shadow-[0_4px_18px_rgba(30,53,96,.2)] bg-sky-pale p-1.5">
           <Image
             src={logo?.url || '/logo.svg'}
             alt={logo?.alt ?? shortName}
             fill
             sizes="80px"
-            className="object-cover"
+            className="object-contain"
           />
         </div>
 
@@ -122,6 +122,16 @@ export function MemberCard({
         <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-brand-muted bg-sky-pale rounded-full px-3 py-1">
           <Map size={10} className="text-sky" /> {region.name}
         </span>
+      </div>
+
+      {/* ── View programs link ── */}
+      <div className="px-5 pb-4">
+        <Link
+          href={`/programs?member=${id}`}
+          className="w-full flex items-center justify-center gap-2 bg-gold hover:bg-gold-lt text-navy-deep font-black text-[12px] px-4 py-2.5 rounded-[12px] transition-all duration-200 hover:-translate-y-px shadow-[0_4px_16px_rgba(184,160,96,.25)]"
+        >
+          <Library size={14} /> Посмотреть программы
+        </Link>
       </div>
 
       {/* ── Actions ── */}

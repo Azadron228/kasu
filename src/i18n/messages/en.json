@@ -181,6 +181,7 @@
       "formatLabel": "Format",
       "allFormats": "All",
       "shown": "Shown:",
+      "programCount": "{count} programs",
       "programsSuffix_one": "program",
       "programsSuffix_other": "programs",
       "notFoundTitle": "Programs not found",

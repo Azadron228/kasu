@@ -22,7 +22,6 @@ export const Users: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    group: 'Globals',
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
   },

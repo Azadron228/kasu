@@ -44,16 +44,24 @@ export default async function MembersBlock({ locale }: { locale: TypedLocale }) 
               <span className="text-steel text-sm block mb-4">
                 {member.city}
               </span>
-              {member.main_url && (
-                <a
-                  href={member.main_url.startsWith('http') ? member.main_url : `https://${member.main_url}`}
-                  className="text-gold font-bold text-sm hover:text-gold-lt flex items-center gap-1 mt-auto"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              <div className="mt-auto flex flex-col gap-2">
+                <Link
+                  href={`/programs?member=${member.id}`}
+                  className="text-gold font-bold text-sm hover:text-gold-lt flex items-center gap-1"
                 >
-                  {t('membersSite')} <ArrowRight size={14} />
-                </a>
-              )}
+                  Программы <ArrowRight size={14} />
+                </Link>
+                {member.main_url && (
+                  <a
+                    href={member.main_url.startsWith('http') ? member.main_url : `https://${member.main_url}`}
+                    className="text-brand-muted font-bold text-sm hover:text-brand-text flex items-center gap-1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {t('membersSite')} <ArrowRight size={14} />
+                  </a>
+                )}
+              </div>
             </div>
           )
         })}

@@ -143,7 +143,7 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
         </header>
 
         {/* ── HERO IMAGE ── */}
-        {post.heroImage && typeof post.heroImage !== 'string' && (
+        {post.heroImage && typeof post.heroImage === 'object' && (
           <div className="relative mb-16 md:mb-24">
             <div className="aspect-[21/9] relative overflow-hidden rounded-[2.5rem] shadow-2xl shadow-navy/15 border border-silver-lt/50 bg-sky-pale group">
               <Media

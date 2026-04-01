@@ -148,6 +148,7 @@
       "tagline": "Күміс университет · КАСУ",
       "statusFounder": "★ Құрылтайшы",
       "statusMember": "ҚАСУ мүшесі",
+      "programCount": "{count} бағдарлама",
       "programCount_one": "{count} бағдарлама",
       "programCount_other": "{count} бағдарлама",
       "website": "🌐 Сайт",
