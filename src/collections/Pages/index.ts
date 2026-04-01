@@ -4,6 +4,7 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { GallerySliderBlock } from '../../blocks/GallerySliderBlock/config'
+import { RichTextSectionBlock } from '../../blocks/RichTextSection/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -64,7 +65,7 @@ export const Pages: CollectionConfig<'pages'> = {
                         {
                             name: 'layout',
                             type: 'blocks',
-                            blocks: [MediaBlock, GallerySliderBlock],
+                            blocks: [MediaBlock, GallerySliderBlock, RichTextSectionBlock],
                             required: true,
                             admin: {
                                 initCollapsed: true,

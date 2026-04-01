@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { TypedLocale } from 'payload'
 import { Media } from '@/payload-types'
 import { Building2, Plus, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 
 export default async function MembersBlock({ locale }: { locale: TypedLocale }) {
   const [t, members] = await Promise.all([
@@ -31,9 +32,15 @@ export default async function MembersBlock({ locale }: { locale: TypedLocale }) 
               key={member.id ?? i}
               className="bg-brand-white rounded-2xl p-8 border border-silver-lt shadow-sm hover:shadow-md transition-shadow group flex flex-col"
             >
-              <div className="w-16 h-16 bg-sky-pale rounded-full flex items-center justify-center text-2xl mb-6 group-hover:scale-105 transition-transform overflow-hidden p-2">
+              <div className="w-16 h-16 bg-sky-pale rounded-full flex items-center justify-center text-2xl mb-6 group-hover:scale-105 transition-transform overflow-hidden relative">
                 {logo?.url ? (
-                  <img src={logo.url} alt={member.shortName} className="w-full h-full object-contain" />
+                  <Image
+                    src={logo.url}
+                    alt={member.shortName ?? ''}
+                    fill
+                    sizes="64px"
+                    className="object-contain p-3"
+                  />
                 ) : (
                   <Building2 className="text-[#A8B8CC]" size={32} />
                 )}

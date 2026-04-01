@@ -179,7 +179,7 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
-  layout: (MediaBlock | GallerySliderBlock)[];
+  layout: (MediaBlock | GallerySliderBlock | RichTextSectionBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -334,6 +334,30 @@ export interface GallerySliderBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichTextSectionBlock".
+ */
+export interface RichTextSectionBlock {
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'richTextSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
  */
 export interface News {
@@ -363,30 +387,6 @@ export interface News {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "RichTextSectionBlock".
- */
-export interface RichTextSectionBlock {
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'richTextSection';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1025,6 +1025,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         mediaBlock?: T | MediaBlockSelect<T>;
         gallerySlider?: T | GallerySliderBlockSelect<T>;
+        richTextSection?: T | RichTextSectionBlockSelect<T>;
       };
   meta?:
     | T
@@ -1065,6 +1066,15 @@ export interface GallerySliderBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichTextSectionBlock_select".
+ */
+export interface RichTextSectionBlockSelect<T extends boolean = true> {
+  content?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news_select".
  */
 export interface NewsSelect<T extends boolean = true> {
@@ -1096,15 +1106,6 @@ export interface NewsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "RichTextSectionBlock_select".
- */
-export interface RichTextSectionBlockSelect<T extends boolean = true> {
-  content?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

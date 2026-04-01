@@ -130,11 +130,11 @@ export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
                             <div className="flex flex-col gap-4 rounded-xl bg-slate-50 border border-slate-100 p-5">
                                 {[
                                     { label: t('durationLabel'), icon: <Calendar className="h-4 w-4 text-slate-400" />, value: prog.duration },
-                                    { label: t('formatStudyLabel'), icon: React.cloneElement(formatDetails.icon as React.ReactElement, { className: 'h-4 w-4 text-slate-400' }), value: fmtLabel },
+                                    { label: t('formatStudyLabel'), icon: formatDetails.icon, value: fmtLabel },
                                     { label: t('directionLabel'), icon: <LucideIcon name={dirIcon} size={16} className="text-slate-400" />, value: dirLabel },
                                 ].map(({ label, icon, value }) => (
                                     <div key={label} className="flex items-start gap-3">
-                                        <div className="mt-0.5">{icon}</div>
+                                        <div className="mt-0.5 text-slate-400">{icon}</div>
                                         <div className="flex flex-col gap-0.5">
                                             <span className="text-[10px] font-extrabold uppercase tracking-[1.5px] text-slate-500">
                                                 {label}

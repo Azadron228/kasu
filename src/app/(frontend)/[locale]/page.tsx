@@ -45,7 +45,7 @@ export default async function HomePage({ params }: Args) {
       <HomeFeaturedDocsBlock locale={locale} />
 
       {/* ── CONTACTS ── */}
-      <ContactsBlock settings={settings} />
+      {/* <ContactsBlock settings={settings} /> */}
     </div>
   )
 }
