@@ -8,6 +8,7 @@ import PageClient from './page.client'
 import { LivePreviewListener } from '@/app/(frontend)/[locale]/components/LivePreviewListener'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import type { Page } from '@/payload-types'
+import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -35,7 +36,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const page = await queryPageBySlug({ slug: decodedSlug })
 
   if (!page) {
-    return null
+    notFound()
   }
 
   return (

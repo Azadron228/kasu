@@ -3,7 +3,6 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import RichText from '@/fields/RichText'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/app/(frontend)/[locale]/components/LivePreviewListener'
@@ -18,7 +17,8 @@ import { getTranslations } from 'next-intl/server'
 import { Media } from '@/collections/Media/components/Media'
 import type { News, NewsTag } from '@/payload-types'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { ChevronLeft, Calendar, Tag as TagIcon, Clock, Share2, Facebook, Twitter, Link as LinkIcon } from 'lucide-react'
+import { ChevronLeft, Calendar } from 'lucide-react'
+import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -82,7 +82,7 @@ export default async function NewsPost({ params: paramsPromise }: Args) {
   const post = await queryPostBySlug({ slug: decodedSlug })
 
   if (!post) {
-    return null
+    notFound()
   }
 
   const t = await getTranslations('news')
