@@ -377,10 +377,6 @@ export interface News {
   };
   publishedAt?: string | null;
   tags?: (number | NewsTag)[] | null;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
   slug: string;
   updatedAt: string;
   createdAt: string;
@@ -1099,7 +1095,6 @@ export interface NewsSelect<T extends boolean = true> {
       };
   publishedAt?: T;
   tags?: T;
-  generateSlug?: T;
   slug?: T;
   updatedAt?: T;
   createdAt?: T;

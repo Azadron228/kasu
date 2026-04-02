@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { generateAlt } from '@/hooks/generateAlt'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -59,8 +60,8 @@ export const Media: CollectionConfig = {
     adminThumbnail: 'thumbnail',
     imageSizes: [
       { name: 'thumbnail', width: 400, height: 300, crop: 'center' },
-      { name: 'card',      width: 800, height: 600, crop: 'center' },
-      { name: 'hero',      width: 1920, height: 800, crop: 'center' },
+      { name: 'card', width: 800, height: 600, crop: 'center' },
+      { name: 'hero', width: 1920, height: 800, crop: 'center' },
     ],
   },
 }

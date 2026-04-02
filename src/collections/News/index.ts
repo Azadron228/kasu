@@ -28,6 +28,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from 'payload'
+import { formatSlug } from '@/hooks/formatSlug'
 
 export const News: CollectionConfig<'news'> = {
   slug: 'news',
@@ -225,7 +226,18 @@ export const News: CollectionConfig<'news'> = {
       hasMany: true,
       relationTo: 'news-tags',
     },
-    slugField(),
+    {
+      name: 'slug',
+      type: 'text',
+      required: true,
+      unique: true,
+      admin: {
+        position: 'sidebar',
+      },
+      hooks: {
+        beforeValidate: [formatSlug('title')],
+      },
+    },
   ],
   hooks: {
     afterChange: [revalidateNews],

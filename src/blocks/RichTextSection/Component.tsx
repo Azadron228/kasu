@@ -10,11 +10,11 @@ type Props = RichTextSectionBlockProps & {
 
 export const RichTextSection: React.FC<Props> = ({ className, content }) => {
   return (
-    <section className={cn('rounded-[2rem] px-6 py-8 md:px-10 md:py-10', className)}>
+    <section>
       <RichText
         data={content}
         enableGutter={false}
-        className="text-brand-muted [&_p]:text-[1.02rem] [&_p]:leading-8"
+        className="text-brand-text"
       />
     </section>
   )

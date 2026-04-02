@@ -1,38 +1,65 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: runner
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #     target: runner
+  #   ports:
+  #     - '3060:3000'
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - kasu_network
+  #   volumes:
+  #     - ./public:/app/public
+  #   develop:
+  #     watch:
+  #       # Rebuild the image when dependency files change
+  #       - path: ./package.json
+  #         action: rebuild
+  #       - path: ./yarn.lock
+  #         action: rebuild
+  #       - path: ./package-lock.json
+  #         action: rebuild
+  #       - path: ./pnpm-lock.yaml
+  #         action: rebuild
+  #       # Sync source changes instantly (Next.js HMR handles the rest)
+  #       - path: ./src
+  #         target: /app/src
+  #         action: sync
+  #       - path: ./public
+  #         target: /app/public
+  #         action: sync
+  #       - path: ./next.config.js
+  #         target: /app/next.config.js
+  #         action: sync+restart
+
+
+  postgres:
+    image: postgres:16-alpine
     ports:
-      - '3060:3000'
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     env_file:
       - .env
     networks:
       - kasu_network
     volumes:
-      - ./public:/app/public
-    develop:
-      watch:
-        # Rebuild the image when dependency files change
-        - path: ./package.json
-          action: rebuild
-        - path: ./yarn.lock
-          action: rebuild
-        - path: ./package-lock.json
-          action: rebuild
-        - path: ./pnpm-lock.yaml
-          action: rebuild
-        # Sync source changes instantly (Next.js HMR handles the rest)
-        - path: ./src
-          target: /app/src
-          action: sync
-        - path: ./public
-          target: /app/public
-          action: sync
-        - path: ./next.config.js
-          target: /app/next.config.js
-          action: sync+restart
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: none
+
+volumes:
+  pg_data:
+    driver: local
 
 networks:
   kasu_network:
