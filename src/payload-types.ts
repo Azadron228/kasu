@@ -1654,6 +1654,12 @@ export interface Footer {
  */
 export interface Homepage {
   id: number;
+  heroTagline?: string | null;
+  heroTitle?: string | null;
+  heroDescription?: string | null;
+  heroWelcomeTitle?: string | null;
+  heroWelcomeRole?: string | null;
+  heroQuote?: string | null;
   stats?:
     | {
         number?: string | null;
@@ -1661,6 +1667,8 @@ export interface Homepage {
         id?: string | null;
       }[]
     | null;
+  aboutMission?: string | null;
+  aboutTag?: string | null;
   aboutBody?: {
     root: {
       type: string;
@@ -1830,6 +1838,12 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "homepage_select".
  */
 export interface HomepageSelect<T extends boolean = true> {
+  heroTagline?: T;
+  heroTitle?: T;
+  heroDescription?: T;
+  heroWelcomeTitle?: T;
+  heroWelcomeRole?: T;
+  heroQuote?: T;
   stats?:
     | T
     | {
@@ -1837,6 +1851,8 @@ export interface HomepageSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  aboutMission?: T;
+  aboutTag?: T;
   aboutBody?: T;
   aboutInfoBlocks?:
     | T

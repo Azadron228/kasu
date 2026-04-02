@@ -14,13 +14,13 @@ export default async function HeroBlock({ homepage }: { homepage: Homepage }) {
       <div className="relative z-10">
         <div className="inline-flex items-center gap-2 bg-sky/10 border border-sky/25 text-sky text-xs font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full mb-7">
           <span className="w-1.5 h-1.5 bg-sky rounded-full opacity-70"></span>
-          {t('tagline')}
+          {homepage?.heroTagline || t('tagline')}
         </div>
         <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-extrabold text-brand-white leading-[1.1] mb-6 whitespace-pre-line">
-          {t('title')}
+          {homepage?.heroTitle || t('title')}
         </h1>
         <p className="text-brand-white/70 text-lg leading-relaxed max-w-lg mb-10">
-          {t('desc')}
+          {homepage?.heroDescription || t('desc')}
         </p>
         <div className="flex flex-wrap gap-3.5">
           <Link
@@ -46,15 +46,15 @@ export default async function HeroBlock({ homepage }: { homepage: Homepage }) {
             </div>
             <div>
               <div className="font-serif text-brand-white text-base font-semibold leading-tight">
-                {t('welcomeTitle')}
+                {homepage?.heroWelcomeTitle || t('welcomeTitle')}
               </div>
               <div className="text-sky text-xs font-bold uppercase tracking-wider">
-                {t('welcomeRole')}
+                {homepage?.heroWelcomeRole || t('welcomeRole')}
               </div>
             </div>
           </div>
           <blockquote className="text-brand-white/80 text-sm leading-relaxed italic border-l-2 border-gold pl-3.5">
-            {t('quote')}
+            {homepage?.heroQuote || t('quote')}
           </blockquote>
         </div>
       </div>
