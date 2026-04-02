@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
-import { generateAlt } from '@/hooks/generateAlt'
+import { formatAlt } from '@/hooks/formatAlt'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -44,6 +44,9 @@ export const Media: CollectionConfig = {
       },
       localized: true,
       required: true,
+      hooks: {
+        beforeValidate: [formatAlt('filename')],
+      },
     },
     {
       name: 'caption',
