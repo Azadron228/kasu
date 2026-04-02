@@ -26,7 +26,7 @@ export const Documents: CollectionConfig = {
     },
     folders: true,
     upload: {
-        staticDir: path.resolve(dirname, '../../public/media'),
+        staticDir: path.resolve(dirname, '../../public/documents'),
     },
     admin: {
         useAsTitle: 'title',
