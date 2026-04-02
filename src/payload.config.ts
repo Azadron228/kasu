@@ -11,7 +11,6 @@ import { Media } from './collections/Media'
 import { News } from './collections/News'
 import { Users } from './collections/Users'
 import { Footer } from './globals/Footer/config'
-import { Header } from './globals/Header/config'
 import { Members } from './collections/Members'
 import { Regions } from './collections/Regions'
 import { Directions } from './collections/Directions'
@@ -96,7 +95,7 @@ export default buildConfig({
   }),
   collections: [Pages, News, Media, NewsTags, Users, Members, Regions, Directions, Programs, Documents, DocumentCategories],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Homepage, ProgramsPage, MembersPage, DocumentsPage, Settings, JoinPage],
+  globals: [Footer, Homepage, ProgramsPage, MembersPage, DocumentsPage, Settings, JoinPage],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
