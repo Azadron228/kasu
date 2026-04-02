@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: runner
+      target: dev
     ports:
       - '3060:3000'
     env_file:
@@ -12,6 +12,9 @@ services:
       - kasu_network
     volumes:
       - ./public:/app/public
+    depends_on:
+      postgres:
+        condition: service_healthy
     develop:
       watch:
         # Rebuild the image when dependency files change
