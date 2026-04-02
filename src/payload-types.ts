@@ -76,6 +76,7 @@ export interface Config {
     regions: Region;
     directions: Direction;
     programs: Program;
+    'programs-directions': ProgramsDirection;
     documents: Document;
     'document-categories': DocumentCategory;
     redirects: Redirect;
@@ -104,6 +105,7 @@ export interface Config {
     regions: RegionsSelect<false> | RegionsSelect<true>;
     directions: DirectionsSelect<false> | DirectionsSelect<true>;
     programs: ProgramsSelect<false> | ProgramsSelect<true>;
+    'programs-directions': ProgramsDirectionsSelect<false> | ProgramsDirectionsSelect<true>;
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
     'document-categories': DocumentCategoriesSelect<false> | DocumentCategoriesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -532,7 +534,7 @@ export interface Direction {
 export interface Program {
   id: number;
   name: string;
-  direction: number | Direction;
+  direction: number | ProgramsDirection;
   format: 'online' | 'offline' | 'blended';
   /**
    * e.g. 2 months, 6 weeks, Ongoing
@@ -540,6 +542,16 @@ export interface Program {
   duration: string;
   description?: string | null;
   member: number | Member;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs-directions".
+ */
+export interface ProgramsDirection {
+  id: number;
+  title: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -939,6 +951,10 @@ export interface PayloadLockedDocument {
         value: number | Program;
       } | null)
     | ({
+        relationTo: 'programs-directions';
+        value: number | ProgramsDirection;
+      } | null)
+    | ({
         relationTo: 'documents';
         value: number | Document;
       } | null)
@@ -1264,6 +1280,15 @@ export interface ProgramsSelect<T extends boolean = true> {
   duration?: T;
   description?: T;
   member?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs-directions_select".
+ */
+export interface ProgramsDirectionsSelect<T extends boolean = true> {
+  title?: T;
   updatedAt?: T;
   createdAt?: T;
 }

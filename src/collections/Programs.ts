@@ -44,7 +44,7 @@ export const Programs: CollectionConfig = {
     {
       name: 'direction',
       type: 'relationship',
-      relationTo: 'directions',
+      relationTo: 'programs-directions',
       required: true,
       label: {
         en: 'Direction',

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Program, Direction } from '@/payload-types'
+import { Program, ProgramsDirection } from '@/payload-types'
 import { useTranslations } from 'next-intl'
 import {
     Monitor,
@@ -41,10 +41,10 @@ const getFormatDetails = (format: string | null | undefined) => {
 export function ProgramCard({ prog, isOpen, toggleProgram }: ProgramCardProps) {
     const t = useTranslations('blocks.programsExplorer')
 
-    // Safely cast to Direction by checking if it's an object
-    const direction = (typeof prog.direction === 'object' ? prog.direction : null) as Direction | null
+    // Safely cast to ProgramsDirection by checking if it's an object
+    const direction = (typeof prog.direction === 'object' ? prog.direction : null) as ProgramsDirection | null
 
-    const dirIcon = direction?.icon ?? 'BookOpen'
+    const dirIcon = 'BookOpen'
     const dirLabel = direction?.title ?? ''
 
     const fmtLabel = prog.format ? t(prog.format as any) : ''

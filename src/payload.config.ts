@@ -22,6 +22,7 @@ import localization from './i18n/localization'
 import { ProgramsPage } from './globals/Programpage'
 import { MembersPage } from './globals/MembersPage'
 import { Programs } from './collections/Programs'
+import { ProgramsDirections } from './collections/ProgramsDirections'
 import { Documents } from './collections/Documents'
 import { DocumentCategories } from './collections/DocumentCategories'
 import { Settings } from './globals/Settings'
@@ -94,7 +95,7 @@ export default buildConfig({
       max: 5,
     },
   }),
-  collections: [Pages, News, Media, NewsTags, Users, Members, Regions, Directions, Programs, Documents, DocumentCategories],
+  collections: [Pages, News, Media, NewsTags, Users, Members, Regions, Directions, Programs, ProgramsDirections, Documents, DocumentCategories],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Footer, Homepage, ProgramsPage, MembersPage, DocumentsPage, Settings, JoinPage],
   plugins,
