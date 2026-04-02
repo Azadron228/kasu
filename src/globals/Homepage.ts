@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { anyone } from '@/access/anyone'
+import { revalidateGlobal } from '@/hooks/revalidateGlobal'
 
 import {
   lexicalEditor,
@@ -12,6 +13,9 @@ export const Homepage: GlobalConfig = {
   slug: 'homepage',
   admin: { group: 'Pages' },
   access: { read: anyone },
+  hooks: {
+    afterChange: [revalidateGlobal('homepage')],
+  },
   fields: [
     {
       type: 'tabs',

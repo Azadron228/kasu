@@ -1,9 +1,13 @@
 import type { GlobalConfig } from 'payload'
 import { anyone } from '@/access/anyone'
+import { revalidateGlobal } from '@/hooks/revalidateGlobal'
 
 export const Settings: GlobalConfig = {
     slug: 'settings',
     access: { read: anyone },
+    hooks: {
+        afterChange: [revalidateGlobal('settings')],
+    },
     fields: [
         {
             name: 'contactEmail',

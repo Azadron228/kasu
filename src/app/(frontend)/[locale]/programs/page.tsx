@@ -15,7 +15,7 @@ export default async function ProgramsPage({ params }: Args) {
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('programs')
-  const page = (await getCachedGlobal('programs-page', 1)()) as ProgramsPageType
+  const page = (await getCachedGlobal('programs-page', locale, 1)()) as ProgramsPageType
 
   return (
     <div className="min-h-screen bg-page-bg">

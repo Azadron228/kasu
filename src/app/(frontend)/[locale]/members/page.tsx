@@ -23,7 +23,7 @@ export default async function MembersPage({ params, searchParams }: Args) {
     searchParams,
     getTranslations<'members'>('members')
   ])
-  const page = (await getCachedGlobal('members-page', 1)()) as MembersPageType
+  const page = (await getCachedGlobal('members-page', locale, 1)()) as MembersPageType
 
   const status = typeof queryParams.status === 'string' ? queryParams.status : undefined
   const region = typeof queryParams.region === 'string' ? queryParams.region : undefined

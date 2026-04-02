@@ -18,7 +18,7 @@ export default async function DocumentsPage({ params }: Args) {
 
   const [t, page, documentsData] = await Promise.all([
     getTranslations('documents'),
-    getCachedGlobal('documents-page', 1)() as any,
+    getCachedGlobal('documents-page', locale, 1)() as any,
     getDocumentsData(locale)
   ])
 

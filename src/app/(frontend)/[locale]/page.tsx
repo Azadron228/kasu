@@ -21,8 +21,8 @@ type Args = {
 export default async function HomePage({ params }: Args) {
   const { locale } = await params
   setRequestLocale(locale)
-  const homepage = (await getCachedGlobal('homepage', 1)()) as Homepage
-  const settings = (await getCachedGlobal('settings', 1)()) as Setting
+  const homepage = (await getCachedGlobal('homepage', locale, 1)()) as Homepage
+  const settings = (await getCachedGlobal('settings', locale, 1)()) as Setting
   return (
     <div>
       <HeroBlock homepage={homepage} />

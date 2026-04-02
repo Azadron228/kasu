@@ -1,5 +1,6 @@
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import { revalidateGlobal } from '@/hooks/revalidateGlobal'
 import type { GlobalConfig } from 'payload'
 
 import {
@@ -16,6 +17,9 @@ export const JoinPage: GlobalConfig = {
   access: {
     read: anyone,
     update: authenticated,
+  },
+  hooks: {
+    afterChange: [revalidateGlobal('join-page')],
   },
   fields: [
     {

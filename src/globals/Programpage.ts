@@ -1,5 +1,6 @@
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import { revalidateGlobal } from '@/hooks/revalidateGlobal'
 import type { GlobalConfig } from 'payload'
 
 export const ProgramsPage: GlobalConfig = {
@@ -8,6 +9,9 @@ export const ProgramsPage: GlobalConfig = {
   access: {
     read: anyone,
     update: authenticated,
+  },
+  hooks: {
+    afterChange: [revalidateGlobal('programs-page')],
   },
   fields: [
     // ── HEADER ──

@@ -3,12 +3,17 @@ import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { revalidatePaths } from '@/hooks/revalidatePaths'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export const Documents: CollectionConfig = {
     slug: 'documents',
+    hooks: {
+        afterChange: [revalidatePaths(['/', '/documents'])],
+        afterDelete: [revalidatePaths(['/', '/documents'])],
+    },
     labels: {
         singular: {
             en: 'Document',

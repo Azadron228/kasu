@@ -25,7 +25,7 @@ export default async function JoinPage({ params }: Args) {
   setRequestLocale(locale)
 
   const t = await getTranslations('join')
-  const page = (await getCachedGlobal('join-page', 2)()) as JoinPageType
+  const page = (await getCachedGlobal('join-page', locale, 2)()) as JoinPageType
 
   // Resolve the form relationship (depth=2 already populates it)
   const form = page?.form && typeof page.form !== 'number' ? (page.form as FormType) : null

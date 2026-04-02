@@ -3,6 +3,7 @@ import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'paylo
 import { revalidatePath, revalidateTag } from 'next/cache'
 
 import type { News } from '../../../payload-types'
+import localization from '@/i18n/localization'
 
 export const revalidateNews: CollectionAfterChangeHook<any> = ({
   doc,
@@ -17,6 +18,13 @@ export const revalidateNews: CollectionAfterChangeHook<any> = ({
 
       revalidatePath(path)
       revalidateTag('news-sitemap')
+
+      // Revalidate homepage and news listing for all locales
+      localization.locales.forEach((locale) => {
+        payload.logger.info(`Revalidating paths for locale: ${locale.code}`)
+        revalidatePath(`/${locale.code}`)
+        revalidatePath(`/${locale.code}/news`)
+      })
     }
 
     // If the news was previously published, we need to revalidate the old path
@@ -27,6 +35,12 @@ export const revalidateNews: CollectionAfterChangeHook<any> = ({
 
       revalidatePath(oldPath)
       revalidateTag('news-sitemap')
+
+      // Revalidate homepage and news listing for all locales
+      localization.locales.forEach((locale) => {
+        revalidatePath(`/${locale.code}`)
+        revalidatePath(`/${locale.code}/news`)
+      })
     }
   }
   return doc
@@ -38,6 +52,12 @@ export const revalidateDelete: CollectionAfterDeleteHook<any> = ({ doc, req: { c
 
     revalidatePath(path)
     revalidateTag('news-sitemap')
+
+    // Revalidate homepage and news listing for all locales
+    localization.locales.forEach((locale) => {
+      revalidatePath(`/${locale.code}`)
+      revalidatePath(`/${locale.code}/news`)
+    })
   }
 
   return doc
