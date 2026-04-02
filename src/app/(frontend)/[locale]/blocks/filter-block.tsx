@@ -22,6 +22,7 @@ export default async function FilterBlock() {
     {
       label: t('regionLabel'),
       paramName: 'region',
+      type: 'select',
       options: [
         { label: t('allRegions'), value: '' },
         ...regions.map((region) => ({

@@ -24,9 +24,9 @@ export const Directions: CollectionConfig = {
     },
   },
   access: { create: authenticated, delete: authenticated, read: anyone, update: authenticated },
+  defaultSort: 'order',
   admin: {
     useAsTitle: 'title',
-    defaultSort: 'order',
     defaultColumns: ['order', 'title', 'description'],
   },
   fields: [
