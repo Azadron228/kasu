@@ -35,7 +35,7 @@ export default async function RootLayout({ children, params }: Args) {
     <html lang={locale} suppressHydrationWarning>
       <head>
         <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
+        {/* <link href="/favicon.ico" rel="icon" sizes="32x32" /> */}
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <link
           href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Nunito:wght@300;400;500;600;700;800&display=swap"

@@ -2,6 +2,14 @@ import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
 import type { GlobalConfig } from 'payload'
 
+import {
+  lexicalEditor,
+  HeadingFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
+  UploadFeature,
+} from '@payloadcms/richtext-lexical'
+
 export const JoinPage: GlobalConfig = {
   slug: 'join-page',
   admin: { group: 'Pages' },
@@ -34,6 +42,31 @@ export const JoinPage: GlobalConfig = {
         'Станьте частью профессионального сообщества, объединяющего серебряные университеты Казахстана.',
     },
     {
+      name: 'body',
+      type: 'richText',
+      localized: true,
+      label: 'Основной текст',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+            UnorderedListFeature(),
+            OrderedListFeature(),
+
+            UploadFeature({
+              collections: {
+                media: {
+                  fields: [
+                  ],
+                },
+              },
+            }),
+          ]
+        },
+      }),
+    },
+    {
       name: 'form',
       type: 'relationship',
       relationTo: 'forms',
@@ -42,28 +75,6 @@ export const JoinPage: GlobalConfig = {
         description:
           'Выберите форму, созданную в разделе "Forms". Если форма не выбрана — ничего не отображается.',
       },
-    },
-    {
-      name: 'infoBoxes',
-      type: 'array',
-      label: 'Информационные блоки (справа)',
-      admin: {
-        description: 'Иконка + заголовок + текст, которые показываются справа от формы',
-      },
-      fields: [
-        {
-          name: 'icon',
-          type: 'text',
-          label: 'Иконка (Lucide или Emoji)',
-          defaultValue: 'GraduationCap',
-          admin: {
-            description: 'Название иконки Lucide (напр. GraduationCap, Handshake, ScrollText) или Emoji'
-          }
-        },
-        { name: 'title', type: 'text', localized: true, label: 'Заголовок блока' },
-
-        { name: 'body', type: 'textarea', localized: true, label: 'Текст блока' },
-      ],
     },
   ],
 }

@@ -1764,24 +1764,25 @@ export interface JoinPage {
   tag?: string | null;
   title: string;
   subtitle?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
    * Выберите форму, созданную в разделе "Forms". Если форма не выбрана — ничего не отображается.
    */
   form?: (number | null) | Form;
-  /**
-   * Иконка + заголовок + текст, которые показываются справа от формы
-   */
-  infoBoxes?:
-    | {
-        /**
-         * Название иконки Lucide (напр. GraduationCap, Handshake, ScrollText) или Emoji
-         */
-        icon?: string | null;
-        title?: string | null;
-        body?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1936,15 +1937,8 @@ export interface JoinPageSelect<T extends boolean = true> {
   tag?: T;
   title?: T;
   subtitle?: T;
+  body?: T;
   form?: T;
-  infoBoxes?:
-    | T
-    | {
-        icon?: T;
-        title?: T;
-        body?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

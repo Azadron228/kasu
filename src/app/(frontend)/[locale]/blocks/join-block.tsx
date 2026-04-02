@@ -29,12 +29,6 @@ export async function JoinBlock({ homepage }: { homepage: Homepage }) {
         >
           {t('joinBtn')}
         </Link>
-        <Link
-          href="/about"
-          className="bg-brand-white/10 border border-brand-white/25 text-brand-white font-bold text-sm px-10 py-4 rounded-full hover:bg-brand-white/20 transition-all font-sans"
-        >
-          {t('joinConditions')}
-        </Link>
       </div>
     </section>
   )

@@ -233,6 +233,7 @@
     "successTitle": "Application submitted!",
     "successMessage": "Thank you! We will contact you shortly.",
     "errorMessage": "Something went wrong. Please try again.",
+    "requiredFields": "Please fill in the required fields: {fields}",
     "submitting": "Sending..."
   }
 }

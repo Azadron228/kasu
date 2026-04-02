@@ -1,14 +1,14 @@
 import React from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
-import { TypedLocale, getPayload } from 'payload'
-import configPromise from '@payload-config'
+import { TypedLocale } from 'payload'
 import type { JoinPage as JoinPageType, Form as FormType } from '@/payload-types'
 import PageHeaderBlock from '../blocks/page-header-block'
 import JoinFormBlock from '../blocks/join-form-block'
 import type { Metadata } from 'next'
-import { ClipboardList, GraduationCap, Handshake, ScrollText, Phone } from 'lucide-react'
+import { ClipboardList } from 'lucide-react'
 import { LucideIcon } from '../components/ui/lucide-icon'
+import RichText from '@/fields/RichText'
 
 type Args = {
   params: Promise<{ locale: TypedLocale }>
@@ -30,10 +30,8 @@ export default async function JoinPage({ params }: Args) {
   // Resolve the form relationship (depth=2 already populates it)
   const form = page?.form && typeof page.form !== 'number' ? (page.form as FormType) : null
 
-  const infoBoxes = page?.infoBoxes ?? []
-
   return (
-    <div className="min-h-screen bg-page-bg">
+    <div className="min-h-screen bg-page-bg pb-20">
       {/* ── Page header ── */}
       <PageHeaderBlock
         tag={page?.tag ?? t('tag')}
@@ -43,42 +41,37 @@ export default async function JoinPage({ params }: Args) {
       />
 
       {/* ── Main content ── */}
-      <div className="px-6 md:px-12 xl:px-[72px] py-14 max-w-[1280px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 items-start">
+      <div className="px-6 md:px-12 xl:px-[72px] py-14 max-w-[900px] mx-auto">
+        <div className="space-y-12">
+
+          {/* ── Body content ── */}
+          {page?.body && (
+            <div className="prose prose-slate max-w-none prose-headings:font-serif prose-headings:text-navy prose-p:text-brand-muted prose-strong:text-navy prose-li:text-brand-muted">
+              <RichText data={page.body} enableGutter={false} enableProse={false} />
+            </div>
+          )}
 
           {/* ── Form card ── */}
-          <div className="bg-white rounded-3xl shadow-[0_4px_40px_rgba(0,0,0,0.07)] p-8 md:p-12 border border-silver-lt/50">
+          <div className="bg-white rounded-[32px] shadow-[0_8px_40px_rgba(0,0,0,0.04)] p-8 md:p-12 border border-silver-lt/40 relative overflow-hidden">
+            <h2 className="font-serif text-2xl text-navy font-bold mb-8 flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-sky/10 flex items-center justify-center text-sky">
+                <ClipboardList size={20} />
+              </div>
+              {t('listTitle')}
+            </h2>
+
             {form ? (
               <JoinFormBlock form={form} />
             ) : (
-              <div className="text-center py-16 text-brand-muted">
+              <div className="text-center py-16 text-brand-muted bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
                 <ClipboardList className="w-16 h-16 mx-auto mb-4 opacity-20" />
-                <p className="text-sm">Форма заявки ещё не настроена в CMS.</p>
+                <p className="text-sm font-medium">Форма заявки ещё не настроена в CMS.</p>
               </div>
             )}
           </div>
+
         </div>
       </div>
-    </div>
-  )
-}
-
-function DefaultInfoBox({
-  icon,
-  title,
-  body,
-}: {
-  icon: React.ReactNode
-  title: string
-  body: string
-}) {
-  return (
-    <div className="bg-white rounded-2xl border border-silver-lt/60 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-      <div className="w-12 h-12 rounded-xl bg-sky-pale flex items-center justify-center text-[#1E3560] mb-4 shadow-inner">
-        {icon}
-      </div>
-      <h3 className="font-serif text-navy text-lg font-bold mb-2">{title}</h3>
-      <p className="text-brand-muted text-sm leading-relaxed">{body}</p>
     </div>
   )
 }
