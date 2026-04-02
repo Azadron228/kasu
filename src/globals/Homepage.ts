@@ -111,6 +111,25 @@ export const Homepage: GlobalConfig = {
             },
           ],
         },
+
+        // --- TAB 4: Directions ---
+        {
+          label: 'Directions',
+          fields: [
+            {
+              name: 'featuredDirections',
+              type: 'relationship',
+              relationTo: 'directions',
+              hasMany: true,
+              admin: {
+                description: {
+                  en: 'Select and order directions to display on the homepage. If empty, all directions will be shown.',
+                  ru: 'Выберите и упорядочите направления для отображения на главной странице. Если поле пустое, будут показаны все направления.',
+                },
+              },
+            },
+          ],
+        },
       ],
     },
   ],

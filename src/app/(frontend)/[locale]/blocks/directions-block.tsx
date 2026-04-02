@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server'
 
 import { TypedLocale } from 'payload'
 import { LucideIcon } from '../components/ui/lucide-icon'
+import { Homepage } from '@/payload-types'
 
 function DirectionCard({ dir }: { dir: any }) {
   return (
@@ -18,11 +19,26 @@ function DirectionCard({ dir }: { dir: any }) {
   )
 }
 
-export default async function DirectionsBlock({ locale }: { locale: TypedLocale }) {
-  const [directions, t] = await Promise.all([
-    getDirections(locale),
-    getTranslations('home')
-  ])
+export default async function DirectionsBlock({
+  homepage,
+  locale,
+}: {
+  homepage: Homepage
+  locale: TypedLocale
+}) {
+  const t = await getTranslations('home')
+
+  // Use featuredDirections from homepage if they exist, otherwise fetch all
+  let directions: any[] = []
+  const featured = (homepage as any).featuredDirections
+
+  if (featured && Array.isArray(featured) && featured.length > 0) {
+    directions = featured.map((item) => (typeof item === 'object' ? item : null)).filter(Boolean)
+  }
+
+  if (directions.length === 0) {
+    directions = await getDirections(locale)
+  }
   return (
     <section className="bg-sky-pale px-6 lg:px-16 py-20" id="activities">
       <div className="max-w-xl mb-12">

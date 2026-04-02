@@ -27,7 +27,7 @@ export default async function HomePage({ params }: Args) {
     <div>
       <HeroBlock homepage={homepage} />
       <StatsBlock homepage={homepage} />
-      <DirectionsBlock locale={locale} />
+      <DirectionsBlock homepage={homepage} locale={locale} />
 
       {/* ── ABOUT ── */}
       <AboutBlock homepage={homepage} />

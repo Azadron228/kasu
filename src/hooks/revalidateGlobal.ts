@@ -7,6 +7,10 @@ export const revalidateGlobal = (slug: string): GlobalAfterChangeHook => {
     payload.logger.info(`Revalidating global: ${slug}`)
     revalidateTag(`global_${slug}`)
 
+    // Also revalidate header and footer as they might depend on shared globals like settings
+    revalidateTag('global_header')
+    revalidateTag('global_footer')
+
     // Also revalidate the homepage for all locales just in case
     localization.locales.forEach((locale) => {
       const path = `/${locale.code}`

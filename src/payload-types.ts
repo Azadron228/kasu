@@ -1691,6 +1691,10 @@ export interface Homepage {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Select and order directions to display on the homepage. If empty, all directions will be shown.
+   */
+  featuredDirections?: (number | Direction)[] | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1862,6 +1866,7 @@ export interface HomepageSelect<T extends boolean = true> {
         body?: T;
         id?: T;
       };
+  featuredDirections?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
