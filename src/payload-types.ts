@@ -690,6 +690,15 @@ export interface Form {
             blockName?: string | null;
             blockType: 'textarea';
           }
+        | {
+            name: string;
+            label: string;
+            required?: boolean | null;
+            width?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'fileUpload';
+          }
       )[]
     | null;
   submitButtonLabel?: string | null;
@@ -764,6 +773,7 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
+  uploadedFile?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -1449,6 +1459,16 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        fileUpload?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              required?: T;
+              width?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1486,6 +1506,7 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  uploadedFile?: T;
   updatedAt?: T;
   createdAt?: T;
 }

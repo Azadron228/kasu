@@ -5,13 +5,14 @@ import type { Form as FormType } from '@/payload-types'
 import { useTranslations } from 'next-intl'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
 import RichText from '@/fields/RichText'
+import { FileUploadField } from '@/blocks/FileUploadBlock/Component'
 
 type Field = NonNullable<FormType['fields']>[number]
 
 type FieldProps = {
   field: Field
-  value: string
-  onChange: (name: string, value: string) => void
+  value: any
+  onChange: (name: string, value: any) => void
   disabled?: boolean
   error?: boolean
 }
@@ -27,7 +28,7 @@ function FormField({ field, value, onChange, disabled, error }: FieldProps) {
   const required = 'required' in field ? field.required : false
   const width = 'width' in field ? (field as any).width : null
 
-  const isFullWidth = !width || width === 100 || field.blockType === 'textarea'
+  const isFullWidth = !width || width === 100 || field.blockType === 'textarea' || field.blockType === 'fileUpload'
 
   if (field.blockType === 'message') {
     return (
@@ -55,7 +56,7 @@ function FormField({ field, value, onChange, disabled, error }: FieldProps) {
           required={!!required}
           disabled={disabled}
           rows={5}
-          value={value}
+          value={value ?? ''}
           onChange={(e) => onChange(name, e.target.value)}
           className={`${baseInput} resize-none`}
         />
@@ -65,7 +66,7 @@ function FormField({ field, value, onChange, disabled, error }: FieldProps) {
             name={name}
             required={!!required}
             disabled={disabled}
-            value={value}
+            value={value ?? ''}
             onChange={(e) => onChange(name, e.target.value)}
             className={`${baseInput} appearance-none cursor-pointer`}
           >
@@ -97,6 +98,15 @@ function FormField({ field, value, onChange, disabled, error }: FieldProps) {
           </div>
           {label && <span className={`text-sm font-medium transition-colors ${error ? 'text-red-500' : 'text-navy/80 group-hover:text-navy'}`}>{label}</span>}
         </label>
+      ) : field.blockType === 'fileUpload' ? (
+        // --- Now using the extracted component ---
+        <FileUploadField
+          name={name}
+          required={!!required}
+          disabled={disabled}
+          onChange={onChange}
+          baseInputClasses={baseInput}
+        />
       ) : (
         <input
           type={
@@ -110,7 +120,7 @@ function FormField({ field, value, onChange, disabled, error }: FieldProps) {
           placeholder={placeholder ?? ''}
           required={!!required}
           disabled={disabled}
-          value={value}
+          value={value ?? ''}
           onChange={(e) => onChange(name, e.target.value)}
           className={baseInput}
         />
@@ -125,14 +135,13 @@ type Props = {
 
 export default function JoinFormBlock({ form }: Props) {
   const t = useTranslations('join')
-  const [values, setValues] = useState<Record<string, string>>({})
+  const [values, setValues] = useState<Record<string, any>>({})
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error' | 'validation_error'>('idle')
   const [errorFields, setErrorFields] = useState<string[]>([])
 
-  const handleChange = (name: string, value: string) => {
+  const handleChange = (name: string, value: any) => {
     setValues((prev) => ({ ...prev, [name]: value }))
     if (status === 'validation_error') {
-      // Clear specific error field if possible, or just reset status
       setErrorFields(prev => prev.filter(f => f !== name))
       if (errorFields.length <= 1) setStatus('idle')
     }
@@ -150,11 +159,9 @@ export default function JoinFormBlock({ form }: Props) {
         const val = values[name]
         const label = 'label' in field ? field.label : name
 
-        // Check required
         if (required && (!val || (typeof val === 'string' && val.trim() === '') || val === 'false')) {
           missingFields.push(name)
         } else if (val && typeof val === 'string' && val.trim() !== '') {
-          // Check formats
           if (field.blockType === 'email') {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
             if (!emailRegex.test(val)) {
@@ -180,15 +187,38 @@ export default function JoinFormBlock({ form }: Props) {
 
     setStatus('submitting')
 
-    const submissionData = Object.entries(values).map(([field, value]) => ({ field, value }))
-
     try {
+      const submissionData: { field: string; value: string }[] = []
+      let uploadedFileId: string | null = null
+
+      for (const [field, value] of Object.entries(values)) {
+        if (value instanceof File) {
+          const formData = new FormData()
+          formData.append('file', value)
+          const mediaRes = await fetch('/api/media', {
+            method: 'POST',
+            body: formData,
+          })
+
+          if (!mediaRes.ok) throw new Error('File upload failed')
+
+          const mediaData = await mediaRes.json()
+
+          uploadedFileId = mediaData.doc?.id
+
+          submissionData.push({ field, value: mediaData.doc?.url || `File ID: ${mediaData.doc?.id}` })
+        } else {
+          submissionData.push({ field, value })
+        }
+      }
+
       const res = await fetch(`/api/form-submissions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           form: form.id,
           submissionData,
+          ...(uploadedFileId && { uploadedFile: uploadedFileId })
         }),
       })
 
@@ -228,7 +258,7 @@ export default function JoinFormBlock({ form }: Props) {
             <FormField
               key={field.id ?? name}
               field={field}
-              value={values[name] ?? ''}
+              value={values[name]}
               onChange={handleChange}
               disabled={status === 'submitting'}
               error={errorFields.includes(name)}

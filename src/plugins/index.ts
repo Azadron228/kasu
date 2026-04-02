@@ -12,6 +12,7 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 
 import { News } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { FileUploadBlock } from '@/blocks/FileUploadBlock/config'
 
 const generateTitle: GenerateTitle<News> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
@@ -57,6 +58,7 @@ export const plugins: Plugin[] = [
   formBuilderPlugin({
     fields: {
       payment: false,
+      fileUpload: FileUploadBlock, // 2. Register the custom field block here
     },
     formOverrides: {
       fields: ({ defaultFields }) => {
@@ -78,6 +80,21 @@ export const plugins: Plugin[] = [
           return field
         })
       },
+    },
+    // 3. Override form submissions to explicitly store and link the uploaded file
+    formSubmissionOverrides: {
+      fields: ({ defaultFields }) => [
+        ...defaultFields,
+        {
+          name: 'uploadedFile',
+          label: 'Uploaded File',
+          type: 'upload',
+          relationTo: 'media', // <-- Update this if your upload collection slug is different (e.g., 'images' or 'uploads')
+          admin: {
+            position: 'sidebar',
+          },
+        },
+      ],
     },
   }),
   searchPlugin({
