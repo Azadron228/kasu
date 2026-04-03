@@ -6,6 +6,7 @@ export async function getDocumentsData(locale: TypedLocale) {
         collection: 'document-categories',
         sort: 'order',
         limit: 50,
+        locale,
     })
 
     const { docs: documents } = await payload.find({
@@ -20,6 +21,7 @@ export async function getDocumentsData(locale: TypedLocale) {
         collection: 'payload-folders',
         limit: 200,
         depth: 1,
+        locale,
     })
 
     return { categories, documents, folders }
@@ -30,6 +32,7 @@ export async function getFeaturedDocuments(locale: TypedLocale) {
         collection: 'document-categories',
         sort: 'order',
         limit: 50,
+        locale,
     })
 
     const { docs: featured } = await payload.find({

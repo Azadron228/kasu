@@ -48,6 +48,10 @@ export default buildConfig({
       ({ collection }) => {
         return {
           ...collection,
+          admin: {
+            ...collection.admin,
+            useAsTitle: 'name',
+          },
           fields: (collection.fields || []).map((field: any) => {
 
             if ('name' in field && field.name === 'name') {

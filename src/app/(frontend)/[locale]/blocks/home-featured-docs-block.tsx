@@ -101,24 +101,29 @@ export default async function HomeFeaturedDocsBlock({ locale }: Props) {
 
             {/* Document links list */}
             <ul className="space-y-0">
-              {docs.map((doc: any, i) => (
-                <li key={doc.id} className={i < docs.length - 1 ? 'border-b border-silver-lt' : ''}>
-                  <a
-                    href={doc.url ?? '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 py-1.5 text-steel text-[12.5px] font-bold no-underline transition-colors hover:text-navy"
-                  >
-                    <span className="shrink-0 text-[#A8B8CC]">{getFileIcon(doc.mimeType)}</span>
-                    <span className="flex-1 leading-tight">{doc.title}</span>
-                    {doc.date && (
-                      <span className="shrink-0 text-[10.5px] font-semibold text-silver ml-1">
-                        {formatDate(doc.date, locale)}
-                      </span>
-                    )}
-                  </a>
-                </li>
-              ))}
+              {docs.map((doc: any, i) => {
+                const file = typeof doc.file === 'object' ? doc.file : null
+                const url = file?.url ?? '#'
+                const mimeType = file?.mimeType ?? null
+                return (
+                  <li key={doc.id} className={i < docs.length - 1 ? 'border-b border-silver-lt' : ''}>
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 py-1.5 text-steel text-[12.5px] font-bold no-underline transition-colors hover:text-navy"
+                    >
+                      <span className="shrink-0 text-[#A8B8CC]">{getFileIcon(mimeType)}</span>
+                      <span className="flex-1 leading-tight">{doc.title}</span>
+                      {doc.date && (
+                        <span className="shrink-0 text-[10.5px] font-semibold text-silver ml-1">
+                          {formatDate(doc.date, locale)}
+                        </span>
+                      )}
+                    </a>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         ))}

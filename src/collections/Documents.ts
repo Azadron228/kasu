@@ -25,9 +25,6 @@ export const Documents: CollectionConfig = {
         },
     },
     folders: true,
-    upload: {
-        staticDir: path.resolve(dirname, '../../public/documents'),
-    },
     admin: {
         useAsTitle: 'title',
         defaultColumns: ['title', 'category', 'fileFormat', 'date', 'isNew'],
@@ -49,6 +46,17 @@ export const Documents: CollectionConfig = {
                 en: 'Title',
                 ru: 'Название документа',
             },
+        },
+        {
+            name: 'file',
+            type: 'upload',
+            relationTo: 'media', // <-- Must match the slug of your generic media collection
+            localized: true,     // <-- THE MAGIC! Different file per locale
+            required: true,
+            label: {
+                en: 'Document File',
+                ru: 'Файл документа',
+            }
         },
         {
             name: 'description',

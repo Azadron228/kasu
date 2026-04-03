@@ -292,6 +292,7 @@ export interface FolderInterface {
 export interface Document {
   id: number;
   title: string;
+  file: number | Media;
   description?: string | null;
   category: number | DocumentCategory;
   date: string;
@@ -299,15 +300,6 @@ export interface Document {
   folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1308,6 +1300,7 @@ export interface ProgramsDirectionsSelect<T extends boolean = true> {
  */
 export interface DocumentsSelect<T extends boolean = true> {
   title?: T;
+  file?: T;
   description?: T;
   category?: T;
   date?: T;
@@ -1315,15 +1308,6 @@ export interface DocumentsSelect<T extends boolean = true> {
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

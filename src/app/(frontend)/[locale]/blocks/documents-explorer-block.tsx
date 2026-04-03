@@ -4,6 +4,7 @@ import React, { useMemo, useState, useCallback } from 'react'
 import { Document, DocumentCategory, FolderInterface } from '@/payload-types'
 import DocumentsSidebar from './documents-sidebar'
 import DocumentsContent from './documents-list'
+import { useTranslations } from 'next-intl'
 
 type Props = {
     categories: DocumentCategory[]
@@ -61,6 +62,7 @@ function buildFolderTree(
 }
 
 export default function DocumentsExplorerBlock({ categories, documents, folders }: Props) {
+    const t = useTranslations('documents')
     const { roots: folderRoots, map: folderMap } = useMemo(
         () => buildFolderTree(folders),
         [folders],
@@ -69,7 +71,7 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
     const [currentFolderId, setCurrentFolderId] = useState<number | 'root'>('root')
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | 'other' | null>(null)
     const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([
-        { id: 'root', name: 'Все документы' },
+        { id: 'root', name: t('allDocuments') },
     ])
     const [expandedFolders, setExpandedFolders] = useState<Set<number>>(new Set())
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -80,21 +82,21 @@ export default function DocumentsExplorerBlock({ categories, documents, folders 
             setSelectedCategoryId(null)
             setIsSidebarOpen(false)
             if (folderId === 'root') {
-                setBreadcrumbs([{ id: 'root', name: 'Все документы' }])
+                setBreadcrumbs([{ id: 'root', name: t('allDocuments') }])
             } else if (parentChain) {
                 setBreadcrumbs([
-                    { id: 'root', name: 'Все документы' },
+                    { id: 'root', name: t('allDocuments') },
                     ...parentChain,
                     { id: folderId, name: folderName },
                 ])
             } else {
                 setBreadcrumbs([
-                    { id: 'root', name: 'Все документы' },
+                    { id: 'root', name: t('allDocuments') },
                     { id: folderId, name: folderName },
                 ])
             }
         },
-        [],
+        [t],
     )
 
     const navigateToBreadcrumb = useCallback((index: number) => {

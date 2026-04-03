@@ -1,9 +1,8 @@
-'use client'
-
 import React from 'react'
 import { DocumentCategory } from '@/payload-types'
 import { BreadcrumbItem, FolderNode } from './documents-explorer-block'
 import { FolderOpen, Folder, Folders, FileText, ChevronRight, X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 type Props = {
     categories: DocumentCategory[]
@@ -120,6 +119,7 @@ export default function DocumentsSidebar({
     isOpen,
     onClose,
 }: Props) {
+    const t = useTranslations('documents')
     const isRoot = currentFolderId === 'root'
 
     return (
@@ -142,7 +142,7 @@ export default function DocumentsSidebar({
                     {/* Mobile header */}
                     <div className="flex items-center justify-between mb-6 lg:hidden">
                         <p className="text-[10px] font-extrabold uppercase tracking-[2.5px] text-[#56647A]">
-                            Навигация
+                            {t('navigation')}
                         </p>
                         <button 
                             onClick={onClose}
@@ -154,7 +154,7 @@ export default function DocumentsSidebar({
 
                     {/* Title (Desktop) */}
                     <p className="hidden lg:block mb-3 px-2 text-[10px] font-extrabold uppercase tracking-[2.5px] text-[#56647A]">
-                        Архив документов
+                        {t('archiveTitle')}
                     </p>
 
                 <nav>
@@ -162,7 +162,7 @@ export default function DocumentsSidebar({
                         {/* Root — All documents */}
                         <li>
                             <button
-                                onClick={() => onNavigate('root', 'Все документы')}
+                                onClick={() => onNavigate('root', t('allDocuments'))}
                                 className={[
                                     'flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left transition-all duration-150',
                                     isRoot
@@ -178,7 +178,7 @@ export default function DocumentsSidebar({
                                 <span
                                     className={`flex-1 truncate text-[13px] font-semibold ${isRoot ? 'text-white' : 'text-[#1A2438]'}`}
                                 >
-                                    Все документы
+                                    {t('allDocuments')}
                                 </span>
                                 <span
                                     className={`shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-extrabold ${isRoot ? 'bg-white/20 text-white' : 'bg-[#E4EBF3] text-[#56647A]'}`}
@@ -209,7 +209,7 @@ export default function DocumentsSidebar({
                     <>
                         <div className="my-4 h-px bg-[#E4EBF3]" />
                         <p className="mb-3 px-2 text-[10px] font-extrabold uppercase tracking-[2.5px] text-[#56647A]">
-                            Категории
+                            {t('categories')}
                         </p>
                         <ul className="space-y-0.5">
                             {categories.map((cat: any) => {
@@ -261,7 +261,7 @@ export default function DocumentsSidebar({
                                         >
                                             <FileText size={16} />
                                         </span>
-                                        <span className="flex-1 truncate">Прочее</span>
+                                        <span className="flex-1 truncate">{t('other')}</span>
                                     </button>
                                 </li>
                             )}

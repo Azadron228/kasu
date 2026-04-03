@@ -1,5 +1,5 @@
 import React from 'react'
-import { Document } from '@/payload-types'
+import { Document, Media } from '@/payload-types'
 import { FolderNode } from './documents-explorer-block'
 import { FileEdit, Folder, Inbox } from 'lucide-react'
 import { format } from 'date-fns'
@@ -8,13 +8,16 @@ import { ru } from 'date-fns/locale'
 export function formatFilesize(bytes?: number | null): string {
     if (!bytes) return '—'
     if (bytes < 1024) return `${bytes} Б`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} КБ`
-    return `${(bytes / (1024 * 1024)).toFixed(1)} МБ`
+    if (bytes < 1024 * 1024) return `${((bytes as number) / 1024).toFixed(0)} КБ`
+    return `${((bytes as number) / (1024 * 1024)).toFixed(1)} МБ`
 }
 
 
 export function DocRow({ doc }: { doc: Document }) {
     const cat = typeof doc.category === 'object' ? doc.category : null
+    const file = typeof doc.file === 'object' ? (doc.file as Media) : null
+    const url = file?.url ?? '#'
+    const filesize = file?.filesize ?? null
 
     return (
         <tr className="group border-b border-[#E4EBF3] transition-colors last:border-0 hover:bg-[#EAF2FA]">
@@ -27,7 +30,7 @@ export function DocRow({ doc }: { doc: Document }) {
                     </div>
                     <div className="min-w-0">
                         <a
-                            href={doc.url ?? '#'}
+                            href={url}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block text-[13px] sm:text-[13.5px] font-bold text-[#1E3560] hover:underline"
@@ -61,13 +64,13 @@ export function DocRow({ doc }: { doc: Document }) {
             </td>
 
             <td className="hidden lg:table-cell px-4 py-3.5 text-right text-[12px] text-[#56647A]">
-                {formatFilesize(doc.filesize)}
+                {formatFilesize(filesize)}
             </td>
 
             <td className="px-3 py-3.5 sm:px-4">
                 <div className="flex items-center justify-end gap-1.5">
                     <a
-                        href={doc.url ?? '#'}
+                        href={url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 rounded-lg bg-[#1E3560] px-2.5 py-1.5 sm:px-3 text-[10px] sm:text-[11px] font-extrabold text-white transition-colors hover:bg-[#2A4A7F]"

@@ -1,9 +1,8 @@
-'use client'
-
 import React, { useState } from 'react'
-import { Document, DocumentCategory, FolderInterface } from '@/payload-types'
+import { Document, DocumentCategory, FolderInterface, Media } from '@/payload-types'
 import { BreadcrumbItem, FolderNode } from './documents-explorer-block'
 import { ChevronRight, Search, FileText, FileEdit, Menu } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 type Props = {
     categories: DocumentCategory[]
@@ -41,6 +40,7 @@ export default function DocumentsContent({
     onBreadcrumb,
     onOpenSidebar,
 }: Props) {
+    const t = useTranslations('documents')
     const [search, setSearch] = useState('')
 
     const filteredDocs = search.trim()
@@ -50,7 +50,6 @@ export default function DocumentsContent({
                 (d.description ?? '').toLowerCase().includes(search.toLowerCase()),
         )
         : viewData.documents
-
     const isRoot = currentFolderId === 'root'
     const isSearching = search.trim().length > 0
 
@@ -64,7 +63,7 @@ export default function DocumentsContent({
                             onClick={onOpenSidebar}
                             className="flex lg:hidden shrink-0 items-center gap-2 rounded-xl bg-[#EAF2FA] px-3 py-2 text-[12px] font-bold text-[#1E3560] transition-colors hover:bg-[#1E3560]/10"
                         >
-                            <Menu size={16} /> <span className="hidden xs:inline">Меню</span>
+                            <Menu size={16} /> <span className="hidden xs:inline">{t('menu')}</span>
                         </button>
 
                         <nav className="flex items-center gap-1 text-[13px] overflow-hidden">
@@ -120,7 +119,7 @@ export default function DocumentsContent({
                         <input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Поиск документов…"
+                            placeholder={t('searchPlaceholder')}
                             className="w-full lg:w-48 xl:w-60 rounded-xl border-[1.5px] border-[#E4EBF3] bg-[#EAF2FA] py-2 pl-9 pr-3 text-[13px] text-[#1A2438] outline-none transition-all placeholder:text-[#A8B8CC] focus:border-[#4A6FA5] focus:bg-white"
                         />
                     </div>
@@ -132,12 +131,12 @@ export default function DocumentsContent({
                 {isSearching && (
                     <section>
                         <h2 className="mb-4 text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
-                            Результаты поиска ({filteredDocs.length})
+                            {t('searchResults', { count: filteredDocs.length })}
                         </h2>
                         {filteredDocs.length > 0 ? (
                             <FileTableWrapper docs={filteredDocs} />
                         ) : (
-                            <EmptyState title="Ничего не найдено" desc="Попробуйте изменить поисковый запрос" />
+                            <EmptyState title={t('noResults')} desc={t('noResultsDesc')} />
                         )}
                     </section>
                 )}
@@ -149,14 +148,15 @@ export default function DocumentsContent({
                         {isRoot && featured.length > 0 && !selectedCategoryId && (
                             <section className="mb-10">
                                 <h2 className="mb-4 text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
-                                    Избранные документы
+                                    {t('featured')}
                                 </h2>
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     {featured.map((doc: any) => {
+                                        const url = typeof doc.file === 'object' ? (doc.file as Media).url : '#'
                                         return (
                                             <a
                                                 key={doc.id}
-                                                href={doc.url ?? '#'}
+                                                href={url ?? '#'}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="group relative flex flex-col overflow-hidden rounded-2xl border-[1.5px] border-[#E4EBF3] bg-white p-6 shadow-[0_4px_20px_rgba(30,53,96,0.07)] transition-all duration-200 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:bg-gradient-to-r before:from-[#1E3560] before:to-[#4A6FA5] hover:-translate-y-1 hover:border-[#B8D0E8] hover:shadow-[0_16px_48px_rgba(30,53,96,0.14)]"
@@ -217,8 +217,7 @@ export default function DocumentsContent({
                                             <div className="mb-4 flex items-center gap-2">
                                                 <FileText size={18} className="text-[#A8B8CC]" />
                                                 <h2 className="text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
-                                                    {/* Fallback to localized 'Documents' if 'documents:docsFallback' is available, or use a default */}
-                                                    Прочее
+                                                    {t('other')}
                                                 </h2>
                                             </div>
                                             <FileTableWrapper docs={groupedByCategory['other']} />
@@ -231,14 +230,14 @@ export default function DocumentsContent({
                                 {filteredDocs.length > 0 && (
                                     <section>
                                         <h2 className="mb-4 text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
-                                            Файлы
+                                            {t('files')}
                                         </h2>
                                         <FileTableWrapper docs={filteredDocs} />
                                     </section>
                                 )}
 
                                 {filteredDocs.length === 0 && viewData.subFolders.length === 0 && (
-                                    <EmptyState title="Папка пуста" desc="Документы ещё не загружены в этот раздел." />
+                                    <EmptyState title={t('emptyFolder')} desc={t('emptyFolderDesc')} />
                                 )}
                             </>
                         )}
@@ -247,7 +246,7 @@ export default function DocumentsContent({
                         {viewData.subFolders.length > 0 && !selectedCategoryId && (
                             <section className="mb-8">
                                 <h2 className="mb-4 text-[10.5px] font-extrabold uppercase tracking-[3px] text-[#56647A]">
-                                    Папки
+                                    {t('folders')}
                                 </h2>
                                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
                                     {viewData.subFolders.map((folder) => {
