@@ -20,7 +20,6 @@ const generateTitle: GenerateTitle<News> = ({ doc }) => {
 
 const generateURL: GenerateURL<News> = ({ doc }) => {
   const url = getServerSideURL()
-
   return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
@@ -58,7 +57,7 @@ export const plugins: Plugin[] = [
   formBuilderPlugin({
     fields: {
       payment: false,
-      fileUpload: FileUploadBlock, // 2. Register the custom field block here
+      fileUpload: FileUploadBlock,
     },
     formOverrides: {
       fields: ({ defaultFields }) => {
@@ -81,7 +80,6 @@ export const plugins: Plugin[] = [
         })
       },
     },
-    // 3. Override form submissions to explicitly store and link the uploaded file
     formSubmissionOverrides: {
       fields: ({ defaultFields }) => [
         ...defaultFields,
@@ -89,12 +87,30 @@ export const plugins: Plugin[] = [
           name: 'uploadedFile',
           label: 'Uploaded File',
           type: 'upload',
-          relationTo: 'media', // <-- Update this if your upload collection slug is different (e.g., 'images' or 'uploads')
+          relationTo: 'media',
           admin: {
             position: 'sidebar',
           },
         },
       ],
+      hooks: {
+        beforeChange: [
+          ({ data }) => {
+            if (data?.submissionData && Array.isArray(data.submissionData)) {
+              // 'fileUpload' must match the name of the block inside your form
+              const fileSubmission = data.submissionData.find(
+                (item) => item.field === 'fileUpload'
+              )
+
+              if (fileSubmission && fileSubmission.value) {
+                // Assign the ID to the relational field
+                data.uploadedFile = fileSubmission.value
+              }
+            }
+            return data
+          },
+        ],
+      },
     },
   }),
   searchPlugin({

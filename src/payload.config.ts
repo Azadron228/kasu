@@ -39,6 +39,46 @@ export default buildConfig({
     fallbackLanguage: 'ru',
     supportedLanguages: { en, ru },
   },
+  folders: {
+    debug: true,
+    slug: 'payload-folders',
+    fieldName: 'folder',
+
+    collectionOverrides: [
+      ({ collection }) => {
+        return {
+          ...collection,
+          fields: (collection.fields || []).map((field: any) => {
+
+            if ('name' in field && field.name === 'name') {
+              return {
+                ...field,
+                localized: true,
+                label: {
+                  en: 'Folder Name',
+                  ru: 'Название папки',
+                  kk: 'Қапшық атауы',
+                },
+              }
+            }
+
+            // 2. Hide the auto-generated 'folder' (parent relationship) field
+            if ('name' in field && field.name === 'folder') {
+              return {
+                ...field,
+                admin: {
+                  ...field.admin,
+                  hidden: true, // <-- This hides it from the Edit UI entirely
+                },
+              }
+            }
+
+            return field
+          }),
+        }
+      },
+    ],
+  },
   email: nodemailerAdapter({
     defaultFromAddress: 'noreply@example.com',
     defaultFromName: 'KASU',
